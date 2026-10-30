@@ -1,0 +1,7 @@
+pcs_prefix,description
+0B11,Bypass trachea (tracheostomy)
+0W99,Drainage of right pleural cavity (chest tube)
+0W9B,Drainage of left pleural cavity (chest tube)
+0W9G,Drainage of peritoneal cavity (paracentesis)
+0DH6,Insertion of device into stomach (gastrostomy tube)
+0JH,"Insertion of device into subcutaneous tissue (ports, pacemaker generators)"

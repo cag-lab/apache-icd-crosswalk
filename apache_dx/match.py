@@ -14,9 +14,12 @@ Two entry points:
 * ``assign_admission_dx``  -> one APACHE admission diagnosis per stay, using
                               the principal diagnosis (plus procedures) and
                               the lowest priority number.
+
+All code lists live in ``data/``; this module only holds the matching logic.
 """
 from __future__ import annotations
 
+from collections import defaultdict
 from pathlib import Path
 from typing import Iterable, Mapping
 
@@ -24,6 +27,11 @@ import pandas as pd
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 CM, PCS = "ICD-10-CM", "ICD-10-PCS"
+TRUE_STRINGS = {"TRUE", "1", "Y", "YES", "T"}
+
+# When a stay has injuries in 3+ regions and the principal diagnosis isn't an
+# injury, the first region in this list present is treated as the primary one.
+REGION_HIERARCHY = ["head", "spinal", "chest", "abdomen", "pelvis", "face", "extremity"]
 
 
 # --------------------------------------------------------------------------- #
@@ -34,16 +42,30 @@ def normalize(code: str) -> str:
     return str(code).strip().upper().replace(".", "")
 
 
+def _bool(series: pd.Series) -> pd.Series:
+    return series.astype(str).str.strip().str.upper().isin(TRUE_STRINGS)
+
+
+def _prefixes(cell: str) -> tuple[str, ...]:
+    return tuple(normalize(p) for p in str(cell).split("|") if p.strip())
+
+
 def load_categories(path: str | Path | None = None) -> pd.DataFrame:
     df = pd.read_csv(path or DATA_DIR / "categories.csv", dtype=str, keep_default_na=False)
     df["priority"] = df["priority"].astype(int)
+    for col in ("requires_surgery", "catch_all"):
+        df[col] = _bool(df[col]) if col in df else False
+    for col in ("required_dx_prefixes", "exclude_dx_prefixes", "surgery_pcs_prefixes", "trauma_pattern"):
+        if col not in df:
+            df[col] = ""
     return df
 
 
 def load_code_map(path: str | Path | None = None, include_optional: bool = True) -> pd.DataFrame:
     df = pd.read_csv(path or DATA_DIR / "code_map.csv", dtype=str, keep_default_na=False)
     df["priority"] = df["priority"].astype(int)
-    df["optional"] = df["optional"].str.upper().eq("TRUE")
+    df["optional"] = _bool(df["optional"])
+    df["exclude"] = _bool(df["exclude"]) if "exclude" in df else False
     if not include_optional:
         df = df[~df["optional"]]
     starts, ends = [], []
@@ -59,8 +81,20 @@ def load_code_map(path: str | Path | None = None, include_optional: bool = True)
     return df.reset_index(drop=True)
 
 
+def load_trauma_regions(path: str | Path | None = None) -> list[tuple[str, str]]:
+    """(dotless prefix, region) pairs, longest prefix first."""
+    df = pd.read_csv(path or DATA_DIR / "trauma_regions.csv", dtype=str, keep_default_na=False)
+    pairs = [(normalize(p), r) for p, r in zip(df["prefix"], df["region"])]
+    return sorted(pairs, key=lambda x: -len(x[0]))
+
+
+def load_surgery_exclusions(path: str | Path | None = None) -> tuple[str, ...]:
+    df = pd.read_csv(path or DATA_DIR / "surgery_exclusions.csv", dtype=str, keep_default_na=False)
+    return tuple(normalize(p) for p in df["pcs_prefix"])
+
+
 # --------------------------------------------------------------------------- #
-# Single-code matching
+# Single-code helpers
 # --------------------------------------------------------------------------- #
 def intent_char(code_n: str) -> str | None:
     """Intent character of a T36-T65 poisoning code (dotless).
@@ -76,6 +110,22 @@ def intent_char(code_n: str) -> str | None:
 
 def _is_poisoning(code_n: str) -> bool:
     return len(code_n) >= 3 and "T36" <= code_n[:3] <= "T65"
+
+
+def _non_initial_encounter(code_n: str, system: str) -> bool:
+    """S/T chapter codes carry an encounter character (A/D/S) in position 7."""
+    return system == CM and code_n[:1] in ("S", "T") and len(code_n) == 7 and code_n[6] != "A"
+
+
+def is_surgical(code_n: str, exclusions: tuple[str, ...] = ()) -> bool:
+    """ICD-10-PCS Medical and Surgical section, open (0) or percutaneous
+    endoscopic (4) approach, not on the bedside-procedure exclusion list."""
+    return (
+        len(code_n) == 7
+        and code_n[0] == "0"
+        and code_n[4] in ("0", "4")
+        and not code_n.startswith(exclusions)
+    )
 
 
 def row_matches(code_n: str, system: str, row) -> bool:
@@ -101,6 +151,13 @@ def row_matches(code_n: str, system: str, row) -> bool:
     return True
 
 
+def trauma_region(code_n: str, regions: list[tuple[str, str]]) -> str | None:
+    for prefix, region in regions:
+        if code_n.startswith(prefix):
+            return region
+    return None
+
+
 # --------------------------------------------------------------------------- #
 # Table matching
 # --------------------------------------------------------------------------- #
@@ -114,39 +171,95 @@ def match_codes(
     system_col: str = "code_system",
     initial_encounter_only: bool = True,
 ) -> pd.DataFrame:
-    """Return one row per (input row, matched category).
+    """Return one row per (input row, matched category), from code_map.csv.
 
-    Residual categories (rule == 'residual') only keep a code when no
-    non-residual category matched that same code.
+    * Rows with ``exclude=TRUE`` remove that category for the codes they match.
+    * Residual categories (rule == 'residual') only keep a code when no
+      non-residual category matched that same code.
+    Trauma-pattern and surgery-only categories are not code-based; see
+    ``structural_hits``.
     """
     code_map = load_code_map() if code_map is None else code_map
     categories = load_categories() if categories is None else categories
     residual = set(categories.loc[categories["rule"] == "residual", "category"])
+    meta = categories.set_index("category")[["group", "priority"]].to_dict("index")
 
     df = codes[[stay_col, code_col, system_col]].copy()
     df["_code_n"] = df[code_col].map(normalize)
 
-    rows = list(code_map.itertuples(index=False))
-    lookup: dict[tuple[str, str], list[tuple]] = {}
+    # Index rows by (code system, first character); every range starts and
+    # ends with the same letter, so this never drops a candidate.
+    by_first: dict[tuple[str, str], list] = defaultdict(list)
+    for r in code_map.itertuples(index=False):
+        by_first[(r.code_system, r.start_n[:1])].append(r)
+    lookup: dict[tuple[str, str], list[str]] = {}
     for code_n, system in df[["_code_n", system_col]].drop_duplicates().itertuples(index=False):
-        # S/T chapter codes carry an encounter character in position 7.
-        if (initial_encounter_only and system == CM and code_n[:1] in ("S", "T")
-                and len(code_n) == 7 and code_n[6] != "A"):
+        if initial_encounter_only and _non_initial_encounter(code_n, system):
             lookup[(code_n, system)] = []
             continue
-        hits = [r for r in rows if row_matches(code_n, system, r)]
-        if any(r.category not in residual for r in hits):
-            hits = [r for r in hits if r.category not in residual]
-        lookup[(code_n, system)] = [(r.group, r.priority, r.category) for r in hits]
+        incl, excl = set(), set()
+        for r in by_first.get((system, code_n[:1]), ()):
+            if row_matches(code_n, system, r):
+                (excl if r.exclude else incl).add(r.category)
+        hits = incl - excl
+        if hits - residual:
+            hits -= residual
+        lookup[(code_n, system)] = sorted(hits, key=lambda c: meta[c]["priority"])
 
     out = []
     for stay, code, system, code_n in df[[stay_col, code_col, system_col, "_code_n"]].itertuples(index=False):
-        for group, priority, category in lookup[(code_n, system)]:
-            out.append((stay, code, system, group, priority, category))
+        for category in lookup[(code_n, system)]:
+            out.append((stay, code, system, meta[category]["group"], meta[category]["priority"], category))
     return pd.DataFrame(out, columns=[stay_col, code_col, system_col, "group", "priority", "category"])
 
 
-def _apply_rules(
+class _StayIndex:
+    """Per-stay lookups used by the category rules."""
+
+    def __init__(self, codes, *, stay_col, code_col, system_col, principal_col,
+                 initial_encounter_only, regions, surgery_exclusions):
+        self.dx = defaultdict(list)          # stay -> all CM codes (normalized)
+        self.surg = defaultdict(list)        # stay -> surgical PCS codes
+        self.regions = defaultdict(set)      # stay -> injured body regions
+        self.principal_region = {}           # stay -> region of principal dx
+        self.principal_injury = set()        # stays whose principal dx maps to a region
+        has_principal = principal_col in codes
+        cols = [stay_col, code_col, system_col] + ([principal_col] if has_principal else [])
+        for rec in codes[cols].itertuples(index=False):
+            stay, code, system = rec[0], rec[1], rec[2]
+            principal = has_principal and str(rec[3]).strip().upper() in TRUE_STRINGS
+            n = normalize(code)
+            if system == CM:
+                self.dx[stay].append(n)
+                if initial_encounter_only and _non_initial_encounter(n, system):
+                    continue
+                region = trauma_region(n, regions)
+                if region:
+                    self.regions[stay].add(region)
+                    if principal:
+                        self.principal_region[stay] = region
+                        self.principal_injury.add(stay)
+            elif system == PCS and is_surgical(n, surgery_exclusions):
+                self.surg[stay].append(n)
+
+    def has_dx(self, stay, prefixes) -> bool:
+        return any(c.startswith(prefixes) for c in self.dx.get(stay, ()))
+
+    def has_surgery(self, stay, prefixes) -> bool:
+        s = self.surg.get(stay, ())
+        return any(c.startswith(prefixes) for c in s) if prefixes else bool(s)
+
+    def trauma_pattern(self, stay) -> frozenset | None:
+        regs = self.regions.get(stay)
+        if not regs:
+            return None
+        if len(regs) <= 2:
+            return frozenset(regs)
+        primary = self.principal_region.get(stay) or next(r for r in REGION_HIERARCHY if r in regs)
+        return frozenset({primary, "multiple"})
+
+
+def _resolve(
     matches: pd.DataFrame,
     codes: pd.DataFrame,
     categories: pd.DataFrame,
@@ -154,34 +267,68 @@ def _apply_rules(
     stay_col: str,
     code_col: str,
     system_col: str,
+    principal_col: str,
+    initial_encounter_only: bool,
     external: Mapping[str, Iterable] | None,
+    surgery_stays: Iterable | None,
+    require_principal_injury: bool,
 ) -> pd.DataFrame:
-    """Collapse code-level matches to (stay, category) pairs that satisfy each category's rule."""
-    rule = dict(zip(categories["category"], categories["rule"]))
-    req = dict(zip(categories["category"], categories["required_dx_prefixes"]))
-    external = {k: set(v) for k, v in (external or {}).items()}
-
-    dx_by_stay = (
-        codes.loc[codes[system_col] == CM]
-        .assign(_n=lambda d: d[code_col].map(normalize))
-        .groupby(stay_col)["_n"].apply(list).to_dict()
+    """Apply each category's rule; return (stay, group, priority, category) hits."""
+    idx = _StayIndex(
+        codes, stay_col=stay_col, code_col=code_col, system_col=system_col,
+        principal_col=principal_col, initial_encounter_only=initial_encounter_only,
+        regions=load_trauma_regions(), surgery_exclusions=load_surgery_exclusions(),
     )
+    external = {k: set(v) for k, v in (external or {}).items()}
+    surgery_stays = set(surgery_stays) if surgery_stays is not None else None
+    cat = categories.set_index("category")
+
+    def surgery_ok(stay, c) -> bool:
+        if not cat.at[c, "requires_surgery"]:
+            return True
+        if surgery_stays is not None:
+            return stay in surgery_stays
+        return idx.has_surgery(stay, _prefixes(cat.at[c, "surgery_pcs_prefixes"]))
+
+    def exclusions_ok(stay, c) -> bool:
+        ex = _prefixes(cat.at[c, "exclude_dx_prefixes"])
+        return not (ex and idx.has_dx(stay, ex))
 
     keep = []
-    for (stay, category), grp in matches.groupby([stay_col, "category"], sort=False):
-        r = rule.get(category, "any")
+    # 1) code-based categories
+    for (stay, c), grp in matches.groupby([stay_col, "category"], sort=False):
+        rule = cat.at[c, "rule"]
         systems = set(grp[system_col])
-        if r == "dx_and_procedure":
+        if rule == "dx_and_procedure":
             ok = CM in systems and PCS in systems
-        elif r == "procedure_with_required_dx":
-            prefixes = tuple(normalize(p) for p in req[category].split("|") if p)
-            ok = PCS in systems and any(c.startswith(prefixes) for c in dx_by_stay.get(stay, []))
-        elif r == "needs_external_data":
-            ok = stay in external.get(category, set())
+        elif rule == "with_required_dx":
+            ok = idx.has_dx(stay, _prefixes(cat.at[c, "required_dx_prefixes"]))
+        elif rule == "needs_external_data":
+            ok = stay in external.get(c, set())
         else:  # any, residual
             ok = True
-        if ok:
-            keep.append((stay, grp["group"].iloc[0], grp["priority"].iloc[0], category))
+        if ok and surgery_ok(stay, c) and exclusions_ok(stay, c):
+            keep.append((stay, cat.at[c, "group"], cat.at[c, "priority"], c))
+
+    # 2) structural categories (no code rows): trauma patterns, surgery-only
+    stays = codes[stay_col].drop_duplicates()
+    trauma = categories[categories["rule"] == "trauma"]
+    surg_only = categories[categories["rule"] == "surgery_only"]
+    for stay in stays:
+        pattern = idx.trauma_pattern(stay)
+        if pattern is not None and (not require_principal_injury or stay in idx.principal_injury):
+            for r in trauma.itertuples(index=False):
+                want = frozenset(p.strip() for p in r.trauma_pattern.split("+"))
+                if want == pattern and surgery_ok(stay, r.category) and exclusions_ok(stay, r.category):
+                    keep.append((stay, r.group, r.priority, r.category))
+        for r in surg_only.itertuples(index=False):
+            if surgery_stays is not None:
+                ok = stay in surgery_stays and idx.has_surgery(stay, _prefixes(r.surgery_pcs_prefixes))
+            else:
+                ok = idx.has_surgery(stay, _prefixes(r.surgery_pcs_prefixes))
+            if ok and exclusions_ok(stay, r.category):
+                keep.append((stay, r.group, r.priority, r.category))
+
     return pd.DataFrame(keep, columns=[stay_col, "group", "priority", "category"])
 
 
@@ -190,28 +337,45 @@ def flag_stays(
     *,
     level: str = "group",
     include_optional: bool = True,
+    include_catch_all: bool = False,
     initial_encounter_only: bool = True,
     external: Mapping[str, Iterable] | None = None,
+    surgery_stays: Iterable | None = None,
     stay_col: str = "stay_id",
     code_col: str = "code",
     system_col: str = "code_system",
+    principal_col: str = "is_principal",
     code_map: pd.DataFrame | None = None,
     categories: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """One row per stay, one boolean column per group (or per category).
 
-    ``external`` maps a category name to stay ids that meet a condition codes
-    can't capture, e.g. {"MI admitted > 24 hrs after onset of ischemia": {...}}.
+    include_catch_all  Count the broad "<system> medical, other" categories.
+                       Off by default: in flag mode they fire for almost any
+                       chronic code in that chapter (e.g. K21.9 reflux).
+    external           {category name: stay ids} for conditions codes can't
+                       capture, e.g. "MI admitted > 24 hrs after onset of ischemia".
+    surgery_stays      Stay ids that had an operation, from your OR data. If
+                       given, it replaces the ICD-10-PCS surgery definition.
     """
     if level not in ("group", "category"):
         raise ValueError("level must be 'group' or 'category'")
     code_map = load_code_map(include_optional=include_optional) if code_map is None else code_map
     categories = load_categories() if categories is None else categories
+    if not include_catch_all:
+        drop = set(categories.loc[categories["catch_all"], "category"])
+        code_map = code_map[~code_map["category"].isin(drop)]
     kw = dict(stay_col=stay_col, code_col=code_col, system_col=system_col)
     m = match_codes(codes, code_map, categories, initial_encounter_only=initial_encounter_only, **kw)
-    hits = _apply_rules(m, codes, categories, external=external, **kw)
+    hits = _resolve(
+        m, codes, categories, principal_col=principal_col,
+        initial_encounter_only=initial_encounter_only, external=external,
+        surgery_stays=surgery_stays, require_principal_injury=False, **kw,
+    )
+    if not include_catch_all:
+        hits = hits[~hits["category"].isin(drop)]
 
-    labels = categories[level].drop_duplicates().tolist()
+    labels = categories.loc[include_catch_all | ~categories["catch_all"], level].drop_duplicates().tolist()
     stays = pd.Index(codes[stay_col].drop_duplicates(), name=stay_col)
     wide = pd.crosstab(hits[stay_col], hits[level]).gt(0) if len(hits) else pd.DataFrame()
     return wide.reindex(index=stays, columns=labels, fill_value=False).astype(bool)
@@ -222,8 +386,10 @@ def assign_admission_dx(
     *,
     principal_col: str = "is_principal",
     include_optional: bool = True,
+    include_catch_all: bool = True,
     initial_encounter_only: bool = True,
     external: Mapping[str, Iterable] | None = None,
+    surgery_stays: Iterable | None = None,
     stay_col: str = "stay_id",
     code_col: str = "code",
     system_col: str = "code_system",
@@ -232,18 +398,27 @@ def assign_admission_dx(
 ) -> pd.DataFrame:
     """One APACHE admission diagnosis per stay.
 
-    Uses the principal ICD-10-CM diagnosis plus all ICD-10-PCS procedures,
-    then keeps the matched category with the lowest priority number.
-    Stays with no match get NaN.
+    Code-based categories match on the principal ICD-10-CM diagnosis plus all
+    ICD-10-PCS procedures. Trauma patterns use every injury code on the stay
+    but only apply when the principal diagnosis is itself an injury. The
+    matched category with the lowest priority number wins; no match -> NaN.
     """
     code_map = load_code_map(include_optional=include_optional) if code_map is None else code_map
     categories = load_categories() if categories is None else categories
-    principal = codes[principal_col].astype(str).str.upper().isin(["TRUE", "1", "Y", "YES"])
+    if not include_catch_all:
+        drop = set(categories.loc[categories["catch_all"], "category"])
+        code_map = code_map[~code_map["category"].isin(drop)]
+    principal = _bool(codes[principal_col])
     subset = codes[(principal & (codes[system_col] == CM)) | (codes[system_col] == PCS)]
     kw = dict(stay_col=stay_col, code_col=code_col, system_col=system_col)
     m = match_codes(subset, code_map, categories, initial_encounter_only=initial_encounter_only, **kw)
-    # required-dx checks may look at any diagnosis on the stay, so pass the full table
-    hits = _apply_rules(m, codes, categories, external=external, **kw)
-    best = hits.sort_values("priority").drop_duplicates(stay_col)
+    hits = _resolve(
+        m, codes, categories, principal_col=principal_col,
+        initial_encounter_only=initial_encounter_only, external=external,
+        surgery_stays=surgery_stays, require_principal_injury=True, **kw,
+    )
+    if not include_catch_all:
+        hits = hits[~hits["category"].isin(drop)]
+    best = hits.sort_values("priority", kind="stable").drop_duplicates(stay_col)
     stays = pd.DataFrame({stay_col: codes[stay_col].drop_duplicates()})
     return stays.merge(best, on=stay_col, how="left")

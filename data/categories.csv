@@ -1,45 +1,232 @@
-group,priority,category,rule,required_dx_prefixes,notes
-Cardiovascular,1,Complications of previous open heart surgery,any,,Optional qualifier (not in code_map): require Z95.1 (bypass graft) or Z95.2 (prosthetic valve) on the same stay to confirm prior open heart surgery. I97.6* overlaps the I97.61*/I97.62* codes under Hemorrhage and Hematomas; this category wins on priority.
-Cardiovascular,2,"Tamponade, pericardial",any,,Takes priority over pericardial effusion.
-Cardiovascular,3,Papillary muscle rupture,any,,
-Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,dx_and_procedure,,This is a procedure. Best rule: diagnosis code AND a matching ICD-10-PCS code on the same stay.
-Cardiovascular,5,MI admitted > 24 hrs after onset of ischemia,needs_external_data,,"ICD codes do not record time from symptom onset, so codes alone cannot separate this from 'Infarction, acute myocardial'. Assign here only if your data has symptom-onset and admission times showing > 24 h; otherwise these stays fall to the next row."
-Cardiovascular,6,"Infarction, acute myocardial (MI)",any,,"Type 2 MI (I21.A1) is demand ischemia, often secondary to sepsis, bleeding etc.; consider excluding it if you want only primary coronary events. MI complications coded as I23.x (papillary muscle rupture, post-MI VSD) take priority above."
-Cardiovascular,7,"Angina, unstable",any,,"Coding guidelines require the combination I25.x codes when coronary atherosclerosis and unstable angina coexist, so many unstable angina stays will NOT carry I20.0; include the I25.x0 codes."
-Cardiovascular,8,Endocarditis,any,,T82.6* also appears under open heart complications (priority 1).
-Cardiovascular,9,Pericarditis,any,,
-Cardiovascular,10,"Effusion, pericardial",any,,
-Cardiovascular,11,"Contusion, myocardial (include r/o)",any,,Deliberately a trauma (S) code.
-Cardiovascular,12,"Hypertension-pulmonary, primary/idiopathic",any,,Exclude secondary forms (I27.2x).
-Cardiovascular,13,"Thrombus, arterial",any,,
-Cardiovascular,14,"Thrombosis, vascular (deep vein)",any,,Chronic DVT codes are common secondary diagnoses; restrict to principal diagnosis.
-Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",any,,Exclude GI bleeding (K92.x etc.) and trauma (S-codes). K66.1 also listed under Hematomas; Hemorrhage wins on priority.
-Cardiovascular,16,Hematomas,any,,Exclude trauma (S-codes).
-Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",any,,
-Cardiovascular,18,"Chest pain, unknown origin",any,,
-Cardiovascular,19,"Monitoring, hemodynamic (pre-operative evaluation)",any,,Rarely coded on inpatient stays; expect few hits.
-"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",any,,"Unstable angina (I20.0, I25.110, I25.7x0) is excluded; it's in the Cardiovascular group. I25.10 is optional: it captures 'asymptomatic' CAD but is a very common secondary code, so it will flag many patients."
-Aortic aneurysm,21,"Aneurysm, thoracic aortic; with dissection",any,,
-Aortic aneurysm,22,"Aneurysm, abdominal aortic with dissection",any,,
-Aortic aneurysm,23,"Aneurysm, dissecting aortic",any,,"Catches dissections not coded to a thoracic or abdominal site. Before FY2022, all aortic dissections coded to I71.0x without site detail."
-Aortic aneurysm,24,"Aneurysm, thoracic aortic with rupture",any,,"Thoracoabdominal aneurysms (I71.5*, I71.6*) aren't an APACHE option; they're mapped to thoracic here. Move them to abdominal if you prefer."
-Aortic aneurysm,25,"Aneurysm, abdominal aortic with rupture",any,,
-Aortic aneurysm,26,"Aneurysm, thoracic aortic",any,,
-Aortic aneurysm,27,"Aneurysm, abdominal aortic",any,,
-Aortic aneurysm,28,"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",any,,"Not one of your listed options, but these codes do indicate an aortic aneurysm."
-Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",procedure_with_required_dx,I71|I72,"Procedure category. Require an aneurysm diagnosis on the same stay: I71* for aortic procedures, I72* for 03V*/04V* (those roots also cover embolization and stenting for other reasons)."
-"Aneurysm, other",30,"Aneurysm repair, ventricular",dx_and_procedure,,Require I25.3 AND one of the procedure codes on the same stay.
-"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",any,,"Ruptured cerebral aneurysms code as subarachnoid hemorrhage (I60.x) and belong in APACHE neuro categories, not here. Post-procedural pseudoaneurysms (e.g., femoral after cath) usually carry I72.x plus a complication code."
-ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",any,,"J81.0 is meant for noncardiogenic edema; acute pulmonary edema due to heart disease codes to I50.x. Coders don't always follow that, so check J81.0 stays that also carry I50.x. Exclude J81.1 (chronic pulmonary edema)."
-Cardiovascular,33,"Cardiovascular / vascular medical, other",residual,,"Catch-all: placed after the angina, aneurysm and ARDS groups so it only gets circulatory codes no other category claims. For yes/no flags, likewise exclude codes matched by any other group. Use I99.8 / I77.8* if you want a narrower definition."
-Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",any,,
-Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",any,,"Your list includes this category twice ('ethanol' / 'bethanol'); treated as one category. Ethylene glycol codes to T52.3 (glycols), not T51."
-Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",any,,Opioid analgesics (T40.x) are under Street drugs.
-Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",any,,"Medicinal lithium is indexed to T43.59 ('other antipsychotics'), which also covers atypical antipsychotics such as quetiapine and olanzapine. Codes alone can't separate them; T43.59 is kept under Sedatives/antipsychotics. To pull lithium out, use drug name or lithium level data."
-Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",any,,"T42.6 also includes some antiepileptics (e.g., valproate)."
-Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",any,,"Prescription opioids (T40.2, T40.4) are included here because the APACHE wording says 'opiates'. T43.6 also includes caffeine (T43.61-); drop it if you want to be strict. Cannabis and hallucinogens are optional."
-Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",any,,"Includes adverse effects in therapeutic use (intent character 5), e.g., digoxin toxicity. The drug list is a starting point; add other classes as needed."
-Toxicology,41,"Overdose, self-inflicted",any,,"Placed after the agent-specific categories, so it catches intentional overdoses of agents not listed above. If you want intent to take precedence, move this category to the top of the toxicology group."
-Toxicology,42,"Overdose, other toxin, poison or drug",residual,,Residual category: any poisoning code not assigned above. Matches only codes that no other category claims.
-Toxicology,43,Alcohol withdrawal,any,,
-Toxicology,44,Drug withdrawal,any,,Codes marked FY2023+ only exist from October 2022; older data uses the dependence (x.23) codes. Nicotine (F17.x03) and neonatal withdrawal (P96.1) are excluded.
+group,priority,category,rule,required_dx_prefixes,exclude_dx_prefixes,requires_surgery,surgery_pcs_prefixes,trauma_pattern,catch_all,notes
+Cardiovascular,1,Complications of previous open heart surgery,with_required_dx,Z95.1|Z95.2|Z95.3|Z95.4|Z95.811|Z95.812|Z94.1,,FALSE,,,FALSE,"Requires a status code showing prior open heart surgery (bypass graft, prosthetic or replacement valve, heart assist device, heart transplant) on the same stay; without it, codes such as T81.4 (any surgical site infection) would match after any operation. I97.6* overlaps the I97.61*/I97.62* codes under Hemorrhage and Hematomas; this category wins on priority."
+Cardiovascular,2,"Tamponade, pericardial",any,,,FALSE,,,FALSE,Takes priority over pericardial effusion.
+Cardiovascular,3,Papillary muscle rupture,any,,,FALSE,,,FALSE,
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,dx_and_procedure,,,FALSE,,,FALSE,This is a procedure. Best rule: diagnosis code AND a matching ICD-10-PCS code on the same stay.
+Cardiovascular,5,MI admitted > 24 hrs after onset of ischemia,needs_external_data,,,FALSE,,,FALSE,"ICD codes do not record time from symptom onset, so codes alone cannot separate this from 'Infarction, acute myocardial'. Assign here only if your data has symptom-onset and admission times showing > 24 h; otherwise these stays fall to the next row."
+Cardiovascular,6,"Infarction, acute myocardial (MI)",any,,,FALSE,,,FALSE,"Type 2 MI (I21.A1) is demand ischemia, often secondary to sepsis, bleeding etc.; consider excluding it if you want only primary coronary events. MI complications coded as I23.x (papillary muscle rupture, post-MI VSD) take priority above."
+Cardiovascular,7,"Angina, unstable",any,,,FALSE,,,FALSE,"Coding guidelines require the combination I25.x codes when coronary atherosclerosis and unstable angina coexist, so many unstable angina stays will NOT carry I20.0; include the I25.x0 codes."
+Cardiovascular,8,Endocarditis,any,,,FALSE,,,FALSE,T82.6* also appears under open heart complications (priority 1).
+Cardiovascular,9,Pericarditis,any,,,FALSE,,,FALSE,
+Cardiovascular,10,"Effusion, pericardial",any,,,FALSE,,,FALSE,
+Cardiovascular,11,"Contusion, myocardial (include r/o)",any,,,FALSE,,,FALSE,Deliberately a trauma (S) code.
+Cardiovascular,12,"Hypertension-pulmonary, primary/idiopathic",any,,,FALSE,,,FALSE,Exclude secondary forms (I27.2x).
+Cardiovascular,13,"Thrombus, arterial",any,,,FALSE,,,FALSE,
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",any,,,FALSE,,,FALSE,Chronic DVT codes are common secondary diagnoses; restrict to principal diagnosis.
+Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",any,,,FALSE,,,FALSE,Exclude GI bleeding (K92.x etc.) and trauma (S-codes). K66.1 also listed under Hematomas; Hemorrhage wins on priority.
+Cardiovascular,16,Hematomas,any,,,FALSE,,,FALSE,Exclude trauma (S-codes).
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",any,,,FALSE,,,FALSE,"R07.1 and R07.81 moved to 'Chest pain, respiratory'; M94.0 is under 'Chest pain, musculoskeletal'."
+Cardiovascular,18,"Chest pain, unknown origin",any,,,FALSE,,,FALSE,
+Cardiovascular,19,"Monitoring, hemodynamic (pre-operative evaluation)",any,,,FALSE,,,FALSE,Rarely coded on inpatient stays; expect few hits.
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",any,,,FALSE,,,FALSE,"Unstable angina (I20.0, I25.110, I25.7x0) is excluded; it's in the Cardiovascular group. I25.10 is optional: it captures 'asymptomatic' CAD but is a very common secondary code, so it will flag many patients."
+Aortic aneurysm,21,"Aneurysm, thoracic aortic; with dissection",any,,,FALSE,,,FALSE,
+Aortic aneurysm,22,"Aneurysm, abdominal aortic with dissection",any,,,FALSE,,,FALSE,
+Aortic aneurysm,23,"Aneurysm, dissecting aortic",any,,,FALSE,,,FALSE,"Catches dissections not coded to a thoracic or abdominal site. Before FY2022, all aortic dissections coded to I71.0x without site detail."
+Aortic aneurysm,24,"Aneurysm, thoracic aortic with rupture",any,,,FALSE,,,FALSE,"Thoracoabdominal aneurysms (I71.5*, I71.6*) aren't an APACHE option; they're mapped to thoracic here. Move them to abdominal if you prefer."
+Aortic aneurysm,25,"Aneurysm, abdominal aortic with rupture",any,,,FALSE,,,FALSE,
+Aortic aneurysm,26,"Aneurysm, thoracic aortic",any,,,FALSE,,,FALSE,
+Aortic aneurysm,27,"Aneurysm, abdominal aortic",any,,,FALSE,,,FALSE,
+Aortic aneurysm,28,"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",any,,,FALSE,,,FALSE,"Not one of your listed options, but these codes do indicate an aortic aneurysm."
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",with_required_dx,I71|I72,,FALSE,,,FALSE,"Procedure category. Require an aneurysm diagnosis on the same stay: I71* for aortic procedures, I72* for 03V*/04V* (those roots also cover embolization and stenting for other reasons)."
+"Aneurysm, other",30,"Aneurysm repair, ventricular",dx_and_procedure,,,FALSE,,,FALSE,Require I25.3 AND one of the procedure codes on the same stay.
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",any,,,FALSE,,,FALSE,"Ruptured cerebral aneurysms code as subarachnoid hemorrhage (I60.x) and belong in APACHE neuro categories, not here. Post-procedural pseudoaneurysms (e.g., femoral after cath) usually carry I72.x plus a complication code."
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",any,,,FALSE,,,FALSE,"J81.0 is meant for noncardiogenic edema; acute pulmonary edema due to heart disease codes to I50.x. Coders don't always follow that, so check J81.0 stays that also carry I50.x. Exclude J81.1 (chronic pulmonary edema)."
+Cardiovascular,33,"Cardiovascular / vascular medical, other",residual,,,FALSE,,,TRUE,"Catch-all: placed after the angina, aneurysm and ARDS groups so it only gets circulatory codes no other category claims. For yes/no flags, likewise exclude codes matched by any other group. Use I99.8 / I77.8* if you want a narrower definition."
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",any,,,FALSE,,,FALSE,
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",any,,,FALSE,,,FALSE,"Your list includes this category twice ('ethanol' / 'bethanol'); treated as one category. Ethylene glycol codes to T52.3 (glycols), not T51."
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",any,,,FALSE,,,FALSE,Opioid analgesics (T40.x) are under Street drugs.
+Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",any,,,FALSE,,,FALSE,"Medicinal lithium is indexed to T43.59 ('other antipsychotics'), which also covers atypical antipsychotics such as quetiapine and olanzapine. Codes alone can't separate them; T43.59 is kept under Sedatives/antipsychotics. To pull lithium out, use drug name or lithium level data."
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",any,,,FALSE,,,FALSE,"T42.6 also includes some antiepileptics (e.g., valproate)."
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",any,,,FALSE,,,FALSE,"Prescription opioids (T40.2, T40.4) are included here because the APACHE wording says 'opiates'. T43.6 also includes caffeine (T43.61-); drop it if you want to be strict. Cannabis and hallucinogens are optional."
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",any,,,FALSE,,,FALSE,"Includes adverse effects in therapeutic use (intent character 5), e.g., digoxin toxicity. The drug list is a starting point; add other classes as needed."
+Toxicology,41,"Overdose, self-inflicted",any,,,FALSE,,,FALSE,"Placed after the agent-specific categories, so it catches intentional overdoses of agents not listed above. If you want intent to take precedence, move this category to the top of the toxicology group."
+Toxicology,42,"Overdose, other toxin, poison or drug",residual,,,FALSE,,,FALSE,Residual category: any poisoning code not assigned above. Matches only codes that no other category claims.
+Toxicology,43,Alcohol withdrawal,any,,,FALSE,,,FALSE,
+Toxicology,44,Drug withdrawal,any,,,FALSE,,,FALSE,Codes marked FY2023+ only exist from October 2022; older data uses the dependence (x.23) codes. Nicotine (F17.x03) and neonatal withdrawal (P96.1) are excluded.
+Cardiac arrest,45,Cardiac arrest (with or without respiratory arrest),any,,,FALSE,,,FALSE,"Your definition says 'during the first 24 hours of the ICU stay'. ICD codes carry no time, so this flags any coded arrest on the stay. Restrict to present-on-admission (POA = Y) codes, or pass stay ids via `external`, if you need the 24-hour window."
+Cardiogenic shock,46,"Shock, cardiogenic",any,,,FALSE,,,FALSE,
+"Rhythm, ventricular",47,Rhythm disturbance (ventricular),any,,,FALSE,,,FALSE,
+"Rhythm, atrial/supraventricular",48,"Rhythm disturbance (atrial, supraventricular)",any,,,FALSE,,,FALSE,
+"Rhythm, conduction defect",49,Rhythm disturbance (conduction defect),any,,,FALSE,,,FALSE,
+CHF,50,"CHF, congestive heart failure",any,,,FALSE,,,FALSE,I50 codes are common secondary diagnoses for chronic heart failure; in flag mode this marks any coded heart failure.
+CHF,51,Cardiomyopathy,any,,,FALSE,,,FALSE,
+"Hypertension, uncontrolled",52,"Hypertension, uncontrolled",any,,,FALSE,,,FALSE,Essential hypertension (I10) is excluded; it doesn't indicate an uncontrolled episode. APACHE sends hypertension with stroke to the neurologic categories.
+CVA,53,"Subarachnoid hemorrhage/intracranial aneurysm, surgery for",any,,,TRUE,00|03|0N,,FALSE,"Requires an open or endoscopic operation on the nervous system, intracranial arteries or skull. Endovascular coiling (03VG3DZ, percutaneous approach) is not counted as surgery; pass `surgery_stays` if your definition differs."
+CVA,54,"Hemorrhage/hematoma-intracranial, surgery for",any,,,TRUE,00|0N,,FALSE,Requires an open or endoscopic operation on the nervous system or skull.
+CVA,55,Subarachnoid hemorrhage/arteriovenous malformation,any,,,FALSE,,,FALSE,"ICD-10-CM codes subarachnoid hemorrhage by artery, not by cause. A stay with I60.x and a cerebral AVM code lands here (higher priority than the aneurysm row); I60.x without an AVM code lands under intracranial aneurysm."
+CVA,56,Subarachnoid hemorrhage/intracranial aneurysm,any,,,FALSE,,,FALSE,Traumatic SAH (S06.6) belongs to head trauma.
+CVA,57,"Hemorrhage/hematoma, intracranial",any,,,FALSE,,,FALSE,Nontraumatic subdural (I62.0) and extradural (I62.1) are separate categories. Traumatic bleeds (S06.x) belong to head trauma.
+CVA,58,"CVA, cerebrovascular accident/stroke",any,,,FALSE,,,FALSE,"Excludes TIA (G45), precerebral/cerebral occlusion without infarction (I65-I66) and stroke sequelae (I69)."
+Subdural hematoma,59,"Hematoma, subdural",any,,,FALSE,,,FALSE,"Includes traumatic subdurals, which also count toward head trauma in flag mode. In admission-diagnosis mode this category outranks trauma."
+Neuro infection,60,Meningitis,any,,,FALSE,,,FALSE,
+Neuro infection,61,"Abscess, neurologic",any,,,FALSE,,,FALSE,
+Neuro infection,62,Encephalitis,any,,,FALSE,,,FALSE,
+Coma,63,Nontraumatic coma due to anoxia/ischemia,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma or hepatic coma/encephalopathy, per your definition."
+Coma,64,Coma/change in level of consciousness,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma or hepatic coma/encephalopathy. The Glasgow coma scale codes (R40.21-R40.24) are left out: they record a score, mostly on trauma stays, not a diagnosis."
+Seizures,65,Seizures (primary-no structural brain disease),any,,I60|I61|I62|I63|C70|C71|C79.3|D32|D33|D43|S06|G06|G91|Q28.2,FALSE,,,FALSE,"Excluded if the stay has a structural brain diagnosis: stroke or intracranial hemorrhage, brain tumor or metastasis, head injury, brain abscess, hydrocephalus or cerebral AVM."
+Neuro (medical),66,"Hematoma, epidural",any,,,FALSE,,,FALSE,
+Neuro (medical),67,Guillain-Barre syndrome,any,,,FALSE,,,FALSE,
+Neuro (medical),68,Myasthenia gravis,any,,,FALSE,,,FALSE,
+Neuro (medical),69,Amyotrophic lateral sclerosis,any,,,FALSE,,,FALSE,
+Neuro (medical),70,"Hydrocephalus, obstructive",any,,,FALSE,,,FALSE,
+Neuro (medical),71,"Palsy, cranial nerve",any,,,FALSE,,,FALSE,
+Neuro (medical),72,Encephalopathies (excluding hepatic),any,,,FALSE,,,FALSE,"Hepatic encephalopathy (K76.82, K72.x1) is in the GI group."
+Neuro (medical),73,"Neuromuscular medical, other",any,,,FALSE,,,FALSE,"Explicit list, not a catch-all, so it stays on in flag mode."
+Neuro (medical),74,"Neurologic medical, other",residual,,,FALSE,,,TRUE,Catch-all.
+Pulmonary infection,75,"Sepsis, pulmonary",with_required_dx,J09.X1|J10.0|J11.0|J12|J13|J14|J15|J16|J17|J18|J69|J85|J86|J95.851|J95.4|A15|A48.1|B01.2|B05.2|B25.0|B37.1|B38.0|B38.1|B38.2|B39.0|B39.1|B39.2|B40.0|B40.1|B40.2|B45.0|B46.0|B44.0|B44.1|B59|B58.3|A06.5,,FALSE,,,FALSE,"A sepsis code plus a pneumonia, lung abscess or empyema code on the same stay. If a stay has several infection sites, every matching sepsis category is flagged; in admission-diagnosis mode the lowest priority number wins (pulmonary first)."
+Pulmonary infection,76,"Pneumonia, aspiration",any,,,FALSE,,,FALSE,
+Pulmonary infection,77,"Pneumonia, parasitic (i.e., Pneumocystic pneumonia)",any,,,FALSE,,,FALSE,
+Pulmonary infection,78,"Pneumonia, fungal",any,,,FALSE,,,FALSE,"Pneumocystis (B59) is under parasitic, as in the APACHE wording."
+Pulmonary infection,79,"Pneumonia, viral",any,,,FALSE,,,FALSE,
+Pulmonary infection,80,"Pneumonia, bacterial",any,,,FALSE,,,FALSE,
+Pulmonary infection,81,"Pneumonia, other",any,,,FALSE,,,FALSE,J85.3 (mediastinal abscess) is included with the J85 prefix.
+Respiratory arrest,82,"Arrest, respiratory (without cardiac arrest)",any,,I46|I97.12,FALSE,,,FALSE,Excluded if the stay has a cardiac arrest code.
+Asthma,83,Asthma,any,,,FALSE,,,FALSE,"In flag mode this marks any coded asthma, including stable chronic asthma."
+Respiratory (medical),84,"Embolus, pulmonary",any,,,FALSE,,,FALSE,
+Respiratory (medical),85,Smoke inhalation,any,,,FALSE,,,FALSE,
+Respiratory (medical),86,Near drowning accident,any,,,FALSE,,,FALSE,
+Respiratory (medical),87,"Obstruction-airway (i.e., acute epiglottitis, post-extubation edema, foreign body, etc)",any,,,FALSE,,,FALSE,
+Respiratory (medical),88,Hemothorax,any,,,FALSE,,,FALSE,
+Respiratory (medical),89,Pneumothorax,any,,,FALSE,,,FALSE,
+Respiratory (medical),90,"Hemorrhage/hemoptysis, pulmonary",any,,,FALSE,,,FALSE,
+Respiratory (medical),91,"Effusions, pleural",any,,,FALSE,,,FALSE,
+Respiratory (medical),92,Atelectasis,any,,,FALSE,,,FALSE,
+Respiratory (medical),93,"Restrictive lung disease (i.e., Sarcoidosis, pulmonary fibrosis)",any,,,FALSE,,,FALSE,
+Respiratory (medical),94,"Apnea, sleep",any,,,FALSE,,,FALSE,
+Respiratory (medical),95,"Chest pain, respiratory",any,,,FALSE,,,FALSE,
+Respiratory (medical),96,Weaning from mechanical ventilation (transfer from other unit or hospital only),any,,,FALSE,,,FALSE,Codes can't tell whether the patient was transferred in for weaning. Z99.11 also marks long-term ventilated patients. Combine with your admission-source field.
+Respiratory (medical),97,"Respiratory - medical, other",residual,,,FALSE,,,TRUE,Catch-all.
+GI perforation,98,"GI perforation/rupture, surgery for",any,,,TRUE,0D|0F|0W,,FALSE,"Requires an open or laparoscopic operation on the GI tract, hepatobiliary system or abdominal cavity."
+GI perforation,99,GI perforation/rupture,any,,,FALSE,,,FALSE,Perforated appendicitis (K35.2x/K35.3x) is not included. Traumatic perforations belong to trauma.
+GI bleeding,100,"Bleeding-variceal, surgery for (excluding vascular shunting-see surgery for portosystemic shunt)",any,,,TRUE,0D,,FALSE,Requires an open or laparoscopic operation on the GI tract. TIPS (06183J4) is percutaneous and isn't counted.
+GI bleeding,101,"Bleeding-upper GI, surgery for",any,,,TRUE,0D|0W,,FALSE,Requires an open or laparoscopic operation on the GI tract or abdominal cavity. Endoscopic hemostasis isn't counted.
+GI bleeding,102,"Bleeding-lower GI, surgery for",any,,,TRUE,0D|0W,,FALSE,Requires an open or laparoscopic operation on the GI tract or abdominal cavity.
+GI bleeding,103,"Bleeding-other GI, surgery for",any,,,TRUE,0D|0F|0W,,FALSE,"Requires an open or laparoscopic operation on the GI tract, hepatobiliary system or abdominal cavity."
+GI bleeding,104,"Bleeding, GI from esophageal varices/portal hypertension",any,,,FALSE,,,FALSE,Portal hypertensive gastropathy has no specific bleeding code; it falls under upper GI or location unknown.
+GI bleeding,105,"Bleeding, upper GI",any,,,FALSE,,,FALSE,
+GI bleeding,106,"Bleeding, lower GI",any,,,FALSE,,,FALSE,
+GI bleeding,107,"Bleeding, GI-location unknown",any,,,FALSE,,,FALSE,K92.1 (melena) is placed here because ICD-10-CM also indexes hematochezia to it. Move it to upper GI if you prefer.
+GI bleeding,108,"Hemorrhage, intra/retroperitoneal",any,,,FALSE,,,FALSE,"K66.1 is also in the cardiovascular 'Hemorrhage' and 'Hematomas' categories, which outrank this one in admission-diagnosis mode."
+Pancreatitis,109,"Pancreatitis, surgery for",any,,,TRUE,0F|0D|0W,,FALSE,"Requires an open or laparoscopic operation on the hepatobiliary system/pancreas, GI tract or abdominal cavity."
+Pancreatitis,110,Pancreatitis,any,,,FALSE,,,FALSE,
+GI infection,111,"Sepsis, GI",with_required_dx,K65.0|K65.1|K65.2|K65.3|K65.8|K65.9|K35|K57.0|K57.2|K57.4|K57.8|K57.12|K57.13|K57.32|K57.33|K57.52|K57.53|K57.92|K57.93|K75.0|K81.0|K81.2|K80.0|K80.1|K80.3|K80.4|K80.6|K83.0|K63.0|K63.1|K61|K68.1|K22.3|K25.1|K25.2|K25.5|K25.6|K26.1|K26.2|K26.5|K26.6|K27.1|K27.2|K27.5|K27.6|K28.1|K28.2|K28.5|K28.6|K85.02|K85.12|K85.22|K85.32|K85.82|K85.92|A00|A01|A02.0|A03|A04|A05|A06.0|A06.1|A06.2|A07|A08|A09,,FALSE,,,FALSE,"A sepsis code plus a GI infection code (peritonitis, intra-abdominal abscess, appendicitis, diverticulitis, cholecystitis, cholangitis, perforation, infected pancreatic necrosis, infectious enteritis incl. C. difficile) on the same stay. For GI infection without sepsis, use the GI group."
+GI,112,"Encephalopathy, hepatic",any,,,FALSE,,,FALSE,
+GI,113,"Hepatic failure, acute",any,,,FALSE,,,FALSE,
+GI,114,Hepato-renal syndrome,any,,,FALSE,,,FALSE,
+GI,115,Cholangitis,any,,,FALSE,,,FALSE,
+GI,116,Peritonitis,any,,,FALSE,,,FALSE,
+GI,117,GI abscess/cyst,any,,,FALSE,,,FALSE,
+GI,118,GI vascular insufficiency,any,,,FALSE,,,FALSE,
+GI,119,GI obstruction,any,,,FALSE,,,FALSE,
+GI,120,Inflammatory bowel disease,any,,,FALSE,,,FALSE,
+GI,121,"Ulcer disease, peptic",any,,,FALSE,,,FALSE,"Bleeding and perforated ulcers also match the GI bleeding and perforation categories, which outrank this one."
+GI,122,Diverticular disease,any,,,FALSE,,,FALSE,"Bleeding and perforated diverticular disease also match those categories, which outrank this one."
+GI,123,"GI medical, other",residual,,,FALSE,,,TRUE,Catch-all. Oral cavity (K00-K14) is excluded.
+GU infection,124,"Sepsis, renal/UTI (including bladder)",with_required_dx,N39.0|N10|N12|N13.6|N15.1|N30.0|N30.9|N34.0|N41.0|N41.2|T83.51|O23.0|O23.1|O23.2|O23.3|O23.4|O86.2,,FALSE,,,FALSE,"A sepsis code plus a urinary tract infection code (UTI, pyelonephritis, renal abscess, cystitis, prostatitis, catheter-associated UTI, UTI in pregnancy) on the same stay."
+GU infection,125,"Sepsis, gynecologic",with_required_dx,N70|N71|N73|N75.1|O85|O86.0|O86.1|O08.0|O23.5|O41.1|O75.3,,FALSE,,,FALSE,"A sepsis code plus a gynecologic or obstetric infection code (PID, endometritis, puerperal infection, chorioamnionitis, post-abortion infection) on the same stay."
+GU infection,126,Renal infection/abscess,any,,,FALSE,,,FALSE,No sepsis code required.
+Genitourinary,127,Pre-eclampsia/eclampsia,any,,,FALSE,,,FALSE,
+Genitourinary,128,"Hemorrhage, postpartum",any,,,FALSE,,,FALSE,
+Genitourinary,129,Renal bleeding,any,,,FALSE,,,FALSE,
+Genitourinary,130,"Genitourinary medical, other",residual,,,FALSE,,,TRUE,Catch-all. Acute kidney injury (N17) lands here; no APACHE option on your list covers it separately.
+Skin/soft tissue infection,131,"Sepsis, cutaneous/soft tissue",with_required_dx,L02|L03|L08|A46|M72.6|A48.0|N61.1|L05.0|T81.41|T81.42,,FALSE,,,FALSE,A sepsis code plus a skin or soft tissue infection code on the same stay.
+Skin/soft tissue infection,132,Cellulitis and localized soft tissue infections,any,,,FALSE,,,FALSE,
+"Infection, other",133,"Sepsis, other",with_required_dx,I33.0|I38|I39|I30.1|M00|M01|M86|T82.6|T82.7|T84.5|T84.6|T84.7|T85.7|T80.2|J98.51|T81.43|T81.49,,FALSE,,,FALSE,"A sepsis code plus an infection at another site: endocarditis, infective pericarditis, bone or joint infection, device, graft or line infection, mediastinitis, organ/space surgical site infection."
+"Infection, other",134,"Sepsis, unknown",any,,J09.X1|J10.0|J11.0|J12|J13|J14|J15|J16|J17|J18|J69|J85|J86|J95.851|J95.4|A15|A48.1|B01.2|B05.2|B25.0|B37.1|B38.0|B38.1|B38.2|B39.0|B39.1|B39.2|B40.0|B40.1|B40.2|B45.0|B46.0|B44.0|B44.1|B59|B58.3|A06.5|K65.0|K65.1|K65.2|K65.3|K65.8|K65.9|K35|K57.0|K57.2|K57.4|K57.8|K57.12|K57.13|K57.32|K57.33|K57.52|K57.53|K57.92|K57.93|K75.0|K81.0|K81.2|K80.0|K80.1|K80.3|K80.4|K80.6|K83.0|K63.0|K63.1|K61|K68.1|K22.3|K25.1|K25.2|K25.5|K25.6|K26.1|K26.2|K26.5|K26.6|K27.1|K27.2|K27.5|K27.6|K28.1|K28.2|K28.5|K28.6|K85.02|K85.12|K85.22|K85.32|K85.82|K85.92|A00|A01|A02.0|A03|A04|A05|A06.0|A06.1|A06.2|A07|A08|A09|N39.0|N10|N12|N13.6|N15.1|N30.0|N30.9|N34.0|N41.0|N41.2|T83.51|O23.0|O23.1|O23.2|O23.3|O23.4|O86.2|N70|N71|N73|N75.1|O85|O86.0|O86.1|O08.0|O23.5|O41.1|O75.3|L02|L03|L08|A46|M72.6|A48.0|N61.1|L05.0|T81.41|T81.42|G00|G01|G02|G03|G04|G05|G06|G07|A39.0|A87|A17.0|B37.5|B45.1|A32.11|A83|A84|A85|A86|B00.4|B02.0|B01.11|B05.0|A92.31|B58.2|A06.6|I33.0|I38|I39|I30.1|M00|M01|M86|T82.6|T82.7|T84.5|T84.6|T84.7|T85.7|T80.2|J98.51|T81.43|T81.49,FALSE,,,FALSE,"A sepsis code with no infection-site code on the stay (none of the sites used by the other sepsis categories, nor meningitis/encephalitis/brain abscess)."
+DKA/HHNC,135,Diabetic ketoacidosis,any,,,FALSE,,,FALSE,
+DKA/HHNC,136,Diabetic hyperglycemic hyperosmolar nonketotic coma (HHNC),any,,,FALSE,,,FALSE,Type 1 diabetes has no hyperosmolarity code in ICD-10-CM.
+Metabolic,137,Hyperthyroid storm/crisis,any,,,FALSE,,,FALSE,
+Metabolic,138,Hypothyroid/myxedema,any,,,FALSE,,,FALSE,Only myxedema coma is on by default. Turn the optional codes on only if you want any hypothyroidism.
+Metabolic,139,Addisons disease,any,,,FALSE,,,FALSE,
+Metabolic,140,Hypoglycemia,any,,,FALSE,,,FALSE,Insulin or oral hypoglycemic overdose codes (T38.3x) are under toxicology.
+Metabolic,141,Heat exhaustion/stroke,any,,,FALSE,,,FALSE,
+Metabolic,142,Hyperthermia,any,,,FALSE,,,FALSE,Fever (R50.x) is not included.
+Metabolic,143,Hypothermia,any,,,FALSE,,,FALSE,
+Metabolic,144,Acid-base/electrolyte disturbance,any,,,FALSE,,,FALSE,Volume depletion (E86) is under Hypovolemia.
+Metabolic,145,"Metabolic/endocrine medical, other",residual,,,FALSE,,,TRUE,"Catch-all. Uncomplicated diabetes (E11.9), hyperlipidemia and obesity land here."
+Hypovolemia,146,"Hypovolemia (including dehydration, Do not include shock states)",any,,,FALSE,,,FALSE,"Hypovolemic shock (R57.1) is excluded, per the APACHE wording."
+Anaphylaxis,147,Anaphylaxis,any,,,FALSE,,,FALSE,
+Hematologic,148,Sickle cell crisis,any,,,FALSE,,,FALSE,
+Hematologic,149,Blood transfusion reaction,any,,,FALSE,,,FALSE,"TRALI is also under ARDS, which outranks this category in admission-diagnosis mode."
+Hematologic,150,Coagulopathy,any,,,FALSE,,,FALSE,"Thrombophilias (D68.5x, D68.6x) are excluded."
+Hematologic,151,Thrombocytopenia,any,,,FALSE,,,FALSE,
+Hematologic,152,Neutropenia,any,,,FALSE,,,FALSE,
+Hematologic,153,Anemia,any,,,FALSE,,,FALSE,"In flag mode this marks any coded anemia, including chronic anemia of CKD (D63.1)."
+Hematologic surgery,154,"Hematologic surgery, other",surgery_only,,,FALSE,07,,FALSE,"Any open or laparoscopic operation on the lymphatic and hemic system (ICD-10-PCS body system 07: spleen, lymph nodes, thymus, bone marrow). No diagnosis required."
+Cancer,155,"Leukemia, acute lymphocytic",any,,,FALSE,,,FALSE,
+Cancer,156,"Leukemia, acute myelocytic",any,,,FALSE,,,FALSE,
+Cancer,157,"Leukemia, chronic lymphocytic",any,,,FALSE,,,FALSE,
+Cancer,158,"Leukemia, chronic myelocytic",any,,,FALSE,,,FALSE,
+Cancer,159,"Leukemia, other",residual,,,FALSE,,,FALSE,"Residual within leukemias (e.g., hairy cell, CMML). Not a catch-all, so it stays on in flag mode."
+Cancer,160,"Lymphoma, Hodgkins",any,,,FALSE,,,FALSE,
+Cancer,161,"Lymphoma, non-Hodgkins",any,,,FALSE,,,FALSE,
+Cancer,162,"Hematologic medical, other",any,,,FALSE,,,FALSE,Myeloma and MDS are placed here because your list has no separate option for them.
+Cancer,163,Pancytopenia,any,,,FALSE,,,FALSE,
+Cancer,164,"Cancer, esophageal",any,,,FALSE,,,FALSE,
+Cancer,165,"Cancer, stomach",any,,,FALSE,,,FALSE,
+Cancer,166,"Cancer, pancreatic",any,,,FALSE,,,FALSE,
+Cancer,167,"Cancer, colon/rectal",any,,,FALSE,,,FALSE,
+Cancer,168,"Cancer, other GI",any,,,FALSE,,,FALSE,
+Cancer,169,"Cancer, oral",any,,,FALSE,,,FALSE,"Salivary glands and pharynx (C07-C14) aren't on your list; they fall to 'Cancer, other site'."
+Cancer,170,"Cancer, laryngeal",any,,,FALSE,,,FALSE,
+Cancer,171,"Cancer, tracheal",any,,,FALSE,,,FALSE,
+Cancer,172,"Cancer, lung",any,,,FALSE,,,FALSE,
+Cancer,173,Thyroid neoplasm,any,,,FALSE,,,FALSE,
+Cancer,174,Adrenal neoplasm (including pheochromocytoma),any,,,FALSE,,,FALSE,
+Cancer,175,"Renal neoplasm, cancer",any,,,FALSE,,,FALSE,
+Cancer,176,"Neoplasm, neurologic",any,,,FALSE,,,FALSE,
+Cancer,177,"Cancer, other site (not an APACHE option; counts toward the flag)",residual,,,FALSE,,,FALSE,"Not on your list, but these codes do indicate cancer. Personal history of cancer (Z85) is not included."
+Musculoskeletal,178,Rhabdomyolysis,any,,,FALSE,,,FALSE,
+Musculoskeletal,179,"Arthritis, septic",any,,,FALSE,,,FALSE,
+Musculoskeletal,180,"Lupus, systemic",any,,,FALSE,,,FALSE,
+Musculoskeletal,181,Vasculitis,any,,,FALSE,,,FALSE,Thrombotic microangiopathy (M31.1) is under thrombocytopenia.
+Musculoskeletal,182,Scleroderma,any,,,FALSE,,,FALSE,
+Musculoskeletal,183,"Arthritis, rheumatoid",any,,,FALSE,,,FALSE,"In flag mode this marks any coded rheumatoid arthritis, including stable chronic disease."
+Musculoskeletal,184,Connective tissue disease (mixed),any,,,FALSE,,,FALSE,Dermatomyositis/polymyositis (M33) is placed here because your list has no separate option.
+Musculoskeletal,185,"Myositis, viral",any,,,FALSE,,,FALSE,ICD-10-CM has no viral-specific myositis code; M60.0 (infective myositis) is the closest.
+Musculoskeletal,186,"Chest pain, musculoskeletal",any,,,FALSE,,,FALSE,
+Musculoskeletal,187,"Musculoskeletal medical, other",residual,,,FALSE,,,TRUE,Catch-all.
+"Chest pain, epigastric",188,"Chest pain, epigastric",any,,,FALSE,,,FALSE,
+Head trauma,189,Head only trauma,trauma,,,FALSE,,head,FALSE,Injury codes in the head region only (see data/trauma_regions.csv).
+Trauma,190,"Face only trauma, surgery for",trauma,,,TRUE,,face,FALSE,Body regions come from data/trauma_regions.csv. Requires an open or laparoscopic operation (any body system) on the same stay.
+Trauma,191,"Extremity only trauma, surgery for",trauma,,,TRUE,,extremity,FALSE,Body regions come from data/trauma_regions.csv. Requires an open or laparoscopic operation (any body system) on the same stay.
+Trauma,192,"Extremity/face trauma, surgery for",trauma,,,TRUE,,extremity+face,FALSE,Body regions come from data/trauma_regions.csv. Requires an open or laparoscopic operation (any body system) on the same stay.
+Trauma,193,"Face/multiple trauma, surgery for",trauma,,,TRUE,,face+multiple,FALSE,Body regions come from data/trauma_regions.csv. Requires an open or laparoscopic operation (any body system) on the same stay.
+Trauma,194,"Extremity/multiple trauma, surgery for",trauma,,,TRUE,,extremity+multiple,FALSE,Body regions come from data/trauma_regions.csv. Requires an open or laparoscopic operation (any body system) on the same stay.
+Trauma,195,Head/extremity trauma,trauma,,,FALSE,,head+extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,196,Head/abdomen trauma,trauma,,,FALSE,,head+abdomen,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,197,Chest/pelvis trauma,trauma,,,FALSE,,chest+pelvis,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,198,Head/pelvis trauma,trauma,,,FALSE,,head+pelvis,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,199,Abdomen/face trauma,trauma,,,FALSE,,abdomen+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,200,Head/spinal trauma,trauma,,,FALSE,,head+spinal,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,201,Pelvis/extremity trauma,trauma,,,FALSE,,pelvis+extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,202,Chest/face trauma,trauma,,,FALSE,,chest+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,203,Pelvis/face trauma,trauma,,,FALSE,,pelvis+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,204,Chest/abdomen trauma,trauma,,,FALSE,,chest+abdomen,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,205,Extremity/face trauma,trauma,,,FALSE,,extremity+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,206,Spinal/face trauma,trauma,,,FALSE,,spinal+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,207,Head/face trauma,trauma,,,FALSE,,head+face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,208,Pelvis/spinal trauma,trauma,,,FALSE,,pelvis+spinal,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,209,Chest/spinal trauma,trauma,,,FALSE,,chest+spinal,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,210,Abdomen/spinal trauma,trauma,,,FALSE,,abdomen+spinal,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,211,Abdomen/pelvis trauma,trauma,,,FALSE,,abdomen+pelvis,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,212,Chest/extremity trauma,trauma,,,FALSE,,chest+extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,213,Abdomen/extremity trauma,trauma,,,FALSE,,abdomen+extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,214,Spinal/extremity trauma,trauma,,,FALSE,,spinal+extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,215,Head/chest trauma,trauma,,,FALSE,,head+chest,FALSE,Body regions come from data/trauma_regions.csv. Injuries in exactly these two regions.
+Trauma,216,Head/multiple trauma,trauma,,,FALSE,,head+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,217,Chest/multiple trauma,trauma,,,FALSE,,chest+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,218,Abdomen/multiple trauma,trauma,,,FALSE,,abdomen+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,219,Pelvis/multiple trauma,trauma,,,FALSE,,pelvis+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,220,Spinal/multiple trauma,trauma,,,FALSE,,spinal+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,221,Face/multiple trauma,trauma,,,FALSE,,face+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,222,Extremity/multiple trauma,trauma,,,FALSE,,extremity+multiple,FALSE,Body regions come from data/trauma_regions.csv. Injuries in 3+ regions; the primary region is the one of the principal diagnosis (or head > spinal > chest > abdomen > pelvis > face > extremity if the principal isn't an injury).
+Trauma,223,Face only trauma,trauma,,,FALSE,,face,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only.
+Trauma,224,Chest/thorax only trauma,trauma,,,FALSE,,chest,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only.
+Trauma,225,Abdomen only trauma,trauma,,,FALSE,,abdomen,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only.
+Trauma,226,Pelvis/hip trauma,trauma,,,FALSE,,pelvis,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only.
+Trauma,227,Spinal cord only trauma,trauma,,,FALSE,,spinal,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only. Spine fractures and dislocations without cord injury also land here; ICD can't separate them by region alone.
+Trauma,228,Extremity only trauma,trauma,,,FALSE,,extremity,FALSE,Body regions come from data/trauma_regions.csv. Injuries in this region only.
+Trauma,229,Burn,any,,,FALSE,,,FALSE,
+Trauma,230,"Trauma surgery, other",any,,,TRUE,,,FALSE,"Injury codes without a body region, plus an operation. Requires an open or laparoscopic operation (any body system) on the same stay."
+Trauma,231,"Trauma medical, other",any,,,FALSE,,,FALSE,"Injury codes without a body region (multiple unspecified, unspecified region, early complications of trauma, frostbite)."

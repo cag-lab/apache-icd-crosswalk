@@ -59,9 +59,127 @@ def test_unstable_vs_stable_angina():
 
 
 def test_aortic_aneurysm_not_in_cardiovascular_residual():
-    f = flag_stays(codes((1, "I71.4", CM, True), (2, "I50.9", CM, True)))
+    f = flag_stays(codes((1, "I71.4", CM, True), (2, "I87.2", CM, True)), include_catch_all=True)
     assert f.loc[1, "Aortic aneurysm"] and not f.loc[1, "Cardiovascular"]
     assert f.loc[2, "Cardiovascular"] and not f.loc[2, "Aortic aneurysm"]
+
+
+def test_catch_all_off_by_default_in_flags():
+    df = codes((1, "K59.00", CM, True))
+    assert not flag_stays(df).loc[1].any()
+    assert flag_stays(df, include_catch_all=True).loc[1, "GI"]
+    assert assign_admission_dx(df).set_index("stay_id").at[1, "category"] == "GI medical, other"
+
+
+def test_open_heart_complication_needs_status_code():
+    c = "Complications of previous open heart surgery"
+    assert c not in cats(codes((1, "T81.41XA", CM, True)))[1]
+    assert c in cats(codes((1, "T81.41XA", CM, True), (1, "Z95.1", CM, False)))[1]
+
+
+def test_sepsis_site_rules():
+    c = cats(codes(
+        (1, "A41.9", CM, True), (1, "J18.9", CM, False),
+        (2, "A41.9", CM, True),
+        (3, "A41.51", CM, True), (3, "N39.0", CM, False),
+    ))
+    assert {"Sepsis, pulmonary", "Pneumonia, other"} <= c[1] and "Sepsis, unknown" not in c[1]
+    assert c[2] == {"Sepsis, unknown"}
+    assert "Sepsis, renal/UTI (including bladder)" in c[3] and "Sepsis, pulmonary" not in c[3]
+
+
+def test_assign_sepsis_principal_with_secondary_site():
+    df = codes((1, "A41.9", CM, True), (1, "J18.9", CM, False))
+    assert assign_admission_dx(df).set_index("stay_id").at[1, "category"] == "Sepsis, pulmonary"
+
+
+def test_coma_excludes_cardiac_arrest():
+    assert "Coma/change in level of consciousness" in cats(codes((1, "R40.20", CM, True)))[1]
+    assert "Coma/change in level of consciousness" not in cats(codes((1, "R40.20", CM, True), (1, "I46.9", CM, False)))[1]
+
+
+def test_respiratory_arrest_excludes_cardiac_arrest():
+    f = flag_stays(codes((1, "R09.2", CM, True), (2, "R09.2", CM, True), (2, "I46.9", CM, False)))
+    assert f.loc[1, "Respiratory arrest"] and not f.loc[2, "Respiratory arrest"]
+
+
+def test_leukemia_residual_and_cancer_other():
+    c = cats(codes((1, "C92.00", CM, True), (2, "C91.40", CM, True), (3, "C50.911", CM, True)))
+    assert c[1] == {"Leukemia, acute myelocytic"}
+    assert c[2] == {"Leukemia, other"}
+    assert c[3] == {"Cancer, other site (not an APACHE option; counts toward the flag)"}
+
+
+def test_exclude_rows():
+    c = cats(codes((1, "D61.818", CM, True), (2, "D57.00", CM, True), (3, "D62", CM, True)))
+    assert c[1] == {"Pancytopenia"}
+    assert c[2] == {"Sickle cell crisis"}
+    assert c[3] == {"Anemia"}
+
+
+def test_surgery_variants():
+    perf = "GI perforation/rupture, surgery for"
+    assert perf not in cats(codes((1, "K63.1", CM, True)))[1]
+    assert perf in cats(codes((1, "K63.1", CM, True), (1, "0DTN0ZZ", PCS, False)))[1]
+    # percutaneous procedure doesn't count as surgery
+    assert perf not in cats(codes((1, "K63.1", CM, True), (1, "0DTN3ZZ", PCS, False)))[1]
+    # tracheostomy is excluded even though it's open
+    assert "Pancreatitis, surgery for" not in cats(codes((1, "K85.90", CM, True), (1, "0B110F4", PCS, False)))[1]
+    # surgery_stays overrides the PCS definition
+    assert perf in cats(codes((1, "K63.1", CM, True)), surgery_stays={1})[1]
+
+
+def test_hematologic_surgery_only():
+    f = flag_stays(codes((1, "07TP0ZZ", PCS, False), (1, "D73.5", CM, True), (2, "07TP3ZZ", PCS, False), (2, "D73.5", CM, True)))
+    assert f.loc[1, "Hematologic surgery"] and not f.loc[2, "Hematologic surgery"]
+
+
+def test_trauma_regions():
+    c = cats(codes(
+        (1, "S06.0X0A", CM, True),                                   # head only
+        (2, "S06.0X0A", CM, True), (2, "S82.101A", CM, False),       # head + extremity
+        (3, "S72.001A", CM, True),                                   # hip -> pelvis
+        (4, "S27.0XXA", CM, True), (4, "S36.116A", CM, False), (4, "S82.101A", CM, False),  # 3 regions, chest principal
+        (5, "S02.401A", CM, True), (5, "S82.101A", CM, False), (5, "0QSG04Z", PCS, False),  # face + extremity + surgery
+        (6, "S00.03XA", CM, True),                                   # superficial only -> no region
+        (7, "S06.0X0D", CM, True),                                   # subsequent encounter -> ignored
+    ))
+    assert "Head only trauma" in c[1]
+    assert "Head/extremity trauma" in c[2]
+    assert "Pelvis/hip trauma" in c[3]
+    assert "Chest/multiple trauma" in c[4]
+    assert {"Extremity/face trauma", "Extremity/face trauma, surgery for"} <= c[5]
+    assert c[6] == set() and c[7] == set()
+
+
+def test_assign_trauma_needs_injury_principal():
+    df = codes((1, "S06.0X0A", CM, True), (2, "I21.4", CM, True), (2, "S82.101A", CM, False))
+    a = assign_admission_dx(df).set_index("stay_id")["category"]
+    assert a[1] == "Head only trauma"
+    assert a[2] == "Infarction, acute myocardial (MI)"
+
+
+def test_subdural_outranks_trauma():
+    df = codes((1, "S06.5X0A", CM, True))
+    assert assign_admission_dx(df).set_index("stay_id").at[1, "category"] == "Hematoma, subdural"
+
+
+def test_seizure_excludes_structural():
+    f = flag_stays(codes((1, "G40.909", CM, True), (2, "G40.909", CM, True), (2, "C71.9", CM, False)))
+    assert f.loc[1, "Seizures"] and not f.loc[2, "Seizures"]
+
+
+def test_smoke_inhalation_intent():
+    assert "Smoke inhalation" in cats(codes((1, "T59.811A", CM, True)))[1]
+
+
+def test_every_category_has_a_way_to_match():
+    from apache_dx import load_categories, load_code_map
+    cats_df, cmap = load_categories(), load_code_map()
+    structural = cats_df["rule"].isin(["trauma", "surgery_only"])
+    coded = set(cmap["category"])
+    missing = cats_df.loc[~structural & ~cats_df["category"].isin(coded), "category"].tolist()
+    assert missing == []
 
 
 def test_vsd_repair_needs_dx_and_procedure():
