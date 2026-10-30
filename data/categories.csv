@@ -1,0 +1,45 @@
+group,priority,category,rule,required_dx_prefixes,notes
+Cardiovascular,1,Complications of previous open heart surgery,any,,Optional qualifier (not in code_map): require Z95.1 (bypass graft) or Z95.2 (prosthetic valve) on the same stay to confirm prior open heart surgery. I97.6* overlaps the I97.61*/I97.62* codes under Hemorrhage and Hematomas; this category wins on priority.
+Cardiovascular,2,"Tamponade, pericardial",any,,Takes priority over pericardial effusion.
+Cardiovascular,3,Papillary muscle rupture,any,,
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,dx_and_procedure,,This is a procedure. Best rule: diagnosis code AND a matching ICD-10-PCS code on the same stay.
+Cardiovascular,5,MI admitted > 24 hrs after onset of ischemia,needs_external_data,,"ICD codes do not record time from symptom onset, so codes alone cannot separate this from 'Infarction, acute myocardial'. Assign here only if your data has symptom-onset and admission times showing > 24 h; otherwise these stays fall to the next row."
+Cardiovascular,6,"Infarction, acute myocardial (MI)",any,,"Type 2 MI (I21.A1) is demand ischemia, often secondary to sepsis, bleeding etc.; consider excluding it if you want only primary coronary events. MI complications coded as I23.x (papillary muscle rupture, post-MI VSD) take priority above."
+Cardiovascular,7,"Angina, unstable",any,,"Coding guidelines require the combination I25.x codes when coronary atherosclerosis and unstable angina coexist, so many unstable angina stays will NOT carry I20.0; include the I25.x0 codes."
+Cardiovascular,8,Endocarditis,any,,T82.6* also appears under open heart complications (priority 1).
+Cardiovascular,9,Pericarditis,any,,
+Cardiovascular,10,"Effusion, pericardial",any,,
+Cardiovascular,11,"Contusion, myocardial (include r/o)",any,,Deliberately a trauma (S) code.
+Cardiovascular,12,"Hypertension-pulmonary, primary/idiopathic",any,,Exclude secondary forms (I27.2x).
+Cardiovascular,13,"Thrombus, arterial",any,,
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",any,,Chronic DVT codes are common secondary diagnoses; restrict to principal diagnosis.
+Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",any,,Exclude GI bleeding (K92.x etc.) and trauma (S-codes). K66.1 also listed under Hematomas; Hemorrhage wins on priority.
+Cardiovascular,16,Hematomas,any,,Exclude trauma (S-codes).
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",any,,
+Cardiovascular,18,"Chest pain, unknown origin",any,,
+Cardiovascular,19,"Monitoring, hemodynamic (pre-operative evaluation)",any,,Rarely coded on inpatient stays; expect few hits.
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",any,,"Unstable angina (I20.0, I25.110, I25.7x0) is excluded; it's in the Cardiovascular group. I25.10 is optional: it captures 'asymptomatic' CAD but is a very common secondary code, so it will flag many patients."
+Aortic aneurysm,21,"Aneurysm, thoracic aortic; with dissection",any,,
+Aortic aneurysm,22,"Aneurysm, abdominal aortic with dissection",any,,
+Aortic aneurysm,23,"Aneurysm, dissecting aortic",any,,"Catches dissections not coded to a thoracic or abdominal site. Before FY2022, all aortic dissections coded to I71.0x without site detail."
+Aortic aneurysm,24,"Aneurysm, thoracic aortic with rupture",any,,"Thoracoabdominal aneurysms (I71.5*, I71.6*) aren't an APACHE option; they're mapped to thoracic here. Move them to abdominal if you prefer."
+Aortic aneurysm,25,"Aneurysm, abdominal aortic with rupture",any,,
+Aortic aneurysm,26,"Aneurysm, thoracic aortic",any,,
+Aortic aneurysm,27,"Aneurysm, abdominal aortic",any,,
+Aortic aneurysm,28,"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",any,,"Not one of your listed options, but these codes do indicate an aortic aneurysm."
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",procedure_with_required_dx,I71|I72,"Procedure category. Require an aneurysm diagnosis on the same stay: I71* for aortic procedures, I72* for 03V*/04V* (those roots also cover embolization and stenting for other reasons)."
+"Aneurysm, other",30,"Aneurysm repair, ventricular",dx_and_procedure,,Require I25.3 AND one of the procedure codes on the same stay.
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",any,,"Ruptured cerebral aneurysms code as subarachnoid hemorrhage (I60.x) and belong in APACHE neuro categories, not here. Post-procedural pseudoaneurysms (e.g., femoral after cath) usually carry I72.x plus a complication code."
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",any,,"J81.0 is meant for noncardiogenic edema; acute pulmonary edema due to heart disease codes to I50.x. Coders don't always follow that, so check J81.0 stays that also carry I50.x. Exclude J81.1 (chronic pulmonary edema)."
+Cardiovascular,33,"Cardiovascular / vascular medical, other",residual,,"Catch-all: placed after the angina, aneurysm and ARDS groups so it only gets circulatory codes no other category claims. For yes/no flags, likewise exclude codes matched by any other group. Use I99.8 / I77.8* if you want a narrower definition."
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",any,,
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",any,,"Your list includes this category twice ('ethanol' / 'bethanol'); treated as one category. Ethylene glycol codes to T52.3 (glycols), not T51."
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",any,,Opioid analgesics (T40.x) are under Street drugs.
+Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",any,,"Medicinal lithium is indexed to T43.59 ('other antipsychotics'), which also covers atypical antipsychotics such as quetiapine and olanzapine. Codes alone can't separate them; T43.59 is kept under Sedatives/antipsychotics. To pull lithium out, use drug name or lithium level data."
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",any,,"T42.6 also includes some antiepileptics (e.g., valproate)."
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",any,,"Prescription opioids (T40.2, T40.4) are included here because the APACHE wording says 'opiates'. T43.6 also includes caffeine (T43.61-); drop it if you want to be strict. Cannabis and hallucinogens are optional."
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",any,,"Includes adverse effects in therapeutic use (intent character 5), e.g., digoxin toxicity. The drug list is a starting point; add other classes as needed."
+Toxicology,41,"Overdose, self-inflicted",any,,"Placed after the agent-specific categories, so it catches intentional overdoses of agents not listed above. If you want intent to take precedence, move this category to the top of the toxicology group."
+Toxicology,42,"Overdose, other toxin, poison or drug",residual,,Residual category: any poisoning code not assigned above. Matches only codes that no other category claims.
+Toxicology,43,Alcohol withdrawal,any,,
+Toxicology,44,Drug withdrawal,any,,Codes marked FY2023+ only exist from October 2022; older data uses the dependence (x.23) codes. Nicotine (F17.x03) and neonatal withdrawal (P96.1) are excluded.

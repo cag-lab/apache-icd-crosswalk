@@ -1,0 +1,237 @@
+group,priority,category,code,code_system,match_type,intent_chars,last_char_in,optional,description
+Cardiovascular,1,Complications of previous open heart surgery,I97.0,ICD-10-CM,Exact,,,FALSE,Postcardiotomy syndrome
+Cardiovascular,1,Complications of previous open heart surgery,I97.1,ICD-10-CM,Prefix,,,FALSE,Other postprocedural cardiac functional disturbances
+Cardiovascular,1,Complications of previous open heart surgery,I97.6,ICD-10-CM,Prefix,,,FALSE,Postprocedural hemorrhage/hematoma/seroma of circulatory system organ
+Cardiovascular,1,Complications of previous open heart surgery,T81.4,ICD-10-CM,Prefix,,,FALSE,Infection following a procedure (incl. surgical site)
+Cardiovascular,1,Complications of previous open heart surgery,T81.3,ICD-10-CM,Prefix,,,FALSE,"Disruption of wound (e.g., sternal dehiscence)"
+Cardiovascular,1,Complications of previous open heart surgery,T82.6,ICD-10-CM,Prefix,,,FALSE,Infection due to cardiac valve prosthesis
+Cardiovascular,1,Complications of previous open heart surgery,T82.7,ICD-10-CM,Prefix,,,FALSE,"Infection due to other cardiac/vascular devices, implants, grafts"
+Cardiovascular,1,Complications of previous open heart surgery,T82.8,ICD-10-CM,Prefix,,,FALSE,Other complications of cardiac/vascular prosthetic devices
+Cardiovascular,2,"Tamponade, pericardial",I31.4,ICD-10-CM,Exact,,,FALSE,Cardiac tamponade
+Cardiovascular,3,Papillary muscle rupture,I23.5,ICD-10-CM,Exact,,,FALSE,Rupture of papillary muscle as current complication following acute MI
+Cardiovascular,3,Papillary muscle rupture,I51.2,ICD-10-CM,Exact,,,FALSE,"Rupture of papillary muscle, NEC"
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,Q21.0,ICD-10-CM,Exact,,,FALSE,Ventricular septal defect (congenital)
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,I23.2,ICD-10-CM,Exact,,,FALSE,Ventricular septal defect as current complication following acute MI
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,I51.0,ICD-10-CM,Exact,,,FALSE,"Cardiac septal defect, acquired"
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,02QM,ICD-10-PCS,Prefix,,,FALSE,Repair ventricular septum
+Cardiovascular,4,Ventricular Septal Defect (VSD) Repair,02UM,ICD-10-PCS,Prefix,,,FALSE,Supplement ventricular septum (patch/device closure)
+Cardiovascular,5,MI admitted > 24 hrs after onset of ischemia,I21,ICD-10-CM,Prefix,,,FALSE,"Acute myocardial infarction (STEMI, NSTEMI, type 2 MI I21.A1, other I21.A9)"
+Cardiovascular,5,MI admitted > 24 hrs after onset of ischemia,I22,ICD-10-CM,Prefix,,,FALSE,Subsequent STEMI/NSTEMI within 4 weeks of a prior MI
+Cardiovascular,6,"Infarction, acute myocardial (MI)",I21,ICD-10-CM,Prefix,,,FALSE,"Acute myocardial infarction (STEMI, NSTEMI, type 2 MI I21.A1, other I21.A9)"
+Cardiovascular,6,"Infarction, acute myocardial (MI)",I22,ICD-10-CM,Prefix,,,FALSE,Subsequent STEMI/NSTEMI within 4 weeks of a prior MI
+Cardiovascular,7,"Angina, unstable",I20.0,ICD-10-CM,Exact,,,FALSE,Unstable angina
+Cardiovascular,7,"Angina, unstable",I25.110,ICD-10-CM,Exact,,,FALSE,Atherosclerotic heart disease of native coronary artery with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.700,ICD-10-CM,Exact,,,FALSE,"Atherosclerosis of CABG, unspecified, with unstable angina"
+Cardiovascular,7,"Angina, unstable",I25.710,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of autologous vein CABG with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.720,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of autologous artery CABG with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.730,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of nonautologous biological CABG with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.750,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of native coronary artery of transplanted heart with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.760,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of bypass graft of transplanted heart with unstable angina
+Cardiovascular,7,"Angina, unstable",I25.790,ICD-10-CM,Exact,,,FALSE,Atherosclerosis of other CABG with unstable angina
+Cardiovascular,7,"Angina, unstable",I24.0,ICD-10-CM,Prefix,,,TRUE,Acute coronary thrombosis not resulting in MI (optional)
+Cardiovascular,7,"Angina, unstable",I24.8,ICD-10-CM,Prefix,,,TRUE,Other forms of acute ischemic heart disease (optional)
+Cardiovascular,7,"Angina, unstable",I24.9,ICD-10-CM,Exact,,,TRUE,"Acute ischemic heart disease, unspecified (optional)"
+Cardiovascular,8,Endocarditis,I33,ICD-10-CM,Prefix,,,FALSE,Acute and subacute endocarditis
+Cardiovascular,8,Endocarditis,I38,ICD-10-CM,Exact,,,FALSE,"Endocarditis, valve unspecified"
+Cardiovascular,8,Endocarditis,I39,ICD-10-CM,Exact,,,FALSE,Endocarditis and heart valve disorders in diseases classified elsewhere
+Cardiovascular,8,Endocarditis,I01.1,ICD-10-CM,Exact,,,FALSE,Acute rheumatic endocarditis
+Cardiovascular,8,Endocarditis,I09.1,ICD-10-CM,Exact,,,FALSE,"Rheumatic diseases of endocardium, valve unspecified"
+Cardiovascular,8,Endocarditis,B37.6,ICD-10-CM,Exact,,,FALSE,Candidal endocarditis
+Cardiovascular,8,Endocarditis,A39.51,ICD-10-CM,Exact,,,FALSE,Meningococcal endocarditis
+Cardiovascular,8,Endocarditis,A52.03,ICD-10-CM,Exact,,,FALSE,Syphilitic endocarditis
+Cardiovascular,8,Endocarditis,M32.11,ICD-10-CM,Exact,,,FALSE,Endocarditis in systemic lupus erythematosus (Libman-Sacks)
+Cardiovascular,8,Endocarditis,T82.6,ICD-10-CM,Prefix,,,FALSE,Infection due to cardiac valve prosthesis
+Cardiovascular,9,Pericarditis,I30,ICD-10-CM,Prefix,,,FALSE,Acute pericarditis
+Cardiovascular,9,Pericarditis,I31.0,ICD-10-CM,Exact,,,FALSE,Chronic adhesive pericarditis
+Cardiovascular,9,Pericarditis,I31.1,ICD-10-CM,Exact,,,FALSE,Chronic constrictive pericarditis
+Cardiovascular,9,Pericarditis,I32,ICD-10-CM,Exact,,,FALSE,Pericarditis in diseases classified elsewhere
+Cardiovascular,9,Pericarditis,I01.0,ICD-10-CM,Exact,,,FALSE,Acute rheumatic pericarditis
+Cardiovascular,9,Pericarditis,I09.2,ICD-10-CM,Exact,,,FALSE,Chronic rheumatic pericarditis
+Cardiovascular,9,Pericarditis,I24.1,ICD-10-CM,Exact,,,FALSE,Dressler's syndrome
+Cardiovascular,9,Pericarditis,B33.23,ICD-10-CM,Exact,,,FALSE,Viral pericarditis
+Cardiovascular,10,"Effusion, pericardial",I31.3,ICD-10-CM,Prefix,,,FALSE,"Pericardial effusion (noninflammatory), incl. I31.31 malignant, I31.39 other"
+Cardiovascular,11,"Contusion, myocardial (include r/o)",S26.01,ICD-10-CM,Prefix,,,FALSE,Contusion of heart with hemopericardium
+Cardiovascular,11,"Contusion, myocardial (include r/o)",S26.11,ICD-10-CM,Prefix,,,FALSE,Contusion of heart without hemopericardium
+Cardiovascular,11,"Contusion, myocardial (include r/o)",S26.91,ICD-10-CM,Prefix,,,FALSE,"Contusion of heart, unspecified with or without hemopericardium"
+Cardiovascular,12,"Hypertension-pulmonary, primary/idiopathic",I27.0,ICD-10-CM,Exact,,,FALSE,Primary pulmonary hypertension
+Cardiovascular,13,"Thrombus, arterial",I74,ICD-10-CM,Prefix,,,FALSE,Arterial embolism and thrombosis
+Cardiovascular,13,"Thrombus, arterial",I51.3,ICD-10-CM,Exact,,,TRUE,"Intracardiac thrombosis, NEC (optional)"
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.4,ICD-10-CM,Prefix,,,FALSE,Acute embolism and thrombosis of deep veins of lower extremity
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.5,ICD-10-CM,Prefix,,,FALSE,Chronic embolism and thrombosis of deep veins of lower extremity
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.62,ICD-10-CM,Prefix,,,FALSE,Acute embolism and thrombosis of deep veins of upper extremity
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.72,ICD-10-CM,Prefix,,,FALSE,Chronic embolism and thrombosis of deep veins of upper extremity
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.A,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of axillary vein
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.B,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of subclavian vein
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.C,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of internal jugular vein
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.2,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of vena cava and other thoracic veins
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.89,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of other specified veins
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I82.9,ICD-10-CM,Prefix,,,FALSE,Embolism and thrombosis of unspecified vein
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I80.1,ICD-10-CM,Prefix,,,FALSE,Phlebitis and thrombophlebitis of femoral vein
+Cardiovascular,14,"Thrombosis, vascular (deep vein)",I80.2,ICD-10-CM,Prefix,,,FALSE,Phlebitis and thrombophlebitis of other deep vessels of lower extremities
+Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",R58,ICD-10-CM,Exact,,,FALSE,"Hemorrhage, not elsewhere classified"
+Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",K66.1,ICD-10-CM,Exact,,,FALSE,Hemoperitoneum (incl. retroperitoneal hemorrhage)
+Cardiovascular,15,"Hemorrhage (non-GI, non-trauma)",I97.61,ICD-10-CM,Prefix,,,FALSE,Postprocedural hemorrhage of circulatory system organ
+Cardiovascular,16,Hematomas,M79.81,ICD-10-CM,Exact,,,FALSE,Nontraumatic hematoma of soft tissue
+Cardiovascular,16,Hematomas,K66.1,ICD-10-CM,Exact,,,FALSE,Hemoperitoneum (retroperitoneal hematoma)
+Cardiovascular,16,Hematomas,I97.62,ICD-10-CM,Prefix,,,FALSE,Postprocedural hematoma/seroma of circulatory system organ
+Cardiovascular,16,Hematomas,L76.3,ICD-10-CM,Prefix,,,FALSE,Postprocedural hematoma/seroma of skin and subcutaneous tissue
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",R07.89,ICD-10-CM,Exact,,,FALSE,Other chest pain (atypical chest pain indexed here)
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",R07.1,ICD-10-CM,Exact,,,FALSE,Chest pain on breathing
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",R07.81,ICD-10-CM,Exact,,,FALSE,Pleurodynia
+Cardiovascular,17,"Chest pain, atypical (noncardiac chest pain)",R07.82,ICD-10-CM,Exact,,,FALSE,Intercostal pain
+Cardiovascular,18,"Chest pain, unknown origin",R07.9,ICD-10-CM,Exact,,,FALSE,"Chest pain, unspecified"
+Cardiovascular,18,"Chest pain, unknown origin",R07.2,ICD-10-CM,Exact,,,FALSE,Precordial pain
+Cardiovascular,19,"Monitoring, hemodynamic (pre-operative evaluation)",Z01.810,ICD-10-CM,Exact,,,FALSE,Encounter for preprocedural cardiovascular examination
+Cardiovascular,19,"Monitoring, hemodynamic (pre-operative evaluation)",Z01.818,ICD-10-CM,Exact,,,FALSE,Encounter for other preprocedural examination
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I20.1,ICD-10-CM,Exact,,,FALSE,Angina pectoris with documented spasm
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I20.2,ICD-10-CM,Exact,,,FALSE,Refractory angina pectoris (FY2024+)
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I20.8,ICD-10-CM,Prefix,,,FALSE,"Other forms of angina pectoris (incl. I20.81 microvascular, I20.89 other)"
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I20.9,ICD-10-CM,Exact,,,FALSE,"Angina pectoris, unspecified"
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.111,ICD-10-CM,Exact,,,FALSE,ASHD of native coronary artery with angina with documented spasm
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.112,ICD-10-CM,Exact,,,FALSE,ASHD of native coronary artery with refractory angina (FY2024+)
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.118,ICD-10-CM,Exact,,,FALSE,ASHD of native coronary artery with other forms of angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.119,ICD-10-CM,Exact,,,FALSE,ASHD of native coronary artery with unspecified angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.70,ICD-10-CM,Prefix,,1289,FALSE,"Atherosclerosis of CABG, unspecified, with angina"
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.71,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of autologous vein CABG with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.72,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of autologous artery CABG with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.73,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of nonautologous biological CABG with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.75,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of native coronary artery of transplanted heart with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.76,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of bypass graft of transplanted heart with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.79,ICD-10-CM,Prefix,,1289,FALSE,Atherosclerosis of other CABG with angina
+"Angina, stable",20,"Angina, stable (asymp or stable pattern of symptoms w/meds)",I25.10,ICD-10-CM,Exact,,,TRUE,ASHD of native coronary artery without angina (optional: 'asymptomatic')
+Aortic aneurysm,21,"Aneurysm, thoracic aortic; with dissection",I71.01,ICD-10-CM,Prefix,,,FALSE,"Dissection of thoracic aorta (I71.010 ascending, I71.011 arch, I71.012 descending, I71.019 unspecified)"
+Aortic aneurysm,22,"Aneurysm, abdominal aortic with dissection",I71.02,ICD-10-CM,Exact,,,FALSE,Dissection of abdominal aorta
+Aortic aneurysm,23,"Aneurysm, dissecting aortic",I71.00,ICD-10-CM,Exact,,,FALSE,Dissection of unspecified site of aorta
+Aortic aneurysm,23,"Aneurysm, dissecting aortic",I71.03,ICD-10-CM,Exact,,,FALSE,Dissection of thoracoabdominal aorta
+Aortic aneurysm,24,"Aneurysm, thoracic aortic with rupture",I71.1,ICD-10-CM,Prefix,,,FALSE,"Thoracic aortic aneurysm, ruptured"
+Aortic aneurysm,24,"Aneurysm, thoracic aortic with rupture",I71.5,ICD-10-CM,Prefix,,,FALSE,"Thoracoabdominal aortic aneurysm, ruptured"
+Aortic aneurysm,25,"Aneurysm, abdominal aortic with rupture",I71.3,ICD-10-CM,Prefix,,,FALSE,"Abdominal aortic aneurysm, ruptured"
+Aortic aneurysm,26,"Aneurysm, thoracic aortic",I71.2,ICD-10-CM,Prefix,,,FALSE,"Thoracic aortic aneurysm, without rupture"
+Aortic aneurysm,26,"Aneurysm, thoracic aortic",I71.6,ICD-10-CM,Prefix,,,FALSE,"Thoracoabdominal aortic aneurysm, without rupture"
+Aortic aneurysm,26,"Aneurysm, thoracic aortic",A52.01,ICD-10-CM,Exact,,,TRUE,Syphilitic aneurysm of aorta (optional)
+Aortic aneurysm,27,"Aneurysm, abdominal aortic",I71.4,ICD-10-CM,Prefix,,,FALSE,"Abdominal aortic aneurysm, without rupture"
+Aortic aneurysm,28,"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",I71.8,ICD-10-CM,Exact,,,FALSE,"Aortic aneurysm of unspecified site, ruptured"
+Aortic aneurysm,28,"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",I71.9,ICD-10-CM,Exact,,,FALSE,"Aortic aneurysm of unspecified site, without rupture"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02RX,ICD-10-PCS,Prefix,,,FALSE,"Replacement of thoracic aorta, ascending/arch"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02RW,ICD-10-PCS,Prefix,,,FALSE,"Replacement of thoracic aorta, descending"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02QX,ICD-10-PCS,Prefix,,,FALSE,"Repair of thoracic aorta, ascending/arch"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02QW,ICD-10-PCS,Prefix,,,FALSE,"Repair of thoracic aorta, descending"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02UX,ICD-10-PCS,Prefix,,,FALSE,"Supplement thoracic aorta, ascending/arch"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02UW,ICD-10-PCS,Prefix,,,FALSE,"Supplement thoracic aorta, descending"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02VX,ICD-10-PCS,Prefix,,,FALSE,"Restriction of thoracic aorta, ascending/arch (endograft)"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",02VW,ICD-10-PCS,Prefix,,,FALSE,"Restriction of thoracic aorta, descending (TEVAR)"
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",04R0,ICD-10-PCS,Prefix,,,FALSE,Replacement of abdominal aorta (open AAA repair)
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",04Q0,ICD-10-PCS,Prefix,,,FALSE,Repair of abdominal aorta
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",04U0,ICD-10-PCS,Prefix,,,FALSE,Supplement abdominal aorta
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",04V0,ICD-10-PCS,Prefix,,,FALSE,Restriction of abdominal aorta (EVAR)
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",03V,ICD-10-PCS,Prefix,,,FALSE,Restriction of upper arteries (only with an I72* aneurysm diagnosis)
+Aortic aneurysm,29,"Aneurysms, repair of other (except ventricular)",04V,ICD-10-PCS,Prefix,,,FALSE,Restriction of lower arteries (only with an I72* aneurysm diagnosis)
+"Aneurysm, other",30,"Aneurysm repair, ventricular",I25.3,ICD-10-CM,Exact,,,FALSE,Aneurysm of heart (ventricular aneurysm)
+"Aneurysm, other",30,"Aneurysm repair, ventricular",02BL,ICD-10-PCS,Prefix,,,FALSE,Excision of left ventricle (aneurysmectomy)
+"Aneurysm, other",30,"Aneurysm repair, ventricular",02QL,ICD-10-PCS,Prefix,,,FALSE,Repair of left ventricle
+"Aneurysm, other",30,"Aneurysm repair, ventricular",02UL,ICD-10-PCS,Prefix,,,FALSE,"Supplement left ventricle (e.g., patch/Dor procedure)"
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",I72,ICD-10-CM,Prefix,,,FALSE,"Other aneurysm, incl. false aneurysm (carotid, upper/lower extremity, renal, iliac, vertebral, other, unspecified)"
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",I25.4,ICD-10-CM,Prefix,,,FALSE,Coronary artery aneurysm and dissection
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",I25.3,ICD-10-CM,Exact,,,FALSE,"Aneurysm of heart, without repair"
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",I28.1,ICD-10-CM,Exact,,,FALSE,Aneurysm of pulmonary artery
+"Aneurysm, other",31,"Aneurysm/pseudoaneurysm, other",I67.1,ICD-10-CM,Exact,,,TRUE,"Cerebral aneurysm, nonruptured (optional)"
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",J80,ICD-10-CM,Exact,,,FALSE,Acute respiratory distress syndrome
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",J81.0,ICD-10-CM,Exact,,,FALSE,"Acute pulmonary edema (noncardiogenic, incl. neurogenic)"
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",J95.84,ICD-10-CM,Exact,,,FALSE,Transfusion-related acute lung injury (TRALI)
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",J68.1,ICD-10-CM,Exact,,,FALSE,"Pulmonary edema due to chemicals, gases, fumes and vapors"
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",J70.0,ICD-10-CM,Exact,,,TRUE,Acute pulmonary manifestations due to radiation (optional)
+ARDS,32,"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",T70.29,ICD-10-CM,Prefix,,,TRUE,"Other effects of high altitude, incl. high-altitude pulmonary edema (optional)"
+Cardiovascular,33,"Cardiovascular / vascular medical, other",I99.8,ICD-10-CM,Exact,,,FALSE,Other disorder of circulatory system
+Cardiovascular,33,"Cardiovascular / vascular medical, other",I77.8,ICD-10-CM,Prefix,,,FALSE,Other specified disorders of arteries and arterioles
+Cardiovascular,33,"Cardiovascular / vascular medical, other",I00-I99,ICD-10-CM,Range,,,FALSE,Residual: any circulatory code not assigned to a higher-priority category
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",T58,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of carbon monoxide
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",T57.0,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of arsenic and its compounds
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",T65.0,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of cyanides
+Toxicology,34,"Poisoning, carbon monoxide, arsenic, cyanide",T57.3,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of hydrogen cyanide
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T51.0,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of ethanol
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T51.1,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of methanol
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T51.2,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of 2-propanol (isopropanol)
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T51.8,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of other alcohols
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T51.9,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of unspecified alcohol
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",T52.3,ICD-10-CM,Prefix,1234,,FALSE,Toxic effect of glycols (ethylene glycol)
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",F10.12,ICD-10-CM,Prefix,,,FALSE,Alcohol abuse with intoxication
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",F10.22,ICD-10-CM,Prefix,,,FALSE,Alcohol dependence with intoxication
+Toxicology,35,"Overdose, alcohols (ethanol, methanol, ethylene glycol)",F10.92,ICD-10-CM,Prefix,,,FALSE,"Alcohol use, unspecified, with intoxication"
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.0,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by salicylates (incl. aspirin T39.01-)
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.1,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by 4-aminophenol derivatives (acetaminophen)
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.2,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by pyrazolone derivatives
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.3,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other NSAIDs
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.4,ICD-10-CM,Prefix,1234,,FALSE,"Poisoning by antirheumatics, NEC"
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.8,ICD-10-CM,Prefix,1234,,FALSE,"Poisoning by other nonopioid analgesics and antipyretics, NEC"
+Toxicology,36,"Overdose, analgesic (aspirin, acetaminophen)",T39.9,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by unspecified nonopioid analgesic
+Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",T43.0,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by tricyclic and tetracyclic antidepressants
+Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",T43.1,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by MAO-inhibitor antidepressants
+Toxicology,37,"Overdose, antidepressants (cyclic, lithium)",T43.2,ICD-10-CM,Prefix,1234,,FALSE,"Poisoning by other antidepressants (SSRI, SNRI, other)"
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T42.3,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by barbiturates
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T42.4,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by benzodiazepines
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T42.6,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other antiepileptic and sedative-hypnotic drugs
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T42.7,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by unspecified antiepileptic and sedative-hypnotic drugs
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T43.3,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by phenothiazine antipsychotics
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T43.4,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by butyrophenone and thiothixene neuroleptics
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",T43.5,ICD-10-CM,Prefix,1234,,FALSE,"Poisoning by other/unspecified antipsychotics (incl. T43.59: atypicals, lithium)"
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",F13.12,ICD-10-CM,Prefix,,,FALSE,Sedative/hypnotic/anxiolytic abuse with intoxication
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",F13.22,ICD-10-CM,Prefix,,,FALSE,Sedative/hypnotic/anxiolytic dependence with intoxication
+Toxicology,38,"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",F13.92,ICD-10-CM,Prefix,,,FALSE,"Sedative/hypnotic/anxiolytic use, unspecified, with intoxication"
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.0,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by opium
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.1,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by heroin
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.2,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other opioids
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.3,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by methadone
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.4,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other synthetic narcotics (incl. fentanyl T40.41-)
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.5,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by cocaine
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.6,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other/unspecified narcotics
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.7,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by cannabis (derivatives)
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.8,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by LSD
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T40.9,ICD-10-CM,Prefix,1234,,FALSE,Poisoning by other/unspecified psychodysleptics (hallucinogens)
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",T43.6,ICD-10-CM,Prefix,1234,,FALSE,"Poisoning by psychostimulants (amphetamines, methamphetamine, MDMA, caffeine)"
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F11.12,ICD-10-CM,Prefix,,,FALSE,Opioid abuse with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F11.22,ICD-10-CM,Prefix,,,FALSE,Opioid dependence with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F11.92,ICD-10-CM,Prefix,,,FALSE,"Opioid use, unspecified, with intoxication"
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F14.12,ICD-10-CM,Prefix,,,FALSE,Cocaine abuse with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F14.22,ICD-10-CM,Prefix,,,FALSE,Cocaine dependence with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F14.92,ICD-10-CM,Prefix,,,FALSE,"Cocaine use, unspecified, with intoxication"
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F15.12,ICD-10-CM,Prefix,,,FALSE,Other stimulant abuse with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F15.22,ICD-10-CM,Prefix,,,FALSE,Other stimulant dependence with intoxication
+Toxicology,39,"Overdose, street drugs (opiates, cocaine, amphetamine)",F15.92,ICD-10-CM,Prefix,,,FALSE,"Other stimulant use, unspecified, with intoxication"
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T44.7,ICD-10-CM,Prefix,12345,,FALSE,Beta-adrenoreceptor antagonists
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T44.6,ICD-10-CM,Prefix,12345,,FALSE,Alpha-adrenoreceptor antagonists
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.0,ICD-10-CM,Prefix,12345,,FALSE,Cardiac-stimulant glycosides (digoxin)
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.1,ICD-10-CM,Prefix,12345,,FALSE,Calcium-channel blockers
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.2,ICD-10-CM,Prefix,12345,,FALSE,Other antidysrhythmic drugs
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.3,ICD-10-CM,Prefix,12345,,FALSE,Coronary vasodilators
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.4,ICD-10-CM,Prefix,12345,,FALSE,Angiotensin-converting-enzyme inhibitors
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T46.5,ICD-10-CM,Prefix,12345,,FALSE,Other antihypertensive drugs
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T38.3,ICD-10-CM,Prefix,12345,,FALSE,Insulin and oral hypoglycemic drugs
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T45.51,ICD-10-CM,Prefix,12345,,FALSE,Anticoagulants
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T42.0,ICD-10-CM,Prefix,12345,,FALSE,Hydantoin derivatives (phenytoin)
+Toxicology,40,"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",T42.1,ICD-10-CM,Prefix,12345,,FALSE,Iminostilbenes (carbamazepine)
+Toxicology,41,"Overdose, self-inflicted",T36-T65,ICD-10-CM,Range,2,,FALSE,Any poisoning/toxic effect code with intent = intentional self-harm
+Toxicology,41,"Overdose, self-inflicted",T14.91,ICD-10-CM,Prefix,,,FALSE,Suicide attempt
+Toxicology,41,"Overdose, self-inflicted",X60-X69,ICD-10 (WHO),Range,,,FALSE,"Intentional self-poisoning (external cause; WHO ICD-10 only, not in ICD-10-CM)"
+Toxicology,42,"Overdose, other toxin, poison or drug",T36-T50,ICD-10-CM,Range,1234,,FALSE,"Poisoning by drugs, medicaments and biological substances (residual)"
+Toxicology,42,"Overdose, other toxin, poison or drug",T51-T65,ICD-10-CM,Range,1234,,FALSE,Toxic effects of substances chiefly nonmedicinal (residual)
+Toxicology,43,Alcohol withdrawal,F10.13,ICD-10-CM,Prefix,,,FALSE,Alcohol abuse with withdrawal (FY2023+)
+Toxicology,43,Alcohol withdrawal,F10.23,ICD-10-CM,Prefix,,,FALSE,Alcohol dependence with withdrawal (incl. F10.231 delirium tremens)
+Toxicology,43,Alcohol withdrawal,F10.93,ICD-10-CM,Prefix,,,FALSE,"Alcohol use, unspecified, with withdrawal (FY2023+)"
+Toxicology,44,Drug withdrawal,F11.13,ICD-10-CM,Prefix,,,FALSE,Opioid abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F11.23,ICD-10-CM,Prefix,,,FALSE,Opioid dependence with withdrawal
+Toxicology,44,Drug withdrawal,F11.93,ICD-10-CM,Prefix,,,FALSE,"Opioid use, unspecified, with withdrawal"
+Toxicology,44,Drug withdrawal,F12.13,ICD-10-CM,Prefix,,,FALSE,Cannabis abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F12.23,ICD-10-CM,Prefix,,,FALSE,Cannabis dependence with withdrawal
+Toxicology,44,Drug withdrawal,F12.93,ICD-10-CM,Prefix,,,FALSE,"Cannabis use, unspecified, with withdrawal"
+Toxicology,44,Drug withdrawal,F13.13,ICD-10-CM,Prefix,,,FALSE,Sedative/hypnotic/anxiolytic abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F13.23,ICD-10-CM,Prefix,,,FALSE,Sedative/hypnotic/anxiolytic dependence with withdrawal
+Toxicology,44,Drug withdrawal,F13.93,ICD-10-CM,Prefix,,,FALSE,"Sedative/hypnotic/anxiolytic use, unspecified, with withdrawal"
+Toxicology,44,Drug withdrawal,F14.13,ICD-10-CM,Prefix,,,FALSE,Cocaine abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F14.23,ICD-10-CM,Prefix,,,FALSE,Cocaine dependence with withdrawal
+Toxicology,44,Drug withdrawal,F14.93,ICD-10-CM,Prefix,,,FALSE,"Cocaine use, unspecified, with withdrawal"
+Toxicology,44,Drug withdrawal,F15.13,ICD-10-CM,Prefix,,,FALSE,Other stimulant abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F15.23,ICD-10-CM,Prefix,,,FALSE,Other stimulant dependence with withdrawal
+Toxicology,44,Drug withdrawal,F15.93,ICD-10-CM,Prefix,,,FALSE,"Other stimulant use, unspecified, with withdrawal"
+Toxicology,44,Drug withdrawal,F19.13,ICD-10-CM,Prefix,,,FALSE,Other psychoactive substance abuse with withdrawal (FY2023+)
+Toxicology,44,Drug withdrawal,F19.23,ICD-10-CM,Prefix,,,FALSE,Other psychoactive substance dependence with withdrawal
+Toxicology,44,Drug withdrawal,F19.93,ICD-10-CM,Prefix,,,FALSE,"Other psychoactive substance use, unspecified, with withdrawal"
