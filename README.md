@@ -7,8 +7,7 @@ metabolic, hematologic, cancer, musculoskeletal, toxicology and trauma).
 
 Each **group** is one yes/no flag ("diagnosed with a GI bleed during the ICU
 stay"). Each **category** is one APACHE admission-diagnosis option, worded as
-on the APACHE form. The `priority` column lets you pick a single admission
-diagnosis per stay when several categories match.
+on the APACHE form.
 
 > **Status: not clinically validated.** The lists were built from ICD-10-CM/PCS
 > code structure and APACHE category wording. They are not an official or
@@ -21,7 +20,7 @@ diagnosis per stay when several categories match.
 
 | File | Contents |
 |---|---|
-| `data/categories.csv` | One row per APACHE category: group, priority, matching rule, extra conditions, notes |
+| `data/categories.csv` | One row per APACHE category: group, matching rule, extra conditions, notes |
 | `data/code_map.csv` | One row per ICD code, prefix or range mapped to a category |
 | `data/trauma_regions.csv` | ICD-10-CM injury prefixes → body region (head, face, chest, abdomen, pelvis, spinal, extremity) |
 | `data/surgery_exclusions.csv` | Bedside ICD-10-PCS procedures that don't count as "surgery" |
@@ -53,7 +52,7 @@ diagnosis per stay when several categories match.
 
 | Column | Meaning |
 |---|---|
-| `group`, `priority`, `category` | Same as `categories.csv` |
+| `group`, `category` | Same as `categories.csv` |
 | `code` | ICD code as usually written (with dot), or a range such as `T36-T50` |
 | `code_system` | `ICD-10-CM`, `ICD-10-PCS`, or `ICD-10 (WHO)` (X60–X69, which don't exist in ICD-10-CM) |
 | `match_type` | `Exact` = that code only · `Prefix` = the code and all its children (`I33` matches `I33.0`, `I33.9`) · `Range` = any code whose 3-character category falls in the range |
@@ -70,7 +69,6 @@ Compare codes with the dots removed (`T39.012A` → `T39012A`) if your data stor
 | Column | Meaning |
 |---|---|
 | `group` | The flag the category rolls up to |
-| `priority` | When one stay matches several categories, the lowest number is its admission diagnosis |
 | `category` | APACHE admission diagnosis |
 | `rule` | How the category is matched (table below) |
 | `required_dx_prefixes` | For `with_required_dx`: the stay must also have a diagnosis starting with one of these (pipe-separated) |
@@ -97,8 +95,8 @@ Compare codes with the dots removed (`T39.012A` → `T39012A`) if your data stor
 
 ### Flags vs. one admission diagnosis
 
-- **Yes/no flag per group:** match against every diagnosis and procedure code on the stay. Priority doesn't matter.
-- **One admission diagnosis per stay:** match the principal diagnosis (plus procedures, plus any diagnosis for `required_dx_prefixes` / `exclude_dx_prefixes`), then take the matching category with the lowest `priority`.
+- **Yes/no flag per group:** match against every diagnosis and procedure code on the stay.
+- **One admission diagnosis per stay:** match the principal diagnosis (plus procedures, plus any diagnosis for `required_dx_prefixes` / `exclude_dx_prefixes`). Some codes match more than one category (e.g. a bleeding ulcer matches both `Bleeding, upper GI` and `Ulcer disease, peptic`; the `notes` column calls out these overlaps), so you'll need your own rule for picking one.
 
 ### Catch-all categories
 
@@ -118,8 +116,7 @@ site-of-infection code** (`required_dx_prefixes`) on the same stay: pneumonia �
 pulmonary, UTI or pyelonephritis → renal/UTI, peritonitis or C. difficile → GI,
 and so on. `Sepsis, unknown` = a sepsis code with **no** site code
 (`exclude_dx_prefixes`). A stay with several sites matches several sepsis
-categories; by priority, pulmonary > GI > renal/UTI > gynecologic > skin/soft
-tissue > other > unknown.
+categories.
 
 ### Surgery ("surgery for" categories)
 
