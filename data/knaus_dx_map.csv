@@ -1,0 +1,236 @@
+category,code_prefixes,nonoperative_knaus,postoperative_knaus,basis,notes
+"Cardiovascular / vascular medical, other",I6,Neurologic,Neurologic,system,Cerebrovascular diseases (I60-I69) not claimed by a more specific category.
+"Respiratory - medical, other",J41|J42|J43|J44,COPD,Respiratory,specific,"COPD, emphysema and chronic bronchitis."
+"Respiratory - medical, other",J95.1|J95.2|J95.3|J95.82,Respiratory,Respiratory insufficiency after surgery,specific,Postprocedural respiratory failure / pulmonary insufficiency.
+Complications of previous open heart surgery,,Cardiovascular,Admission due to chronic cardiovascular disease,assumed,
+"Tamponade, pericardial",,Cardiovascular,Cardiovascular,system,
+Papillary muscle rupture,,Cardiovascular,Cardiovascular,system,
+Ventricular Septal Defect (VSD) Repair,,Cardiovascular,Admission due to chronic cardiovascular disease,system,
+MI admitted > 24 hrs after onset of ischemia,,Coronary artery disease,Admission due to chronic cardiovascular disease,specific,
+"Infarction, acute myocardial (MI)",,Coronary artery disease,Admission due to chronic cardiovascular disease,specific,
+"Angina, unstable",,Coronary artery disease,Admission due to chronic cardiovascular disease,specific,
+Endocarditis,,Cardiovascular,Cardiovascular,system,
+Pericarditis,,Cardiovascular,Cardiovascular,system,
+"Effusion, pericardial",,Cardiovascular,Cardiovascular,system,
+"Contusion, myocardial (include r/o)",,Multiple trauma,Multiple trauma,assumed,Myocardial contusion is a chest injury; mapped to trauma rather than cardiovascular.
+"Hypertension-pulmonary, primary/idiopathic",,Cardiovascular,Cardiovascular,system,
+"Thrombus, arterial",,Cardiovascular,Cardiovascular,system,
+"Thrombosis, vascular (deep vein)",,Cardiovascular,Cardiovascular,system,
+"Hemorrhage (non-GI, non-trauma)",,Hemorrhagic shock/hypovolemia,Hemorrhagic shock,specific,
+Hematomas,,Cardiovascular,Cardiovascular,system,
+"Chest pain, atypical (noncardiac chest pain)",,Cardiovascular,Cardiovascular,system,
+"Chest pain, unknown origin",,Cardiovascular,Cardiovascular,system,
+"Monitoring, hemodynamic (pre-operative evaluation)",,Cardiovascular,Cardiovascular,system,
+"Angina, stable (asymp or stable pattern of symptoms w/meds)",,Coronary artery disease,Admission due to chronic cardiovascular disease,specific,
+"Aneurysm, thoracic aortic; with dissection",,Dissecting thoracic/abdominal aneurysm,Cardiovascular,specific,
+"Aneurysm, abdominal aortic with dissection",,Dissecting thoracic/abdominal aneurysm,Cardiovascular,specific,
+"Aneurysm, dissecting aortic",,Dissecting thoracic/abdominal aneurysm,Cardiovascular,specific,
+"Aneurysm, thoracic aortic with rupture",,Dissecting thoracic/abdominal aneurysm,Cardiovascular,assumed,Knaus has no 'ruptured aneurysm' category; rupture is mapped to the dissecting-aneurysm weight.
+"Aneurysm, abdominal aortic with rupture",,Dissecting thoracic/abdominal aneurysm,Cardiovascular,assumed,Knaus has no 'ruptured aneurysm' category; rupture is mapped to the dissecting-aneurysm weight.
+"Aneurysm, thoracic aortic",,Cardiovascular,Cardiovascular,system,
+"Aneurysm, abdominal aortic",,Cardiovascular,Cardiovascular,system,
+"Aortic aneurysm, site unspecified (not an APACHE option; counts toward the flag)",,Cardiovascular,Cardiovascular,system,
+"Aneurysms, repair of other (except ventricular)",,Cardiovascular,Peripheral vascular surgery,specific,
+"Aneurysm repair, ventricular",,Cardiovascular,Admission due to chronic cardiovascular disease,assumed,
+"Aneurysm/pseudoaneurysm, other",,Cardiovascular,Cardiovascular,system,
+"ARDS-adult respiratory distress syndrome, non-cardiogenic pulmonary edema",,Pulmonary edema (noncardiogenic),Respiratory insufficiency after surgery,specific,
+"Cardiovascular / vascular medical, other",,Cardiovascular,Cardiovascular,system,
+"Poisoning, carbon monoxide, arsenic, cyanide",,Aspiration/poisoning/toxic,Metabolic/renal,assumed,Non-drug poisoning mapped to 'Aspiration/poisoning/toxic' rather than 'Drug overdose'.
+"Overdose, alcohols (ethanol, methanol, ethylene glycol)",,Drug overdose,Metabolic/renal,specific,
+"Overdose, analgesic (aspirin, acetaminophen)",,Drug overdose,Metabolic/renal,specific,
+"Overdose, antidepressants (cyclic, lithium)",,Drug overdose,Metabolic/renal,specific,
+"Overdose, sedatives, hypnotics, antipsychotics, benzodiazepines",,Drug overdose,Metabolic/renal,specific,
+"Overdose, street drugs (opiates, cocaine, amphetamine)",,Drug overdose,Metabolic/renal,specific,
+"Toxicity, drug (i.e., beta blockers, calcium channel blockers, etc.)",,Drug overdose,Metabolic/renal,specific,
+"Overdose, self-inflicted",,Drug overdose,Metabolic/renal,specific,
+"Overdose, other toxin, poison or drug",,Drug overdose,Metabolic/renal,specific,
+Alcohol withdrawal,,Neurologic,Neurologic,assumed,Withdrawal isn't an overdose; mapped to the neurologic system.
+Drug withdrawal,,Neurologic,Neurologic,assumed,Withdrawal isn't an overdose; mapped to the neurologic system.
+Cardiac arrest (with or without respiratory arrest),,Postcardiac arrest,,specific,Post-op patients use the non-operative weight (Knaus).
+"Shock, cardiogenic",,Cardiogenic shock,Cardiovascular,specific,
+Rhythm disturbance (ventricular),,Rhythm disturbance,Cardiovascular,specific,
+"Rhythm disturbance (atrial, supraventricular)",,Rhythm disturbance,Cardiovascular,specific,
+Rhythm disturbance (conduction defect),,Rhythm disturbance,Cardiovascular,specific,
+"CHF, congestive heart failure",,Congestive heart failure,Admission due to chronic cardiovascular disease,specific,
+Cardiomyopathy,,Congestive heart failure,Admission due to chronic cardiovascular disease,specific,
+"Hypertension, uncontrolled",,Hypertension,Cardiovascular,specific,
+"Subarachnoid hemorrhage/intracranial aneurysm, surgery for",,ICH/SDH/SAH,Craniotomy for ICH/SDH/SAH,specific,
+"Hemorrhage/hematoma-intracranial, surgery for",,ICH/SDH/SAH,Craniotomy for ICH/SDH/SAH,specific,
+Subarachnoid hemorrhage/arteriovenous malformation,,ICH/SDH/SAH,Neurologic,specific,
+Subarachnoid hemorrhage/intracranial aneurysm,,ICH/SDH/SAH,Neurologic,specific,
+"Hemorrhage/hematoma, intracranial",,ICH/SDH/SAH,Neurologic,specific,
+"CVA, cerebrovascular accident/stroke",,Neurologic,Neurologic,system,Ischemic stroke has no specific Knaus category.
+"Hematoma, subdural",,ICH/SDH/SAH,Neurologic,specific,
+Meningitis,,Neurologic,Neurologic,system,
+"Abscess, neurologic",,Neurologic,Neurologic,system,
+Encephalitis,,Neurologic,Neurologic,system,
+Nontraumatic coma due to anoxia/ischemia,,Neurologic,Neurologic,system,
+Coma/change in level of consciousness,,Neurologic,Neurologic,system,
+Seizures (primary-no structural brain disease),,Seizure disorder,Neurologic,specific,
+"Hematoma, epidural",,ICH/SDH/SAH,Neurologic,specific,
+Guillain-Barre syndrome,,Neurologic,Neurologic,system,
+Myasthenia gravis,,Neurologic,Neurologic,system,
+Amyotrophic lateral sclerosis,,Neurologic,Neurologic,system,
+"Hydrocephalus, obstructive",,Neurologic,Neurologic,system,
+"Palsy, cranial nerve",,Neurologic,Neurologic,system,
+Encephalopathies (excluding hepatic),,Neurologic,Neurologic,system,
+"Neuromuscular medical, other",,Neurologic,Neurologic,system,
+"Neurologic medical, other",,Neurologic,Neurologic,system,
+"Sepsis, pulmonary",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+"Pneumonia, aspiration",,Aspiration/poisoning/toxic,Respiratory,specific,
+"Pneumonia, parasitic (i.e., Pneumocystic pneumonia)",,Infection,Respiratory,specific,
+"Pneumonia, fungal",,Infection,Respiratory,specific,
+"Pneumonia, viral",,Infection,Respiratory,specific,
+"Pneumonia, bacterial",,Infection,Respiratory,specific,
+"Pneumonia, other",,Infection,Respiratory,specific,
+"Arrest, respiratory (without cardiac arrest)",,Postrespiratory arrest,Respiratory,specific,
+Asthma,,Asthma/allergy,Respiratory,specific,
+"Embolus, pulmonary",,Pulmonary embolus,Respiratory,specific,
+Smoke inhalation,,Aspiration/poisoning/toxic,Respiratory,assumed,
+Near drowning accident,,Aspiration/poisoning/toxic,Respiratory,assumed,
+"Obstruction-airway (i.e., acute epiglottitis, post-extubation edema, foreign body, etc)",,Respiratory,Respiratory,system,
+Hemothorax,,Respiratory,Respiratory,system,
+Pneumothorax,,Respiratory,Respiratory,system,
+"Hemorrhage/hemoptysis, pulmonary",,Respiratory,Respiratory,system,
+"Effusions, pleural",,Respiratory,Respiratory,system,
+Atelectasis,,Respiratory,Respiratory,system,
+"Restrictive lung disease (i.e., Sarcoidosis, pulmonary fibrosis)",,Respiratory,Respiratory,system,
+"Apnea, sleep",,Respiratory,Respiratory,system,
+"Chest pain, respiratory",,Respiratory,Respiratory,system,
+Weaning from mechanical ventilation (transfer from other unit or hospital only),,Respiratory,Respiratory,system,
+"Respiratory - medical, other",,Respiratory,Respiratory insufficiency after surgery,system,Respiratory failure without a more specific cause (e.g. J96.0x). COPD codes are mapped separately.
+"GI perforation/rupture, surgery for",,Gastrointestinal,GI perforation/obstruction,system,
+GI perforation/rupture,,Gastrointestinal,GI perforation/obstruction,system,
+"Bleeding-variceal, surgery for (excluding vascular shunting-see surgery for portosystemic shunt)",,GI bleeding,GI bleeding,specific,
+"Bleeding-upper GI, surgery for",,GI bleeding,GI bleeding,specific,
+"Bleeding-lower GI, surgery for",,GI bleeding,GI bleeding,specific,
+"Bleeding-other GI, surgery for",,GI bleeding,GI bleeding,specific,
+"Bleeding, GI from esophageal varices/portal hypertension",,GI bleeding,GI bleeding,specific,
+"Bleeding, upper GI",,GI bleeding,GI bleeding,specific,
+"Bleeding, lower GI",,GI bleeding,GI bleeding,specific,
+"Bleeding, GI-location unknown",,GI bleeding,GI bleeding,specific,
+"Hemorrhage, intra/retroperitoneal",,Hemorrhagic shock/hypovolemia,Hemorrhagic shock,assumed,
+"Pancreatitis, surgery for",,Gastrointestinal,Gastrointestinal,system,
+Pancreatitis,,Gastrointestinal,Gastrointestinal,system,
+"Sepsis, GI",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+"Encephalopathy, hepatic",,Gastrointestinal,Gastrointestinal,system,
+"Hepatic failure, acute",,Gastrointestinal,Gastrointestinal,system,
+Hepato-renal syndrome,,Gastrointestinal,Gastrointestinal,system,
+Cholangitis,,Gastrointestinal,Gastrointestinal,system,
+Peritonitis,,Gastrointestinal,Gastrointestinal,system,
+GI abscess/cyst,,Gastrointestinal,Gastrointestinal,system,
+GI vascular insufficiency,,Gastrointestinal,Gastrointestinal,system,
+GI obstruction,,Gastrointestinal,GI perforation/obstruction,system,
+Inflammatory bowel disease,,Gastrointestinal,Gastrointestinal,system,
+"Ulcer disease, peptic",,Gastrointestinal,Gastrointestinal,system,
+Diverticular disease,,Gastrointestinal,Gastrointestinal,system,
+"GI medical, other",,Gastrointestinal,Gastrointestinal,system,
+"Sepsis, renal/UTI (including bladder)",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+"Sepsis, gynecologic",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+Renal infection/abscess,,Metabolic/renal,Metabolic/renal,system,
+Pre-eclampsia/eclampsia,,Metabolic/renal,Metabolic/renal,system,
+"Hemorrhage, postpartum",,Hemorrhagic shock/hypovolemia,Hemorrhagic shock,assumed,
+Renal bleeding,,Metabolic/renal,Metabolic/renal,system,
+"Genitourinary medical, other",,Metabolic/renal,Metabolic/renal,system,
+"Sepsis, cutaneous/soft tissue",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+Cellulitis and localized soft tissue infections,,,,none,No Knaus category or organ system fits.
+"Sepsis, other",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+"Sepsis, unknown",,Sepsis,,specific,Post-op patients use the non-operative weight (Knaus).
+Diabetic ketoacidosis,,Diabetic ketoacidosis,Metabolic/renal,specific,
+Diabetic hyperglycemic hyperosmolar nonketotic coma (HHNC),,Metabolic/renal,Metabolic/renal,system,Knaus's specific category is DKA only.
+Hyperthyroid storm/crisis,,Metabolic/renal,Metabolic/renal,system,
+Hypothyroid/myxedema,,Metabolic/renal,Metabolic/renal,system,
+Addisons disease,,Metabolic/renal,Metabolic/renal,system,
+Hypoglycemia,,Metabolic/renal,Metabolic/renal,system,
+Heat exhaustion/stroke,,Metabolic/renal,Metabolic/renal,system,
+Hyperthermia,,Metabolic/renal,Metabolic/renal,system,
+Hypothermia,,Metabolic/renal,Metabolic/renal,system,
+Acid-base/electrolyte disturbance,,Metabolic/renal,Metabolic/renal,system,
+"Metabolic/endocrine medical, other",,Metabolic/renal,Metabolic/renal,system,
+"Hypovolemia (including dehydration, Do not include shock states)",,Hemorrhagic shock/hypovolemia,Metabolic/renal,specific,
+Anaphylaxis,,Asthma/allergy,Respiratory,specific,
+Sickle cell crisis,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Blood transfusion reaction,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Coagulopathy,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Thrombocytopenia,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Neutropenia,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Anemia,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Hematologic surgery, other",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Leukemia, acute lymphocytic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Leukemia, acute myelocytic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Leukemia, chronic lymphocytic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Leukemia, chronic myelocytic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Leukemia, other",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Lymphoma, Hodgkins",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Lymphoma, non-Hodgkins",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Hematologic medical, other",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Pancytopenia,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Cancer, esophageal",,Gastrointestinal,Gastrointestinal,system,
+"Cancer, stomach",,Gastrointestinal,Gastrointestinal,system,
+"Cancer, pancreatic",,Gastrointestinal,Gastrointestinal,system,
+"Cancer, colon/rectal",,Gastrointestinal,Gastrointestinal,system,
+"Cancer, other GI",,Gastrointestinal,Gastrointestinal,system,
+"Cancer, oral",,Gastrointestinal,Gastrointestinal,assumed,
+"Cancer, laryngeal",,Neoplasm,Respiratory,assumed,
+"Cancer, tracheal",,Neoplasm,Respiratory,specific,
+"Cancer, lung",,Neoplasm,Respiratory,specific,
+Thyroid neoplasm,,Metabolic/renal,Metabolic/renal,assumed,Endocrine; mapped to metabolic/renal.
+Adrenal neoplasm (including pheochromocytoma),,Metabolic/renal,Metabolic/renal,assumed,Endocrine; mapped to metabolic/renal.
+"Renal neoplasm, cancer",,Metabolic/renal,Metabolic/renal,system,
+"Neoplasm, neurologic",,Neurologic,Neurologic,system,
+"Cancer, other site (not an APACHE option; counts toward the flag)",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Rhabdomyolysis,,Metabolic/renal,Metabolic/renal,assumed,
+"Arthritis, septic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Lupus, systemic",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Vasculitis,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Scleroderma,,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Arthritis, rheumatoid",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+Connective tissue disease (mixed),,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Myositis, viral",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Chest pain, musculoskeletal",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Musculoskeletal medical, other",,,,none,"No Knaus category or organ system fits; pass knaus_category yourself, or set a fallback."
+"Chest pain, epigastric",,Gastrointestinal,Gastrointestinal,system,
+Head only trauma,,Head trauma,Head trauma,specific,
+"Face only trauma, surgery for",,Multiple trauma,Multiple trauma,specific,
+"Extremity only trauma, surgery for",,Multiple trauma,Multiple trauma,specific,
+"Extremity/face trauma, surgery for",,Multiple trauma,Multiple trauma,specific,
+"Face/multiple trauma, surgery for",,Multiple trauma,Multiple trauma,specific,
+"Extremity/multiple trauma, surgery for",,Multiple trauma,Multiple trauma,specific,
+Head/extremity trauma,,Multiple trauma,Multiple trauma,specific,
+Head/abdomen trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/pelvis trauma,,Multiple trauma,Multiple trauma,specific,
+Head/pelvis trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen/face trauma,,Multiple trauma,Multiple trauma,specific,
+Head/spinal trauma,,Multiple trauma,Multiple trauma,specific,
+Pelvis/extremity trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/face trauma,,Multiple trauma,Multiple trauma,specific,
+Pelvis/face trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/abdomen trauma,,Multiple trauma,Multiple trauma,specific,
+Extremity/face trauma,,Multiple trauma,Multiple trauma,specific,
+Spinal/face trauma,,Multiple trauma,Multiple trauma,specific,
+Head/face trauma,,Multiple trauma,Multiple trauma,specific,
+Pelvis/spinal trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/spinal trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen/spinal trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen/pelvis trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/extremity trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen/extremity trauma,,Multiple trauma,Multiple trauma,specific,
+Spinal/extremity trauma,,Multiple trauma,Multiple trauma,specific,
+Head/chest trauma,,Multiple trauma,Multiple trauma,specific,
+Head/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Pelvis/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Spinal/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Face/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Extremity/multiple trauma,,Multiple trauma,Multiple trauma,specific,
+Face only trauma,,Multiple trauma,Multiple trauma,specific,
+Chest/thorax only trauma,,Multiple trauma,Multiple trauma,specific,
+Abdomen only trauma,,Multiple trauma,Multiple trauma,specific,
+Pelvis/hip trauma,,Multiple trauma,Multiple trauma,specific,
+Spinal cord only trauma,,Multiple trauma,Multiple trauma,specific,
+Extremity only trauma,,Multiple trauma,Multiple trauma,specific,
+Burn,,,,none,APACHE II was not developed or validated for burn patients.
+"Trauma surgery, other",,Multiple trauma,Multiple trauma,specific,
+"Trauma medical, other",,Multiple trauma,Multiple trauma,specific,
+Acute renal failure,,Metabolic/renal,Metabolic/renal,system,

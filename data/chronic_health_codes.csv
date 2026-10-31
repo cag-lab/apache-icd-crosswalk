@@ -1,0 +1,55 @@
+group,category,code,code_system,match_type,intent_chars,last_char_in,optional,exclude,description
+Chronic health,Liver,K70.3,ICD-10-CM,Prefix,,,FALSE,FALSE,Alcoholic cirrhosis of liver
+Chronic health,Liver,K70.4,ICD-10-CM,Prefix,,,FALSE,FALSE,Alcoholic hepatic failure
+Chronic health,Liver,K71.7,ICD-10-CM,Exact,,,FALSE,FALSE,Toxic liver disease with fibrosis and cirrhosis
+Chronic health,Liver,K74.3,ICD-10-CM,Exact,,,FALSE,FALSE,Primary biliary cirrhosis
+Chronic health,Liver,K74.4,ICD-10-CM,Exact,,,FALSE,FALSE,Secondary biliary cirrhosis
+Chronic health,Liver,K74.5,ICD-10-CM,Exact,,,FALSE,FALSE,"Biliary cirrhosis, unspecified"
+Chronic health,Liver,K74.6,ICD-10-CM,Prefix,,,FALSE,FALSE,Other and unspecified cirrhosis of liver
+Chronic health,Liver,K72.1,ICD-10-CM,Prefix,,,FALSE,FALSE,Chronic hepatic failure
+Chronic health,Cardiovascular,I50.84,ICD-10-CM,Exact,,,FALSE,FALSE,End stage heart failure (FY2018+)
+Chronic health,Cardiovascular,Z95.811,ICD-10-CM,Exact,,,FALSE,FALSE,Presence of heart assist device
+Chronic health,Cardiovascular,I50,ICD-10-CM,Prefix,,,TRUE,FALSE,"Heart failure, any (optional: Kao & Gulbis used all I50 codes)"
+Chronic health,Respiratory,J96.1,ICD-10-CM,Prefix,,,FALSE,FALSE,Chronic respiratory failure
+Chronic health,Respiratory,J96.2,ICD-10-CM,Prefix,,,FALSE,FALSE,Acute and chronic respiratory failure
+Chronic health,Respiratory,Z99.11,ICD-10-CM,Exact,,,FALSE,FALSE,Dependence on respirator [ventilator] status
+Chronic health,Respiratory,Z99.81,ICD-10-CM,Exact,,,FALSE,FALSE,Dependence on supplemental oxygen
+Chronic health,Respiratory,D75.1,ICD-10-CM,Exact,,,FALSE,FALSE,Secondary polycythemia
+Chronic health,Respiratory,I27.0,ICD-10-CM,Exact,,,FALSE,FALSE,Primary pulmonary hypertension
+Chronic health,Respiratory,I27.2,ICD-10-CM,Prefix,,,FALSE,FALSE,Other secondary pulmonary hypertension
+Chronic health,Respiratory,I27.8,ICD-10-CM,Prefix,,,FALSE,FALSE,Other specified pulmonary heart diseases
+Chronic health,Respiratory,E66.2,ICD-10-CM,Exact,,,FALSE,FALSE,Morbid obesity with alveolar hypoventilation
+Chronic health,Respiratory,J43,ICD-10-CM,Prefix,,,TRUE,FALSE,Emphysema (optional: severity not coded)
+Chronic health,Respiratory,J44,ICD-10-CM,Prefix,,,TRUE,FALSE,Other COPD (optional: severity not coded)
+Chronic health,Respiratory,J84,ICD-10-CM,Prefix,,,TRUE,FALSE,Interstitial pulmonary disease (optional: severity not coded)
+Chronic health,Renal,N18.6,ICD-10-CM,Exact,,,FALSE,FALSE,End stage renal disease
+Chronic health,Renal,Z99.2,ICD-10-CM,Exact,,,FALSE,FALSE,Dependence on renal dialysis
+Chronic health,Renal,Z91.15,ICD-10-CM,Prefix,,,FALSE,FALSE,Patient's noncompliance with renal dialysis
+Chronic health,Immunocompromised,B20,ICD-10-CM,Exact,,,FALSE,FALSE,HIV disease (AIDS)
+Chronic health,Immunocompromised,Z79.52,ICD-10-CM,Exact,,,FALSE,FALSE,Long term (current) use of systemic steroids
+Chronic health,Immunocompromised,Z79.6,ICD-10-CM,Prefix,,,FALSE,FALSE,Long term (current) use of immunomodulators and immunosuppressants (FY2023+)
+Chronic health,Immunocompromised,Z79.899,ICD-10-CM,Exact,,,TRUE,FALSE,Other long term drug therapy (optional: often immunosuppressants before FY2023)
+Chronic health,Immunocompromised,Z92.21,ICD-10-CM,Exact,,,FALSE,FALSE,Personal history of antineoplastic chemotherapy
+Chronic health,Immunocompromised,Z92.25,ICD-10-CM,Exact,,,FALSE,FALSE,Personal history of immunosuppression therapy
+Chronic health,Immunocompromised,Z92.3,ICD-10-CM,Exact,,,FALSE,FALSE,Personal history of irradiation
+Chronic health,Immunocompromised,Z51.11,ICD-10-CM,Exact,,,FALSE,FALSE,Encounter for antineoplastic chemotherapy
+Chronic health,Immunocompromised,Z51.12,ICD-10-CM,Exact,,,FALSE,FALSE,Encounter for antineoplastic immunotherapy
+Chronic health,Immunocompromised,D84.8,ICD-10-CM,Prefix,,,FALSE,FALSE,Other specified immunodeficiencies (incl. D84.821 due to drugs)
+Chronic health,Immunocompromised,D84.9,ICD-10-CM,Exact,,,FALSE,FALSE,"Immunodeficiency, unspecified"
+Chronic health,Immunocompromised,D80-D83,ICD-10-CM,Range,,,FALSE,FALSE,Primary immunodeficiencies
+Chronic health,Immunocompromised,D70.1,ICD-10-CM,Exact,,,FALSE,FALSE,Agranulocytosis secondary to cancer chemotherapy
+Chronic health,Immunocompromised,D61.810,ICD-10-CM,Exact,,,FALSE,FALSE,Antineoplastic chemotherapy induced pancytopenia
+Chronic health,Immunocompromised,Z94.0,ICD-10-CM,Exact,,,FALSE,FALSE,Kidney transplant status
+Chronic health,Immunocompromised,Z94.1,ICD-10-CM,Exact,,,FALSE,FALSE,Heart transplant status
+Chronic health,Immunocompromised,Z94.2,ICD-10-CM,Exact,,,FALSE,FALSE,Lung transplant status
+Chronic health,Immunocompromised,Z94.3,ICD-10-CM,Exact,,,FALSE,FALSE,Heart and lungs transplant status
+Chronic health,Immunocompromised,Z94.4,ICD-10-CM,Exact,,,FALSE,FALSE,Liver transplant status
+Chronic health,Immunocompromised,Z94.81,ICD-10-CM,Exact,,,FALSE,FALSE,Bone marrow transplant status
+Chronic health,Immunocompromised,Z94.82,ICD-10-CM,Exact,,,FALSE,FALSE,Intestine transplant status
+Chronic health,Immunocompromised,Z94.83,ICD-10-CM,Exact,,,FALSE,FALSE,Pancreas transplant status
+Chronic health,Immunocompromised,Z94.84,ICD-10-CM,Exact,,,FALSE,FALSE,Stem cells transplant status
+Chronic health,Immunocompromised,C91-C95,ICD-10-CM,Range,,,FALSE,FALSE,Leukemias
+Chronic health,Immunocompromised,C81-C86,ICD-10-CM,Range,,,FALSE,FALSE,Lymphomas
+Chronic health,Immunocompromised,C88,ICD-10-CM,Prefix,,,FALSE,FALSE,Malignant immunoproliferative diseases
+Chronic health,Immunocompromised,C96,ICD-10-CM,Prefix,,,FALSE,FALSE,"Other malignant neoplasms of lymphoid, hematopoietic and related tissue"
+Chronic health,Immunocompromised,C90,ICD-10-CM,Prefix,,,TRUE,FALSE,Multiple myeloma and plasma cell neoplasms (optional)

@@ -1,0 +1,51 @@
+setting,heading,knaus_category,weight,kind,use_nonoperative_weight_if_postop
+nonoperative,Respiratory failure or insufficiency from,Asthma/allergy,-2.108,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,COPD,-0.367,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Pulmonary edema (noncardiogenic),-0.251,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Postrespiratory arrest,-0.168,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Aspiration/poisoning/toxic,-0.142,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Pulmonary embolus,-0.128,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Infection,0.000,specific,FALSE
+nonoperative,Respiratory failure or insufficiency from,Neoplasm,0.891,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Hypertension,-1.798,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Rhythm disturbance,-1.368,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Congestive heart failure,-0.424,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Hemorrhagic shock/hypovolemia,0.493,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Coronary artery disease,-0.191,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Sepsis,0.113,specific,TRUE
+nonoperative,Cardiovascular failure or insufficiency from,Postcardiac arrest,0.393,specific,TRUE
+nonoperative,Cardiovascular failure or insufficiency from,Cardiogenic shock,-0.259,specific,FALSE
+nonoperative,Cardiovascular failure or insufficiency from,Dissecting thoracic/abdominal aneurysm,0.731,specific,FALSE
+nonoperative,Trauma,Multiple trauma,-1.228,specific,FALSE
+nonoperative,Trauma,Head trauma,-0.517,specific,FALSE
+nonoperative,Neurologic,Seizure disorder,-0.584,specific,FALSE
+nonoperative,Neurologic,ICH/SDH/SAH,0.723,specific,FALSE
+nonoperative,Other,Drug overdose,-3.353,specific,FALSE
+nonoperative,Other,Diabetic ketoacidosis,-1.507,specific,FALSE
+nonoperative,Other,GI bleeding,0.334,specific,FALSE
+nonoperative,"Organ system, if none of the above",Metabolic/renal,-0.885,system,FALSE
+nonoperative,"Organ system, if none of the above",Respiratory,-0.890,system,FALSE
+nonoperative,"Organ system, if none of the above",Neurologic,-0.759,system,FALSE
+nonoperative,"Organ system, if none of the above",Cardiovascular,0.470,system,FALSE
+nonoperative,"Organ system, if none of the above",Gastrointestinal,0.501,system,FALSE
+postoperative,Postoperative,Multiple trauma,-1.684,specific,FALSE
+postoperative,Postoperative,Admission due to chronic cardiovascular disease,-1.376,specific,FALSE
+postoperative,Postoperative,Peripheral vascular surgery,-1.315,specific,FALSE
+postoperative,Postoperative,Heart valve surgery,-1.261,specific,FALSE
+postoperative,Postoperative,Craniotomy for neoplasm,-1.245,specific,FALSE
+postoperative,Postoperative,Renal surgery for neoplasm,-1.204,specific,FALSE
+postoperative,Postoperative,Renal transplant,-1.042,specific,FALSE
+postoperative,Postoperative,Head trauma,-0.955,specific,FALSE
+postoperative,Postoperative,Thoracic surgery for neoplasm,-0.802,specific,FALSE
+postoperative,Postoperative,Craniotomy for ICH/SDH/SAH,-0.788,specific,FALSE
+postoperative,Postoperative,Laminectomy and other spinal cord surgery,-0.699,specific,FALSE
+postoperative,Postoperative,Hemorrhagic shock,-0.682,specific,FALSE
+postoperative,Postoperative,GI bleeding,-0.617,specific,FALSE
+postoperative,Postoperative,GI surgery for neoplasm,-0.248,specific,FALSE
+postoperative,Postoperative,Respiratory insufficiency after surgery,-0.140,specific,FALSE
+postoperative,Postoperative,GI perforation/obstruction,0.060,specific,FALSE
+postoperative,"Organ system, if none of the above",Neurologic,-1.150,system,FALSE
+postoperative,"Organ system, if none of the above",Cardiovascular,-0.797,system,FALSE
+postoperative,"Organ system, if none of the above",Respiratory,-0.610,system,FALSE
+postoperative,"Organ system, if none of the above",Gastrointestinal,-0.613,system,FALSE
+postoperative,"Organ system, if none of the above",Metabolic/renal,-0.196,system,FALSE

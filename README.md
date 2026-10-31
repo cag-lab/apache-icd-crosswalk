@@ -1,6 +1,6 @@
 # APACHE II diagnosis ↔ ICD-10 crosswalk
 
-CSV mappings from **ICD-10-CM diagnosis** and **ICD-10-PCS procedure** codes to
+CSV mappings (and a small Python helper) from **ICD-10-CM diagnosis** and **ICD-10-PCS procedure** codes to
 APACHE admission-diagnosis categories: 232 categories across 44 groups
 (cardiovascular, respiratory, neurologic, GI, genitourinary, acute renal failure, infection,
 metabolic, hematologic, cancer, musculoskeletal, toxicology and trauma).
@@ -24,6 +24,12 @@ on the APACHE form.
 | `data/code_map.csv` | One row per ICD code, prefix or range mapped to a category |
 | `data/trauma_regions.csv` | ICD-10-CM injury prefixes → body region (head, face, chest, abdomen, pelvis, spinal, extremity) |
 | `data/surgery_exclusions.csv` | Bedside ICD-10-PCS procedures that don't count as "surgery" |
+| `data/knaus_weights.csv` | Knaus 1985 APACHE II diagnostic category weights (non-operative and post-operative) |
+| `data/knaus_dx_map.csv` | APACHE category → Knaus diagnostic category, non-operative and post-operative |
+| `data/knaus_postop_procedures.csv` | ICD-10-PCS rules for the procedure-based post-operative Knaus categories |
+| `data/knaus_chapter_fallback.csv` | ICD chapter → organ system, when the principal diagnosis matches no category |
+| `data/chronic_health_categories.csv`, `data/chronic_health_codes.csv` | APACHE II chronic health conditions (liver, cardiovascular, respiratory, renal, immunocompromised), same format as the category files |
+| `apache_ii/` | Python: `apache2()` computes the APACHE II score and predicted mortality from your APS plus ICD codes |
 
 ## Groups
 
@@ -175,13 +181,140 @@ admissions, use only `A` codes.
 - **Older data.** Codes were checked against FY2026. Newer subcodes (e.g. I47.2x FY2024, K76.82 FY2023, F1x.13 FY2023) are listed as prefixes, so older parent codes still match, but codes that only exist in older releases weren't checked.
 - Category-specific caveats are in the `notes` column.
 
+## Calculating APACHE II and predicted mortality
+
+`apache_ii.apache2()` takes an Acute Physiology Score you've already calculated
+and adds the rest from ICD codes:
+
+```
+APACHE II = APS + age points + chronic health points
+
+logit = -3.517 + 0.146 × APACHE II + 0.603 (if after emergency surgery) + diagnostic category weight
+predicted hospital mortality = 1 / (1 + e^-logit)
+```
+
+| Piece | How it's derived |
+|---|---|
+| Age points | ≤44: 0 · 45–54: 2 · 55–64: 3 · 65–74: 5 · ≥75: 6 |
+| Chronic health points | 5 if a chronic health condition is coded and the patient is non-operative or emergency post-op; 2 if elective post-op; else 0. Conditions come from `chronic_health_codes.csv`, or pass your own `chronic_health` column |
+| Diagnostic category weight | From the principal diagnosis (and, post-op, the procedures); see below. Or pass your own `knaus_category` column |
+| Emergency surgery term | +0.603 when `operative_status = emergency` |
+
+### Usage
+
+Requires Python ≥ 3.9 and pandas (`pip install -r requirements.txt`).
+
+```python
+import pandas as pd
+from apache_ii import apache2
+
+stays = pd.DataFrame({
+    "stay_id":          [1, 2],
+    "aps":              [20, 18],            # your Acute Physiology Score (0-60)
+    "age":              [70, 50],
+    "operative_status": ["nonoperative", "emergency"],   # or "elective"
+})
+codes = pd.DataFrame({                        # one row per code per stay
+    "stay_id":      [1, 1, 1, 2, 2],
+    "code":         ["A41.9", "J18.9", "N18.6", "S06.5X0A", "00C40ZZ"],
+    "code_system":  ["ICD-10-CM", "ICD-10-CM", "ICD-10-CM", "ICD-10-CM", "ICD-10-PCS"],
+    "is_principal": [True, False, False, True, False],
+})
+result = apache2(stays, codes)
+```
+
+| stay | APACHE II | chronic health | Knaus category | source | weight | predicted mortality |
+|---|---|---|---|---|---|---|
+| 1 | 30 (20 + 5 age + 5 chronic) | Renal (N18.6) | Sepsis (non-operative) | principal diagnosis: Sepsis, pulmonary | 0.113 | 72.6% |
+| 2 | 20 (18 + 2 age) | none | Craniotomy for ICH/SDH/SAH (post-operative) | procedure: 00C40ZZ | −0.788 | 31.4% |
+
+Output columns: `age_points`, `chronic_health`, `chronic_health_conditions`,
+`chronic_health_source`, `chronic_health_points`, `apache2_score`,
+`knaus_setting`, `knaus_category`, `knaus_source`, `dx_weight`,
+`emergency_surgery_term`, `logit`, `predicted_mortality`, and
+`acute_renal_failure_coded` (from the Acute renal failure group, in case you
+want to check the creatinine doubling in your APS).
+
+Options:
+
+- `include_optional_chronic=True` also counts the borderline chronic health codes (any heart failure, COPD/emphysema/ILD, myeloma, Z79.899).
+- `unmapped_system="Metabolic/renal"` (or another organ system) fills in stays where no Knaus category fits; by default their weight and mortality are left empty.
+- `surgery_stays={...}` uses your operating-room data instead of ICD-10-PCS for the "surgery for" diagnosis categories.
+- Column names: `stay_col`, `aps_col`, `age_col`, `status_col`, `chronic_col`, `knaus_col`, `code_col`, `system_col`, `principal_col`.
+
+`apache_ii.flag_stays(codes)` gives the yes/no flags for every group in `categories.csv`.
+
+### Choosing the Knaus diagnostic category
+
+**Non-operative:** every APACHE category matched by the principal diagnosis is
+looked up in `knaus_dx_map.csv`. A specific Knaus category (e.g. Sepsis, GI
+bleeding, Drug overdose) beats an organ-system one; ties go to the order of
+`knaus_weights.csv`. If nothing matches, the principal diagnosis's ICD chapter
+gives the organ system (`knaus_chapter_fallback.csv`).
+
+**Post-operative (elective or emergency):**
+
+1. Sepsis or post-cardiac arrest → the **non-operative** weight, as Knaus specifies.
+2. An operation tied to a diagnosis: craniotomy for ICH/SDH/SAH or neoplasm, or renal, thoracic or GI surgery for neoplasm (`knaus_postop_procedures.csv`, rows with `required_dx_prefixes`).
+3. Multiple or head trauma, from the principal diagnosis.
+4. Other operations: renal transplant, heart valve surgery, CABG/heart transplant ("chronic cardiovascular disease"), spinal surgery, peripheral vascular surgery.
+5. The post-operative category from `knaus_dx_map.csv` (GI bleeding, GI perforation/obstruction, hemorrhagic shock, respiratory insufficiency, or an organ system).
+6. ICD chapter fallback.
+
+Operations count when they meet the surgery definition above (open or
+laparoscopic, not a bedside procedure).
+
+### Mapping judgement calls
+
+`knaus_dx_map.csv` marks each row's `basis`:
+
+- `specific`: a named Knaus category fits directly.
+- `system`: only an organ system fits.
+- `assumed`: a judgement call, explained in `notes`. For example, ruptured aortic aneurysm uses the dissecting-aneurysm weight, CO poisoning uses "Aspiration/poisoning/toxic", and withdrawal uses neurologic.
+- `none`: nothing in Knaus fits. This covers hematologic disorders, cancers outside the GI, respiratory, renal, CNS and endocrine sites, musculoskeletal disease, cellulitis and burns (APACHE II wasn't developed for burn patients). These get no weight unless you set `unmapped_system` or pass `knaus_category`.
+
+### Chronic health from codes
+
+APACHE II counts organ insufficiency or immunocompromise **present before this
+admission**. Codes can't show NYHA class, biopsy results or exercise
+limitation, so `chronic_health_codes.csv` uses the closest markers:
+
+| Condition | Coded as |
+|---|---|
+| Liver | Cirrhosis or chronic hepatic failure **plus** portal hypertension, varices, hepatic failure/encephalopathy, ascites or hepatorenal syndrome |
+| Cardiovascular (NYHA IV) | End-stage heart failure (I50.84) or a heart assist device (Z95.811); any heart failure is optional |
+| Respiratory | Chronic respiratory failure, home oxygen, ventilator dependence, secondary polycythemia, pulmonary hypertension, obesity hypoventilation; COPD/emphysema/ILD optional |
+| Renal | ESRD, dialysis dependence, missed dialysis |
+| Immunocompromised | AIDS, systemic steroids, immunosuppressants, chemotherapy, radiation history, immunodeficiency, solid-organ or marrow transplant, leukemia, lymphoma; myeloma optional |
+
+The lists started from Kao & Gulbis (2016) and were narrowed to the APACHE II
+definitions. For example, inhaled steroids and peripheral arterial disease are
+left out, and transplant status is added. If your data has present-on-admission
+indicators, drop codes with POA = N before calling `apache2()`, so conditions
+that started during the stay don't count.
+
+### Caveats
+
+- APACHE II was calibrated on 1979–1982 ICU data and tends to **overestimate** mortality in modern ICUs. Use it to compare groups or adjust for severity, not as an individual prognosis, and recalibrate or report standardized mortality ratios for benchmarking.
+- Knaus intended one diagnostic category, the main reason for ICU admission, chosen by a clinician. The rules above approximate that from billing codes, and `knaus_source` shows which rule was used for each stay.
+- APACHE II wasn't developed for burn patients or children. Check the exclusions in Knaus 1985 against your cohort.
+
+## Tests
+
+```bash
+pip install pytest
+pytest
+```
+
 ## Background and related work
 
 - Knaus WA, Draper EA, Wagner DP, Zimmerman JE. APACHE II: a severity of disease classification system. *Crit Care Med.* 1985;13(10):818–829.
-- Kao E, Gulbis B. *Validation of ICD-9-CM/ICD-10-CM Codes for Automated Electronic Scoring of APACHE II, APACHE III, and SAPS II* (supplemental material, 2016). ICD lists for the APACHE II chronic-health comorbidities: https://rstudio-pubs-static.s3.amazonaws.com/231351_940f14aa51a6427a9e92d5a04daefc3e.html
+- Kao E, Gulbis B. *Validation of ICD-9-CM/ICD-10-CM Codes for Automated Electronic Scoring of APACHE II, APACHE III, and SAPS II* (supplemental material, 2016). ICD lists for the APACHE II chronic-health comorbidities, used as the starting point for `chronic_health_codes.csv`: https://rstudio-pubs-static.s3.amazonaws.com/231351_940f14aa51a6427a9e92d5a04daefc3e.html
 - `icuriskr` (R): https://github.com/bgulbis/icuriskr
 - MIT-LCP `mimic-code` (SQL for SAPS II / APS III, including surgical-status flags): https://github.com/MIT-LCP/mimic-code
+- Diagnostic category weights cross-checked against the SFAR APACHE II calculator (https://sfar.org/scores2/apache22.php) and the MSD Manual APACHE II calculator.
 - ICD-10-CM code list used for validation: CMS/CDC April 2026 release, via https://github.com/StefanoTrv/simple_icd_10_CM
 
-These mappings cover APACHE **admission diagnosis categories**. They don't
-cover the APACHE II chronic-health comorbidity points; see Kao & Gulbis for those.
+The Acute Physiology Score itself (the 12 physiologic variables) isn't derived
+here; it needs vital signs and labs. Everything else in the APACHE II score and
+mortality equation is.

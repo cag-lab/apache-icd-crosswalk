@@ -1,0 +1,8 @@
+icd_prefix,system,description
+I6,Neurologic,Cerebrovascular diseases
+I,Cardiovascular,Circulatory system
+J,Respiratory,Respiratory system
+G,Neurologic,Nervous system
+K,Gastrointestinal,Digestive system
+E,Metabolic/renal,"Endocrine, nutritional and metabolic"
+N,Metabolic/renal,Genitourinary system
