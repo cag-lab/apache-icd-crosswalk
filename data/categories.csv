@@ -128,7 +128,7 @@ GU infection,Renal infection/abscess,any,,,FALSE,,,FALSE,No sepsis code required
 Genitourinary,Pre-eclampsia/eclampsia,any,,,FALSE,,,FALSE,
 Genitourinary,"Hemorrhage, postpartum",any,,,FALSE,,,FALSE,
 Genitourinary,Renal bleeding,any,,,FALSE,,,FALSE,
-Genitourinary,"Genitourinary medical, other",residual,,,FALSE,,,TRUE,Catch-all. Acute kidney injury (N17) lands here; no APACHE option on your list covers it separately.
+Genitourinary,"Genitourinary medical, other",residual,,,FALSE,,,TRUE,"Catch-all. Acute kidney injury (N17) is its own group, 'Acute renal failure', so it isn't counted here."
 Skin/soft tissue infection,"Sepsis, cutaneous/soft tissue",with_required_dx,L02|L03|L08|A46|M72.6|A48.0|N61.1|L05.0|T81.41|T81.42,,FALSE,,,FALSE,A sepsis code plus a skin or soft tissue infection code on the same stay.
 Skin/soft tissue infection,Cellulitis and localized soft tissue infections,any,,,FALSE,,,FALSE,
 "Infection, other","Sepsis, other",with_required_dx,I33.0|I38|I39|I30.1|M00|M01|M86|T82.6|T82.7|T84.5|T84.6|T84.7|T85.7|T80.2|J98.51|T81.43|T81.49,,FALSE,,,FALSE,"A sepsis code plus an infection at another site: endocarditis, infective pericarditis, bone or joint infection, device, graft or line infection, mediastinitis, organ/space surgical site infection."
@@ -230,3 +230,4 @@ Trauma,Extremity only trauma,trauma,,,FALSE,,extremity,FALSE,Body regions come f
 Trauma,Burn,any,,,FALSE,,,FALSE,
 Trauma,"Trauma surgery, other",any,,,TRUE,,,FALSE,"Injury codes without a body region, plus an operation. Requires an open or laparoscopic operation (any body system) on the same stay."
 Trauma,"Trauma medical, other",any,,,FALSE,,,FALSE,"Injury codes without a body region (multiple unspecified, unspecified region, early complications of trauma, frostbite)."
+Acute renal failure,Acute renal failure,any,,N18.6|Z99.2|Z91.15,FALSE,,,FALSE,"APACHE II doubles the creatinine points for acute renal failure. Excluded if the stay has end-stage renal disease (N18.6), dialysis dependence (Z99.2) or missed dialysis (Z91.15): those patients aren't acute renal failure. Codes can only give 'yes' or 'no': no AKI code doesn't prove there was none, so 'unknown' has to come from your own data (e.g. no creatinine values). The dialysis procedure codes are optional; they catch stays where AKI needing dialysis wasn't coded. Coded AKI is also a looser definition than the creatinine-based one; consider checking KDIGO criteria against labs."

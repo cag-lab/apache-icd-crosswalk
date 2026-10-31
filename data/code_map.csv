@@ -1008,3 +1008,14 @@ Trauma,"Trauma medical, other",T79,ICD-10-CM,Prefix,,,FALSE,FALSE,Certain early 
 Trauma,"Trauma medical, other",T79.6,ICD-10-CM,Prefix,,,FALSE,TRUE,Traumatic ischemia of muscle (under rhabdomyolysis)
 Trauma,"Trauma medical, other",T33,ICD-10-CM,Prefix,,,FALSE,FALSE,Superficial frostbite
 Trauma,"Trauma medical, other",T34,ICD-10-CM,Prefix,,,FALSE,FALSE,Frostbite with tissue necrosis
+Acute renal failure,Acute renal failure,N17,ICD-10-CM,Prefix,,,FALSE,FALSE,"Acute kidney failure (N17.0 tubular necrosis, N17.1 cortical necrosis, N17.2 medullary necrosis, N17.8 other, N17.9 unspecified)"
+Acute renal failure,Acute renal failure,N99.0,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural (acute)(chronic) kidney failure
+Acute renal failure,Acute renal failure,O90.4,ICD-10-CM,Prefix,,,FALSE,FALSE,Postpartum acute kidney failure (incl. O90.41 hepatorenal syndrome following labor and delivery)
+Acute renal failure,Acute renal failure,O08.4,ICD-10-CM,Exact,,,FALSE,FALSE,Renal failure following ectopic and molar pregnancy
+Acute renal failure,Acute renal failure,T79.5,ICD-10-CM,Prefix,,,FALSE,FALSE,Traumatic anuria (crush syndrome)
+Acute renal failure,Acute renal failure,K76.7,ICD-10-CM,Exact,,,TRUE,FALSE,Hepatorenal syndrome (optional)
+Acute renal failure,Acute renal failure,N19,ICD-10-CM,Exact,,,TRUE,FALSE,Unspecified kidney failure (optional: may be chronic)
+Acute renal failure,Acute renal failure,R34,ICD-10-CM,Exact,,,TRUE,FALSE,Anuria and oliguria (optional)
+Acute renal failure,Acute renal failure,5A1D70Z,ICD-10-PCS,Exact,,,TRUE,FALSE,"Performance of urinary filtration, intermittent, less than 6 hours per day (intermittent hemodialysis) (optional)"
+Acute renal failure,Acute renal failure,5A1D80Z,ICD-10-PCS,Exact,,,TRUE,FALSE,"Performance of urinary filtration, prolonged intermittent, 6-18 hours per day (optional)"
+Acute renal failure,Acute renal failure,5A1D90Z,ICD-10-PCS,Exact,,,TRUE,FALSE,"Performance of urinary filtration, continuous, greater than 18 hours per day (CRRT) (optional)"

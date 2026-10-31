@@ -1,8 +1,8 @@
 # APACHE II diagnosis ↔ ICD-10 crosswalk
 
 CSV mappings from **ICD-10-CM diagnosis** and **ICD-10-PCS procedure** codes to
-APACHE admission-diagnosis categories: 231 categories across 43 groups
-(cardiovascular, respiratory, neurologic, GI, genitourinary, infection,
+APACHE admission-diagnosis categories: 232 categories across 44 groups
+(cardiovascular, respiratory, neurologic, GI, genitourinary, acute renal failure, infection,
 metabolic, hematologic, cancer, musculoskeletal, toxicology and trauma).
 
 Each **group** is one yes/no flag ("diagnosed with a GI bleed during the ICU
@@ -38,6 +38,7 @@ on the APACHE form.
 | Pulmonary infection · Respiratory arrest · Asthma · Respiratory (medical) | pneumonia by organism type, pulmonary sepsis; respiratory medical: PE, pneumothorax, effusion, hemoptysis, airway obstruction, smoke inhalation, drowning, atelectasis, restrictive disease, sleep apnea, weaning, *respiratory other* |
 | GI perforation · GI bleeding · Pancreatitis · GI infection · GI | GI: hepatic encephalopathy/failure, hepatorenal, cholangitis, peritonitis, abscess, obstruction, ischemia, IBD, peptic ulcer, diverticular disease, *GI other* |
 | GU infection · Genitourinary | pre-eclampsia, postpartum hemorrhage, renal bleeding, *GU other* |
+| Acute renal failure | acute kidney failure codes, excluding stays with chronic dialysis (the APACHE II creatinine-doubling flag) |
 | Skin/soft tissue infection · Infection, other | sepsis by site; "Sepsis, unknown" = no site coded |
 | DKA/HHNC · Metabolic · Hypovolemia · Anaphylaxis | metabolic: thyroid storm, myxedema, Addison's, hypoglycemia, heat/cold, electrolytes, *metabolic other* |
 | Hematologic · Hematologic surgery | anemia, neutropenia, thrombocytopenia, sickle crisis, transfusion reaction, coagulopathy |
@@ -103,7 +104,7 @@ Compare codes with the dots removed (`T39.012A` → `T39012A`) if your data stor
 The "medical, other" categories (`catch_all = TRUE`) take every leftover code in
 their ICD chapter. That's what APACHE intends for a *principal* diagnosis, but
 as yes/no flags they'd turn on for almost anyone: reflux, hyperlipidemia, COPD,
-acute kidney injury. Leave them out when building flags; keep them when
+benign prostatic hyperplasia. Leave them out when building flags; keep them when
 assigning an admission diagnosis.
 
 Other residual categories (`Leukemia, other`, `Overdose, other toxin, poison or drug`, `Cancer, other site`) are specific enough to keep in both.
@@ -167,6 +168,7 @@ admissions, use only `A` codes.
 
 - **Timing.** ICD codes don't record when something happened. "Cardiac arrest in the first 24 hours" and "MI > 24 h after onset" can't be read from codes alone; use present-on-admission indicators or chart data.
 - **Flags count chronic disease.** Asthma, CHF, rheumatoid arthritis, anemia and similar flags turn on for any coded instance, including stable chronic disease. Narrow with present-on-admission or principal-diagnosis filters if you need acute episodes only.
+- **Acute renal failure "unknown".** Codes can only answer yes or no; a stay with no AKI code isn't proof there was none. Coded AKI is also looser than a creatinine-based definition, so consider checking against labs.
 - **Lithium** shares T43.59 with atypical antipsychotics, so it lands under sedatives/antipsychotics.
 - **Spinal cord only trauma** also catches spine fractures without cord injury.
 - **Weaning from ventilation** uses Z99.11, which can't tell a transfer-in for weaning from a long-term ventilated patient.
