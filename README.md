@@ -1,7 +1,7 @@
 # APACHE II diagnosis ↔ ICD-10 crosswalk
 
 CSV mappings (and a small Python helper) from **ICD-10-CM diagnosis** and **ICD-10-PCS procedure** codes to
-APACHE admission-diagnosis categories: 232 categories across 44 groups
+APACHE admission-diagnosis categories: 234 categories across 44 groups
 (cardiovascular, respiratory, neurologic, GI, genitourinary, acute renal failure, infection,
 metabolic, hematologic, cancer, musculoskeletal, toxicology and trauma).
 
@@ -41,7 +41,7 @@ on the APACHE form.
 | Rhythm, ventricular · Rhythm, atrial/supraventricular · Rhythm, conduction defect | |
 | CVA | stroke, intracranial hemorrhage, SAH/aneurysm, SAH/AVM, and the "surgery for" versions |
 | Subdural hematoma · Coma · Seizures · Neuro infection · Neuro (medical) | neuro medical: encephalopathy, GBS, myasthenia, ALS, hydrocephalus, epidural hematoma, cranial nerve palsy, neuromuscular, *neuro other* |
-| Pulmonary infection · Respiratory arrest · Asthma · Respiratory (medical) | pneumonia by organism type, pulmonary sepsis; respiratory medical: PE, pneumothorax, effusion, hemoptysis, airway obstruction, smoke inhalation, drowning, atelectasis, restrictive disease, sleep apnea, weaning, *respiratory other* |
+| Pulmonary infection · Respiratory arrest · Asthma · Respiratory (medical) | pneumonia by organism type, COVID-19, pulmonary sepsis; respiratory medical: PE, pneumothorax, effusion, hemoptysis, airway obstruction, smoke inhalation, vaping lung injury, drowning, atelectasis, restrictive disease, sleep apnea, weaning, *respiratory other* |
 | GI perforation · GI bleeding · Pancreatitis · GI infection · GI | GI: hepatic encephalopathy/failure, hepatorenal, cholangitis, peritonitis, abscess, obstruction, ischemia, IBD, peptic ulcer, diverticular disease, *GI other* |
 | GU infection · Genitourinary | pre-eclampsia, postpartum hemorrhage, renal bleeding, *GU other* |
 | Acute renal failure | acute kidney failure codes, excluding stays with chronic dialysis (the APACHE II creatinine-doubling flag) |

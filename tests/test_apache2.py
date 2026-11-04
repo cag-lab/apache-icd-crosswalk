@@ -161,3 +161,24 @@ def test_every_dx_map_category_exists():
     cats = {r["category"] for r in csv.DictReader(open(d / "categories.csv"))}
     mapped = {r["category"] for r in csv.DictReader(open(d / "knaus_dx_map.csv"))}
     assert cats == mapped
+
+
+def test_covid_respiratory_failure():
+    df = codes(
+        (1, "U07.1", CM, True), (1, "J12.82", CM, False), (1, "J96.01", CM, False),   # COVID pneumonia + resp failure
+        (2, "A41.89", CM, True), (2, "U07.1", CM, False),                             # viral sepsis due to COVID
+        (3, "U07.0", CM, True),                                                       # vaping injury, not COVID
+    )
+    s = stays((1, 20, 60, "nonoperative"), (2, 20, 60, "nonoperative"), (3, 20, 60, "nonoperative"))
+    r = by_stay(apache2(s, df))
+    assert r.at[1, "knaus_category"] == "Infection" and r.at[1, "dx_weight"] == 0.0
+    assert r.at[1, "predicted_mortality"] == pytest.approx(mort(23, 0.0))
+    assert r.at[2, "knaus_category"] == "Sepsis"
+    assert r.at[3, "knaus_category"] == "Aspiration/poisoning/toxic"
+
+
+def test_covid_flags():
+    from apache_ii import flag_stays
+    f = flag_stays(codes((1, "U07.1", CM, True), (2, "A41.89", CM, True), (2, "U07.1", CM, False)), level="category")
+    assert f.loc[1, "COVID-19 (not an APACHE option; counts as respiratory infection)"]
+    assert f.loc[2, "Sepsis, pulmonary"] and not f.loc[2, "Sepsis, unknown"]

@@ -83,6 +83,7 @@ Encephalopathies (excluding hepatic),,Neurologic,Neurologic,system,
 "Pneumonia, viral",,Infection,Respiratory,specific,
 "Pneumonia, bacterial",,Infection,Respiratory,specific,
 "Pneumonia, other",,Infection,Respiratory,specific,
+COVID-19 (not an APACHE option; counts as respiratory infection),,Infection,Respiratory,specific,Knaus 'Respiratory failure or insufficiency from: Infection' (weight 0).
 "Arrest, respiratory (without cardiac arrest)",,Postrespiratory arrest,Respiratory,specific,
 Asthma,,Asthma/allergy,Respiratory,specific,
 "Embolus, pulmonary",,Pulmonary embolus,Respiratory,specific,
@@ -98,6 +99,7 @@ Atelectasis,,Respiratory,Respiratory,system,
 "Apnea, sleep",,Respiratory,Respiratory,system,
 "Chest pain, respiratory",,Respiratory,Respiratory,system,
 Weaning from mechanical ventilation (transfer from other unit or hospital only),,Respiratory,Respiratory,system,
+Vaping-related lung injury (not an APACHE option),,Aspiration/poisoning/toxic,Respiratory,assumed,Toxic inhalational lung injury; mapped to 'Aspiration/poisoning/toxic'.
 "Respiratory - medical, other",,Respiratory,Respiratory insufficiency after surgery,system,Respiratory failure without a more specific cause (e.g. J96.0x). COPD codes are mapped separately.
 "GI perforation/rupture, surgery for",,Gastrointestinal,GI perforation/obstruction,system,
 GI perforation/rupture,,Gastrointestinal,GI perforation/obstruction,system,

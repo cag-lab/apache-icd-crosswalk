@@ -394,6 +394,9 @@ Pulmonary infection,"Pneumonia, other",J18,ICD-10-CM,Prefix,,,FALSE,FALSE,"Pneum
 Pulmonary infection,"Pneumonia, other",J95.851,ICD-10-CM,Exact,,,FALSE,FALSE,Ventilator associated pneumonia
 Pulmonary infection,"Pneumonia, other",J85,ICD-10-CM,Prefix,,,FALSE,FALSE,Abscess of lung and mediastinum
 Pulmonary infection,"Pneumonia, other",J86,ICD-10-CM,Prefix,,,FALSE,FALSE,Pyothorax (empyema)
+Pulmonary infection,COVID-19 (not an APACHE option; counts as respiratory infection),U07.1,ICD-10-CM,Exact,,,FALSE,FALSE,COVID-19
+Pulmonary infection,COVID-19 (not an APACHE option; counts as respiratory infection),J12.82,ICD-10-CM,Exact,,,FALSE,FALSE,Pneumonia due to coronavirus disease 2019
+Pulmonary infection,COVID-19 (not an APACHE option; counts as respiratory infection),B97.29,ICD-10-CM,Exact,,,TRUE,FALSE,Other coronavirus as the cause of diseases classified elsewhere (optional: COVID coding before April 2020)
 Respiratory arrest,"Arrest, respiratory (without cardiac arrest)",R09.2,ICD-10-CM,Exact,,,FALSE,FALSE,Respiratory arrest
 Asthma,Asthma,J45,ICD-10-CM,Prefix,,,FALSE,FALSE,Asthma (incl. exacerbation and status asthmaticus)
 Respiratory (medical),"Embolus, pulmonary",I26,ICD-10-CM,Prefix,,,FALSE,FALSE,Pulmonary embolism
@@ -436,6 +439,7 @@ Respiratory (medical),"Apnea, sleep",E66.2,ICD-10-CM,Exact,,,TRUE,FALSE,Morbid o
 Respiratory (medical),"Chest pain, respiratory",R07.1,ICD-10-CM,Exact,,,FALSE,FALSE,Chest pain on breathing
 Respiratory (medical),"Chest pain, respiratory",R07.81,ICD-10-CM,Exact,,,FALSE,FALSE,Pleurodynia
 Respiratory (medical),Weaning from mechanical ventilation (transfer from other unit or hospital only),Z99.11,ICD-10-CM,Exact,,,FALSE,FALSE,Dependence on respirator [ventilator] status
+Respiratory (medical),Vaping-related lung injury (not an APACHE option),U07.0,ICD-10-CM,Exact,,,FALSE,FALSE,Vaping-related disorder (EVALI)
 Respiratory (medical),"Respiratory - medical, other",J00-J99,ICD-10-CM,Range,,,FALSE,FALSE,"Diseases of the respiratory system not assigned to a more specific category (e.g., COPD)"
 GI perforation,"GI perforation/rupture, surgery for",K22.3,ICD-10-CM,Exact,,,FALSE,FALSE,Perforation of esophagus
 GI perforation,"GI perforation/rupture, surgery for",K63.1,ICD-10-CM,Exact,,,FALSE,FALSE,Perforation of intestine (nontraumatic)
