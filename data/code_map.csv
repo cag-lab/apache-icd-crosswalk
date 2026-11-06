@@ -740,7 +740,7 @@ Genitourinary,Renal bleeding,N02,ICD-10-CM,Prefix,,,FALSE,FALSE,Recurrent and pe
 Genitourinary,Renal bleeding,R31.0,ICD-10-CM,Exact,,,FALSE,FALSE,Gross hematuria
 Genitourinary,Renal bleeding,R31.9,ICD-10-CM,Exact,,,FALSE,FALSE,"Hematuria, unspecified"
 Genitourinary,Renal bleeding,N99.82,ICD-10-CM,Prefix,,,FALSE,FALSE,Postprocedural hemorrhage of a genitourinary system organ
-Genitourinary,"Genitourinary medical, other",N00-N99,ICD-10-CM,Range,,,FALSE,FALSE,Diseases of the genitourinary system not assigned to a more specific category (incl. N17 acute kidney injury)
+Genitourinary,"Genitourinary medical, other",N00-N99,ICD-10-CM,Range,,,FALSE,FALSE,Diseases of the genitourinary system not assigned to a more specific category (N17 acute kidney injury is under Acute renal failure)
 Skin/soft tissue infection,"Sepsis, cutaneous/soft tissue",A40,ICD-10-CM,Prefix,,,FALSE,FALSE,Streptococcal sepsis
 Skin/soft tissue infection,"Sepsis, cutaneous/soft tissue",A41,ICD-10-CM,Prefix,,,FALSE,FALSE,"Other sepsis (incl. A41.9 sepsis, unspecified organism)"
 Skin/soft tissue infection,"Sepsis, cutaneous/soft tissue",A02.1,ICD-10-CM,Exact,,,FALSE,FALSE,Salmonella sepsis
