@@ -28,7 +28,7 @@ on the APACHE form.
 | `data/knaus_dx_map.csv` | APACHE category → Knaus diagnostic category, non-operative and post-operative |
 | `data/knaus_postop_procedures.csv` | ICD-10-PCS rules for the procedure-based post-operative Knaus categories |
 | `data/knaus_chapter_fallback.csv` | ICD chapter → organ system, when the principal diagnosis matches no category (plus hypovolemic shock, R57.1, which Knaus names directly) |
-| `data/knaus_failure_codes.csv` | Organ-failure principal diagnoses (J96.x respiratory failure, R57.8/R57.9 shock) and the order in which to look for their cause among the secondary diagnoses |
+| `data/knaus_failure_codes.csv`, `data/knaus_failure_causes.csv` | Organ-failure principal diagnoses (J96.0/J96.2/J96.9 respiratory failure, R57.8/R57.9 shock), and the ordered list of causes to look for among the secondary diagnoses, with any code limits |
 | `data/chronic_health_categories.csv`, `data/chronic_health_codes.csv` | APACHE II chronic health conditions (liver, cardiovascular, respiratory, renal, immunocompromised), same format as the category files |
 | `apache_ii/` | Python: `apache2()` computes the APACHE II score and predicted mortality from your APS plus ICD codes |
 
@@ -185,7 +185,8 @@ admissions, use only `A` codes.
 ## Calculating APACHE II and predicted mortality
 
 `apache_ii.apache2()` takes an Acute Physiology Score you've already calculated
-(0–60; a value outside that range raises `ValueError`) and adds the rest from
+(0–60; a value outside that range leaves that stay's score empty and sets
+`aps_out_of_range`, or raises `ValueError` with `strict=True`) and adds the rest from
 ICD codes:
 
 ```
@@ -235,7 +236,8 @@ Output columns: `age_points`, `chronic_health`, `chronic_health_conditions`,
 `knaus_setting`, `knaus_category`, `knaus_source`, `dx_weight`,
 `emergency_surgery_term`, `logit`, `predicted_mortality`, and
 `acute_renal_failure_coded` (from the Acute renal failure group, in case you
-want to check the creatinine doubling in your APS).
+want to check the creatinine doubling in your APS), `aps_out_of_range` and
+`single_region_trauma` (both described above).
 
 Options:
 
@@ -256,14 +258,38 @@ gives the organ system (`knaus_chapter_fallback.csv`).
 
 Knaus weights respiratory and cardiovascular failure by cause ("respiratory
 failure or insufficiency from infection / COPD / pulmonary embolus …"). When
-the principal diagnosis names only the failure (J96.x, or shock R57.8/R57.9)
-and maps to no specific category, the cause is taken from the secondary
-diagnoses, using the `cause_priority` order in `knaus_failure_codes.csv`.
-Acute causes come before chronic ones, so respiratory failure with pneumonia
-and COPD both coded counts as infection; COPD or asthma is used only when no
-acute cause is coded. With no cause coded, the organ-system weight applies.
-Post-operative stays are unaffected (respiratory failure after surgery has its
-own category).
+the principal diagnosis names only the failure (acute or unspecified
+respiratory failure J96.0/J96.2/J96.9, or shock R57.8/R57.9) and maps to no
+specific category, the cause is taken from the secondary diagnoses: the first
+row in `knaus_failure_causes.csv` that matches wins. With no cause coded, the
+organ-system weight applies. Post-operative stays are unaffected (respiratory
+failure after surgery has its own category). The rules, from clinical review:
+
+- **Respiratory failure:** infection, then aspiration/poisoning (an overdose
+  counts here, as Knaus's "respiratory failure from poisoning"), pulmonary
+  embolus, noncardiogenic pulmonary edema, post-respiratory arrest, neoplasm,
+  COPD, asthma/allergy. Acute causes come first, so pneumonia with lung cancer
+  or COPD counts as infection. Any COPD code counts (stable COPD with
+  respiratory failure is usually an uncoded exacerbation, and the COPD weight
+  is less protective than the Respiratory fallback), except bronchiolitis
+  obliterans (J44.81). Asthma counts only with an exacerbation or status
+  asthmaticus code (J45.x1/J45.x2, J45.901/J45.902), plus anaphylaxis or
+  angioedema: stable asthma would otherwise get the most protective weight in
+  the table. Chronic respiratory failure (J96.1) doesn't trigger.
+- **Shock:** sepsis, hypovolemia/hemorrhage, GI bleeding (the same weight as
+  when the bleed is sequenced first), cardiogenic shock, post-arrest, dissecting
+  aneurysm, then acute cardiac causes only: acute coronary syndrome (I21, I22,
+  I20.0, and unstable angina coded with coronary disease), acute or
+  acute-on-chronic heart failure (I50.21/.23/.31/.33/.41/.43, I50.811/.813),
+  and ventricular tachycardia, fibrillation or flutter (I47.2, I49.0).
+  Atrial fibrillation, chronic coronary disease and unspecified heart failure
+  don't count. Hypovolemic shock (R57.1) maps straight to "Hemorrhagic
+  shock/hypovolemia".
+
+Single-region injuries (an isolated hip fracture, chest-only or extremity-only
+trauma) keep the Multiple trauma weight, the closest Knaus category, which
+likely overstates how protective it is for them. The `single_region_trauma`
+output column flags these stays for sensitivity analyses.
 
 **Post-operative (elective or emergency):**
 
@@ -311,6 +337,9 @@ that started during the stay don't count.
 - APACHE II was calibrated on 1979–1982 ICU data and tends to **overestimate** mortality in modern ICUs. Use it to compare groups or adjust for severity, not as an individual prognosis, and recalibrate or report standardized mortality ratios for benchmarking.
 - Knaus intended one diagnostic category, the main reason for ICU admission, chosen by a clinician. The rules above approximate that from billing codes, and `knaus_source` shows which rule was used for each stay.
 - APACHE II wasn't developed for burn patients or children. Check the exclusions in Knaus 1985 against your cohort.
+- **Diagnoses acquired during the stay.** The cause of an organ-failure principal diagnosis is read from all secondary diagnoses, including conditions that started after ICU admission (hospital-acquired pneumonia or sepsis). Drop codes with present-on-admission = N first if your data has POA indicators; MIMIC doesn't.
+- **Lung cancer with pneumonia is likely underpredicted.** Respiratory failure is credited to the infection (weight 0) rather than the cancer (+0.891), and APACHE II chronic health points don't cover solid tumors unless the patient is immunosuppressed.
+- **Sequencing still matters for poisoning.** An overdose coded first gets Drug overdose (−3.353); respiratory failure coded first with the overdose secondary gets "respiratory failure from poisoning" (−0.142).
 
 ## Tests
 

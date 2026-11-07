@@ -1,0 +1,19 @@
+failure,knaus_category,code_prefixes,exclude_code_prefixes,use_knaus_category,notes
+respiratory,Infection,,,,Acute causes first: infection is the usual driver even with cancer or COPD coded.
+respiratory,Aspiration/poisoning/toxic,,,,
+respiratory,Drug overdose,,,Aspiration/poisoning/toxic,Knaus lists poisoning under respiratory failure; an overdose sequenced first still gets Drug overdose.
+respiratory,Pulmonary embolus,,,,
+respiratory,Pulmonary edema (noncardiogenic),,,,
+respiratory,Postrespiratory arrest,,,,
+"respiratory",Neoplasm,,,,"After acute causes: respiratory failure in a cancer patient is usually infectious, so lung cancer with pneumonia is likely underpredicted."
+"respiratory",COPD,,J44.81,,"Any COPD code (stable COPD with respiratory failure is usually an uncoded exacerbation, and COPD is less protective than the Respiratory fallback); bronchiolitis obliterans (J44.81) is not COPD."
+"respiratory",Asthma/allergy,J45.21|J45.22|J45.31|J45.32|J45.41|J45.42|J45.51|J45.52|J45.901|J45.902|T78.0|T78.2|T78.3|T88.6|T80.5,,,"Asthma with exacerbation or status asthmaticus only, plus anaphylaxis/angioedema: stable asthma would get the most protective weight in the table."
+shock,Sepsis,,,,
+shock,Hemorrhagic shock/hypovolemia,,,,
+shock,GI bleeding,,,,Same weight as when the GI bleed is sequenced first.
+shock,Cardiogenic shock,,,,
+shock,Postcardiac arrest,,,,
+shock,Dissecting thoracic/abdominal aneurysm,,,,
+"shock",Coronary artery disease,I21|I22|I20.0|I25.110|I25.700|I25.710|I25.720|I25.730|I25.750|I25.760|I25.790,,,"Acute coronary syndrome only (MI, unstable angina); chronic ischemic heart disease does not count."
+"shock",Congestive heart failure,I50.21|I50.23|I50.31|I50.33|I50.41|I50.43|I50.811|I50.813,,,"Acute or acute-on-chronic heart failure only."
+"shock",Rhythm disturbance,I47.2|I49.0,,,"Ventricular tachycardia, fibrillation or flutter only; atrial fibrillation and other chronic rhythms do not count."

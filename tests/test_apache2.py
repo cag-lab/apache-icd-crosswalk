@@ -185,59 +185,131 @@ def test_covid_flags():
 
 
 # ------------------------------------------------- organ failure, shock, APS range
+def _knaus(rows, status="nonoperative"):
+    df = codes(*rows)
+    ids = sorted({r[0] for r in rows})
+    return by_stay(apache2(stays(*[(i, 20, 60, status) for i in ids]), df))
+
+
 def test_respiratory_failure_principal_uses_cause():
     # Knaus weights respiratory failure by its cause; J96.x coded first
     # shouldn't collapse every cause into the generic "Respiratory" weight.
-    df = codes(
-        (1, "J96.01", CM, True), (1, "J18.9", CM, False),                         # from pneumonia
-        (2, "J96.02", CM, True), (2, "J44.1", CM, False),                         # from COPD
+    r = _knaus([
+        (1, "J96.01", CM, True), (1, "J18.9", CM, False),                          # from pneumonia
+        (2, "J96.02", CM, True), (2, "J44.1", CM, False),                          # COPD exacerbation
         (3, "J96.01", CM, True), (3, "J44.9", CM, False), (3, "J18.9", CM, False),  # COPD + pneumonia -> infection
-        (4, "J96.01", CM, True), (4, "I26.99", CM, False),                        # from PE
-        (5, "J96.01", CM, True), (5, "C34.90", CM, False),                        # from lung cancer
-        (6, "J96.01", CM, True),                                                  # no cause coded
-    )
-    s = stays(*[(i, 20, 60, "nonoperative") for i in range(1, 7)])
-    r = by_stay(apache2(s, df))
+        (4, "J96.01", CM, True), (4, "I26.99", CM, False),                         # from PE
+        (5, "J96.01", CM, True), (5, "C34.90", CM, False),                         # lung cancer alone
+        (6, "J96.01", CM, True),                                                   # no cause coded
+        (7, "J96.01", CM, True), (7, "C34.90", CM, False), (7, "J18.9", CM, False),  # cancer + pneumonia -> infection
+        (8, "J96.22", CM, True), (8, "J44.9", CM, False),                          # stable COPD code still counts
+        (9, "J96.01", CM, True), (9, "J44.81", CM, False),                         # bronchiolitis obliterans is not COPD
+        (10, "J96.90", CM, True), (10, "J18.9", CM, False),                        # unspecified failure triggers too
+        (11, "J96.10", CM, True), (11, "J18.9", CM, False),                        # chronic failure doesn't
+    ])
     assert r.at[1, "knaus_category"] == "Infection" and r.at[1, "dx_weight"] == 0.0
+    assert r.at[1, "predicted_mortality"] == pytest.approx(mort(23, 0.0))
     assert r.at[2, "knaus_category"] == "COPD"
     assert r.at[3, "knaus_category"] == "Infection"
     assert r.at[4, "knaus_category"] == "Pulmonary embolus"
     assert r.at[5, "knaus_category"] == "Neoplasm"
     assert r.at[6, "knaus_category"] == "Respiratory"
-    assert r.at[1, "predicted_mortality"] == pytest.approx(mort(23, 0.0))
+    assert r.at[7, "knaus_category"] == "Infection"
+    assert r.at[8, "knaus_category"] == "COPD"
+    assert r.at[9, "knaus_category"] == "Respiratory"
+    assert r.at[10, "knaus_category"] == "Infection"
+    assert r.at[11, "knaus_category"] == "Respiratory"
+
+
+def test_asthma_cause_needs_exacerbation():
+    r = _knaus([
+        (1, "J96.01", CM, True), (1, "J45.901", CM, False),     # exacerbation
+        (2, "J96.01", CM, True), (2, "J45.52", CM, False),      # status asthmaticus
+        (3, "J96.01", CM, True), (3, "J45.909", CM, False),     # uncomplicated asthma
+        (4, "J96.01", CM, True), (4, "J45.991", CM, False),     # cough-variant asthma
+        (5, "J96.01", CM, True), (5, "T78.2XXA", CM, False),    # anaphylaxis
+    ])
+    assert r.at[1, "knaus_category"] == "Asthma/allergy"
+    assert r.at[2, "knaus_category"] == "Asthma/allergy"
+    assert r.at[3, "knaus_category"] == "Respiratory"
+    assert r.at[4, "knaus_category"] == "Respiratory"
+    assert r.at[5, "knaus_category"] == "Asthma/allergy"
+
+
+def test_poisoning_and_respiratory_failure_depend_on_sequencing():
+    # Same patient, two codings: documents the 3.2-logit swing.
+    r = _knaus([
+        (1, "J96.01", CM, True), (1, "T39.012A", CM, False),    # resp failure first: failure from poisoning
+        (2, "T39.012A", CM, True), (2, "J96.01", CM, False),    # overdose first
+    ])
+    assert r.at[1, "knaus_category"] == "Aspiration/poisoning/toxic" and r.at[1, "dx_weight"] == -0.142
+    assert r.at[2, "knaus_category"] == "Drug overdose" and r.at[2, "dx_weight"] == -3.353
 
 
 def test_respiratory_failure_postop_unchanged():
-    df = codes((1, "J96.01", CM, True), (1, "J18.9", CM, False))
-    r = by_stay(apache2(stays((1, 20, 60, "elective")), df))
+    r = _knaus([(1, "J96.01", CM, True), (1, "J18.9", CM, False)], status="elective")
     assert r.at[1, "knaus_category"] == "Respiratory insufficiency after surgery"
 
 
 def test_shock_principal_diagnoses():
-    df = codes(
+    r = _knaus([
         (1, "R57.1", CM, True),                                   # hypovolemic shock
         (2, "R57.9", CM, True), (2, "A41.9", CM, False),          # shock + sepsis
-        (3, "R57.9", CM, True), (3, "K92.2", CM, False),          # shock + GI bleed
-        (4, "R57.1", CM, True),                                   # post-op
+        (3, "R57.9", CM, True), (3, "K92.2", CM, False),          # shock + GI bleed: same as bleed sequenced first
         (5, "R57.9", CM, True),                                   # no cause coded
-    )
-    s = stays((1, 20, 60, "nonoperative"), (2, 20, 60, "nonoperative"), (3, 20, 60, "nonoperative"),
-              (4, 20, 60, "emergency"), (5, 20, 60, "nonoperative"))
-    r = by_stay(apache2(s, df))
+    ])
     assert r.at[1, "knaus_category"] == "Hemorrhagic shock/hypovolemia" and r.at[1, "dx_weight"] == 0.493
     assert r.at[2, "knaus_category"] == "Sepsis"
     assert r.at[3, "knaus_category"] == "GI bleeding"
-    assert r.at[4, "knaus_category"] == "Hemorrhagic shock" and r.at[4, "dx_weight"] == -0.682
     assert r.at[5, "knaus_category"] == "Cardiovascular"
+    post = _knaus([(4, "R57.1", CM, True)], status="emergency")
+    assert post.at[4, "knaus_category"] == "Hemorrhagic shock" and post.at[4, "dx_weight"] == -0.682
+
+
+def test_shock_cardiac_causes_must_be_acute():
+    r = _knaus([
+        (1, "R57.9", CM, True), (1, "I48.91", CM, False),     # atrial fibrillation: not a cause
+        (2, "R57.9", CM, True), (2, "I47.20", CM, False),     # ventricular tachycardia
+        (3, "R57.9", CM, True), (3, "I25.10", CM, False),     # chronic CAD: not a cause
+        (4, "R57.9", CM, True), (4, "I21.4", CM, False),      # NSTEMI
+        (5, "R57.9", CM, True), (5, "I50.9", CM, False),      # unspecified heart failure: not a cause
+        (6, "R57.9", CM, True), (6, "I50.23", CM, False),     # acute on chronic systolic HF
+    ])
+    assert r.at[1, "knaus_category"] == "Cardiovascular"
+    assert r.at[2, "knaus_category"] == "Rhythm disturbance"
+    assert r.at[3, "knaus_category"] == "Cardiovascular"
+    assert r.at[4, "knaus_category"] == "Coronary artery disease"
+    assert r.at[5, "knaus_category"] == "Cardiovascular"
+    assert r.at[6, "knaus_category"] == "Congestive heart failure"
+
+
+def test_single_region_trauma_flag():
+    df = codes(
+        (1, "S72.001A", CM, True),                                  # isolated hip fracture
+        (2, "S06.0X0A", CM, True), (2, "S82.101A", CM, False),      # head + extremity
+        (3, "I50.9", CM, True),
+    )
+    r = by_stay(apache2(stays((1, 20, 60, "nonoperative"), (2, 20, 60, "nonoperative"), (3, 20, 60, "nonoperative")), df))
+    assert r.at[1, "knaus_category"] == "Multiple trauma" and bool(r.at[1, "single_region_trauma"])
+    assert not r.at[2, "single_region_trauma"] and not r.at[3, "single_region_trauma"]
 
 
 @pytest.mark.parametrize("aps", [-1, 61])
-def test_aps_out_of_range(aps):
+def test_aps_out_of_range_is_flagged(aps):
+    df = codes((1, "I50.9", CM, True), (2, "I50.9", CM, True))
+    with pytest.warns(UserWarning, match="1 stay"):
+        r = by_stay(apache2(stays((1, aps, 60, "nonoperative"), (2, 20, 60, "nonoperative")), df))
+    assert bool(r.at[1, "aps_out_of_range"]) and pd.isna(r.at[1, "apache2_score"]) and pd.isna(r.at[1, "predicted_mortality"])
+    assert not r.at[2, "aps_out_of_range"] and r.at[2, "apache2_score"] == 23
     with pytest.raises(ValueError, match="outside 0-60"):
-        apache2(stays((1, aps, 60, "nonoperative")), codes((1, "I50.9", CM, True)))
+        apache2(stays((1, aps, 60, "nonoperative")), codes((1, "I50.9", CM, True)), strict=True)
 
 
 def test_aps_bounds_accepted():
     r = apache2(stays((1, 0, 60, "nonoperative"), (2, 60, 60, "nonoperative")),
                 codes((1, "I50.9", CM, True), (2, "I50.9", CM, True)))
-    assert list(r["apache2_score"]) == [3.0, 63.0]
+    assert list(r["apache2_score"]) == [3.0, 63.0] and not r["aps_out_of_range"].any()
+
+
+def test_mimic3_shifted_ages_get_six_points():
+    assert age_points(300) == 6

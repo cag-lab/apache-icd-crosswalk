@@ -14,6 +14,7 @@ using the tables in data/; both can be overridden per stay.
 from __future__ import annotations
 
 import math
+import warnings
 from pathlib import Path
 
 import pandas as pd
@@ -110,15 +111,17 @@ class _KnausPicker:
             key=lambda x: -len(x[0]),
         )
         # Principal diagnoses that name an organ failure but not its cause
-        # (J96.x respiratory failure, R57.8/R57.9 shock). Knaus weights these by
-        # cause ("respiratory failure from infection", ...), so the cause is
-        # read from the secondary diagnoses in cause_priority order.
+        # (acute respiratory failure, shock). Knaus weights these by cause
+        # ("respiratory failure from infection", ...), so the cause is read
+        # from the secondary diagnoses, in the order of knaus_failure_causes.csv.
         fc = _load("knaus_failure_codes.csv")
-        self.failure = sorted(
-            ((normalize(p), tuple(c.strip() for c in pr.split("|") if c.strip()))
-             for p, pr in zip(fc["icd_prefix"], fc["cause_priority"])),
-            key=lambda x: -len(x[0]),
-        )
+        self.failure = sorted(zip(fc["icd_prefix"].map(normalize), fc["failure"]), key=lambda x: -len(x[0]))
+        self.causes: dict[str, list[tuple]] = {}
+        for r in _load("knaus_failure_causes.csv").to_dict("records"):
+            self.causes.setdefault(r["failure"], []).append((
+                r["knaus_category"], _prefixes(r["code_prefixes"]), _prefixes(r["exclude_code_prefixes"]),
+                r["use_knaus_category"] or r["knaus_category"],
+            ))
         self.nonop_always = set(weights.loc[weights["use_nonoperative_weight_if_postop"], "knaus_category"])
         self.excl = load_surgery_exclusions()
         self.by_cat: dict[str, list[dict]] = {}
@@ -151,18 +154,19 @@ class _KnausPicker:
     def failure_cause(self, principal_n, secondary):
         """For an organ-failure principal diagnosis, the (category, Knaus
         category) of its cause among the secondary diagnoses, or None."""
-        priority = next((pr for p, pr in self.failure if principal_n.startswith(p)), None)
-        if not priority:
+        failure = next((f for p, f in self.failure if principal_n.startswith(p)), None)
+        if not failure:
             return None
-        found = {}
+        mapped = []
         for cat, code_n in secondary:
             r = self.map_row(cat, code_n)
-            k = r["nonoperative_knaus"] if r else ""
-            if k in priority and k not in found:
-                found[k] = cat
-        for k in priority:
-            if k in found:
-                return found[k], k
+            if r and r["nonoperative_knaus"]:
+                mapped.append((cat, code_n, r["nonoperative_knaus"]))
+        for knaus, limit, excl, use in self.causes.get(failure, ()):  # first matching cause wins
+            for cat, code_n, k in mapped:
+                if (k == knaus and (not limit or code_n.startswith(limit))
+                        and not (excl and code_n.startswith(excl))):
+                    return cat, use
         return None
 
     def pick(self, status, cats, principal_n, dx_all, pcs_all, secondary=()):
@@ -246,6 +250,7 @@ def apache2(
     include_optional_chronic: bool = False,
     unmapped_system: str | None = None,
     surgery_stays=None,
+    strict: bool = False,
 ) -> pd.DataFrame:
     """APACHE II score and predicted hospital mortality for each stay.
 
@@ -266,9 +271,22 @@ def apache2(
     surgery_stays             Stay ids that had an operation, from OR data; if
                               given it replaces the ICD-10-PCS surgery check
                               for the "surgery for" diagnosis categories.
+    strict                    Raise ValueError on an APS outside 0-60. By
+                              default such a stay gets an empty score and
+                              mortality, aps_out_of_range = True, and one
+                              warning reports how many stays were affected.
+
+    single_region_trauma (output) is True when the principal diagnosis is an
+    injury in one non-head body region (e.g. an isolated hip fracture). Knaus
+    has no category for these, so they carry the Multiple trauma weight; use
+    the flag to exclude or reweight them in sensitivity analyses.
     """
     weights = load_weights()
     picker = _KnausPicker(weights)
+    cat_table = load_categories()
+    single_region = set(cat_table.loc[
+        (cat_table["rule"] == "trauma") & ~cat_table["trauma_pattern"].str.contains(r"\+")
+        & (cat_table["trauma_pattern"].str.strip() != "head"), "category"])
     kw = dict(stay_col=stay_col, code_col=code_col, system_col=system_col)
 
     # chronic health from codes
@@ -298,7 +316,8 @@ def apache2(
         stay = rec[stay_col]
         status = operative_status(rec[status_col])
         aps, age = rec[aps_col], rec[age_col]
-        if pd.notna(aps) and not 0 <= float(aps) <= MAX_APS:
+        aps_bad = bool(pd.notna(aps) and not 0 <= float(aps) <= MAX_APS)
+        if aps_bad and strict:
             raise ValueError(f"stay {stay}: aps {aps!r} is outside 0-{MAX_APS}")
 
         # chronic health
@@ -312,7 +331,7 @@ def apache2(
         ch_pts = chronic_health_points(has_ch, status)
 
         score = None
-        if pd.notna(aps) and pd.notna(age):
+        if pd.notna(aps) and pd.notna(age) and not aps_bad:
             score = float(aps) + age_points(float(age)) + ch_pts
 
         # diagnostic category
@@ -350,5 +369,12 @@ def apache2(
             "dx_weight": weight, "emergency_surgery_term": emerg,
             "logit": logit, "predicted_mortality": mort,
             "acute_renal_failure_coded": bool(arf.get(stay, False)),
+            "aps_out_of_range": aps_bad,
+            "single_region_trauma": bool(single_region & set(cats_by_stay.get(stay, []))),
         })
-    return pd.DataFrame(out)
+    result = pd.DataFrame(out)
+    n_bad = int(result["aps_out_of_range"].sum()) if len(result) else 0
+    if n_bad:
+        warnings.warn(f"{n_bad} stay(s) have an APS outside 0-{MAX_APS}; their score and mortality are empty "
+                      "(aps_out_of_range). This often points to a unit or join problem upstream.", stacklevel=2)
+    return result
