@@ -134,8 +134,13 @@ A stay counts as having surgery when it has an ICD-10-PCS code that:
 - starts with one of the category's `surgery_pcs_prefixes` (e.g. `0D` GI tract, `00` nervous system; blank = any), and
 - doesn't start with a prefix in `surgery_exclusions.csv` (tracheostomy, chest tube, paracentesis, gastrostomy, ports).
 
-This leaves out endoscopic hemostasis, endovascular coiling and TIPS. If you
-have operating-room data, it's a better source for "had surgery".
+This leaves out endoscopic hemostasis, endovascular coiling and TIPS. It also
+leaves out endoscopic endonasal skull-base surgery when it is coded with the
+via-natural-opening approach (5th character `8`), so those operations don't
+reach "Craniotomy for neoplasm" or the "surgery for" categories. Pituitary
+surgery coded with the open approach does count, and ICD-10-PCS doesn't
+separate transsphenoidal from open pituitary surgery. If you have
+operating-room data, it's a better source for "had surgery".
 
 ### Trauma
 
