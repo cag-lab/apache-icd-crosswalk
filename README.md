@@ -184,8 +184,9 @@ admissions, use only `A` codes.
 
 ## Calculating APACHE II and predicted mortality
 
-`apache_ii.apache2()` takes an Acute Physiology Score (0–60; anything outside raises `ValueError`) you've already calculated
-and adds the rest from ICD codes:
+`apache_ii.apache2()` takes an Acute Physiology Score you've already calculated
+(0–60; a value outside that range raises `ValueError`) and adds the rest from
+ICD codes:
 
 ```
 APACHE II = APS + age points + chronic health points
