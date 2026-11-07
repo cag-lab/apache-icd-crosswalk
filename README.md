@@ -27,7 +27,8 @@ on the APACHE form.
 | `data/knaus_weights.csv` | Knaus 1985 APACHE II diagnostic category weights (non-operative and post-operative) |
 | `data/knaus_dx_map.csv` | APACHE category → Knaus diagnostic category, non-operative and post-operative |
 | `data/knaus_postop_procedures.csv` | ICD-10-PCS rules for the procedure-based post-operative Knaus categories |
-| `data/knaus_chapter_fallback.csv` | ICD chapter → organ system, when the principal diagnosis matches no category |
+| `data/knaus_chapter_fallback.csv` | ICD chapter → organ system, when the principal diagnosis matches no category (plus hypovolemic shock, R57.1, which Knaus names directly) |
+| `data/knaus_failure_codes.csv` | Organ-failure principal diagnoses (J96.x respiratory failure, R57.8/R57.9 shock) and the order in which to look for their cause among the secondary diagnoses |
 | `data/chronic_health_categories.csv`, `data/chronic_health_codes.csv` | APACHE II chronic health conditions (liver, cardiovascular, respiratory, renal, immunocompromised), same format as the category files |
 | `apache_ii/` | Python: `apache2()` computes the APACHE II score and predicted mortality from your APS plus ICD codes |
 
@@ -183,7 +184,7 @@ admissions, use only `A` codes.
 
 ## Calculating APACHE II and predicted mortality
 
-`apache_ii.apache2()` takes an Acute Physiology Score you've already calculated
+`apache_ii.apache2()` takes an Acute Physiology Score (0–60; anything outside raises `ValueError`) you've already calculated
 and adds the rest from ICD codes:
 
 ```
@@ -251,6 +252,17 @@ looked up in `knaus_dx_map.csv`. A specific Knaus category (e.g. Sepsis, GI
 bleeding, Drug overdose) beats an organ-system one; ties go to the order of
 `knaus_weights.csv`. If nothing matches, the principal diagnosis's ICD chapter
 gives the organ system (`knaus_chapter_fallback.csv`).
+
+Knaus weights respiratory and cardiovascular failure by cause ("respiratory
+failure or insufficiency from infection / COPD / pulmonary embolus …"). When
+the principal diagnosis names only the failure (J96.x, or shock R57.8/R57.9)
+and maps to no specific category, the cause is taken from the secondary
+diagnoses, using the `cause_priority` order in `knaus_failure_codes.csv`.
+Acute causes come before chronic ones, so respiratory failure with pneumonia
+and COPD both coded counts as infection; COPD or asthma is used only when no
+acute cause is coded. With no cause coded, the organ-system weight applies.
+Post-operative stays are unaffected (respiratory failure after surgery has its
+own category).
 
 **Post-operative (elective or emergency):**
 

@@ -20,12 +20,14 @@ import pandas as pd
 
 from .match import (
     CM, DATA_DIR, PCS, _bool, _prefixes, flag_stays, is_surgical, load_categories,
-    load_code_map, load_surgery_exclusions, normalize, principal_categories,
+    load_code_map, load_surgery_exclusions, match_codes, normalize, principal_categories,
 )
 
 INTERCEPT = -3.517
 SCORE_COEF = 0.146
 EMERGENCY_SURGERY_COEF = 0.603
+# 11 physiologic variables x 4 (creatinine doubled to 8 with acute renal failure) + 12 for GCS
+MAX_APS = 60
 
 NONOPERATIVE, ELECTIVE, EMERGENCY = "nonoperative", "elective", "emergency"
 _STATUS_ALIASES = {
@@ -102,7 +104,21 @@ class _KnausPicker:
         self.dx_map = _load("knaus_dx_map.csv")
         self.procs = _load("knaus_postop_procedures.csv")
         fb = _load("knaus_chapter_fallback.csv")
-        self.fallback = sorted(zip(fb["icd_prefix"].map(normalize), fb["system"]), key=lambda x: -len(x[0]))
+        post = fb["postoperative_system"] if "postoperative_system" in fb else fb["system"]
+        self.fallback = sorted(
+            ((normalize(p), s, ps or s) for p, s, ps in zip(fb["icd_prefix"], fb["system"], post)),
+            key=lambda x: -len(x[0]),
+        )
+        # Principal diagnoses that name an organ failure but not its cause
+        # (J96.x respiratory failure, R57.8/R57.9 shock). Knaus weights these by
+        # cause ("respiratory failure from infection", ...), so the cause is
+        # read from the secondary diagnoses in cause_priority order.
+        fc = _load("knaus_failure_codes.csv")
+        self.failure = sorted(
+            ((normalize(p), tuple(c.strip() for c in pr.split("|") if c.strip()))
+             for p, pr in zip(fc["icd_prefix"], fc["cause_priority"])),
+            key=lambda x: -len(x[0]),
+        )
         self.nonop_always = set(weights.loc[weights["use_nonoperative_weight_if_postop"], "knaus_category"])
         self.excl = load_surgery_exclusions()
         self.by_cat: dict[str, list[dict]] = {}
@@ -126,22 +142,48 @@ class _KnausPicker:
                 return r
         return None
 
-    def chapter(self, principal_n):
-        for prefix, system in self.fallback:
+    def chapter(self, principal_n, setting="nonoperative"):
+        for prefix, system, post in self.fallback:
             if principal_n.startswith(prefix):
-                return system
+                return post if setting == "postoperative" else system
         return None
 
-    def pick(self, status, cats, principal_n, dx_all, pcs_all):
-        """Return (setting, knaus_category, source) or (None, None, reason)."""
+    def failure_cause(self, principal_n, secondary):
+        """For an organ-failure principal diagnosis, the (category, Knaus
+        category) of its cause among the secondary diagnoses, or None."""
+        priority = next((pr for p, pr in self.failure if principal_n.startswith(p)), None)
+        if not priority:
+            return None
+        found = {}
+        for cat, code_n in secondary:
+            r = self.map_row(cat, code_n)
+            k = r["nonoperative_knaus"] if r else ""
+            if k in priority and k not in found:
+                found[k] = cat
+        for k in priority:
+            if k in found:
+                return found[k], k
+        return None
+
+    def pick(self, status, cats, principal_n, dx_all, pcs_all, secondary=()):
+        """Return (setting, knaus_category, source) or (None, None, reason).
+
+        secondary  (category, normalized code) pairs for the stay's other
+                   diagnoses; used to find the cause of an organ-failure
+                   principal diagnosis (non-operative only).
+        """
         rows = [(c, self.map_row(c, principal_n)) for c in cats]
         rows = [(c, r) for c, r in rows if r]
         nonop = [(c, r["nonoperative_knaus"]) for c, r in rows if r["nonoperative_knaus"]]
 
         if status == NONOPERATIVE:
-            if nonop:
-                c, k = min(nonop, key=lambda x: self._rank("nonoperative", x[1]))
-                return "nonoperative", k, f"principal diagnosis: {c}"
+            best = min(nonop, key=lambda x: self._rank("nonoperative", x[1])) if nonop else None
+            if best is None or self._rank("nonoperative", best[1])[0] == 1:  # none, or organ system only
+                cause = self.failure_cause(principal_n, secondary)
+                if cause:
+                    return "nonoperative", cause[1], f"principal diagnosis {principal_n} (organ failure); cause from secondary diagnosis: {cause[0]}"
+            if best:
+                return "nonoperative", best[1], f"principal diagnosis: {best[0]}"
             system = self.chapter(principal_n)
             if system:
                 return "nonoperative", system, f"ICD chapter of principal diagnosis ({principal_n[:3]})"
@@ -179,7 +221,7 @@ class _KnausPicker:
         if postop:
             c, k = min(postop, key=lambda x: self._rank("postoperative", x[1]))
             return "postoperative", k, f"principal diagnosis: {c}"
-        system = self.chapter(principal_n)
+        system = self.chapter(principal_n, "postoperative")
         if system:
             return "postoperative", system, f"ICD chapter of principal diagnosis ({principal_n[:3]})"
         return None, None, "no Knaus category for the principal diagnosis or procedures"
@@ -244,6 +286,11 @@ def apache2(
     principal = (codes[is_pr & (codes[system_col] == CM)].drop_duplicates(stay_col)
                  .set_index(stay_col)[code_col].map(normalize).to_dict())
     dx_all = codes[codes[system_col] == CM].assign(_n=lambda d: d[code_col].map(normalize)).groupby(stay_col)["_n"].apply(list).to_dict()
+    # categories of the secondary diagnoses, for organ-failure principal diagnoses
+    secondary_codes = codes[~is_pr & (codes[system_col] == CM)]
+    secondary: dict = {}
+    for s, code, c in match_codes(secondary_codes, **kw)[[stay_col, code_col, "category"]].itertuples(index=False):
+        secondary.setdefault(s, []).append((c, normalize(code)))
     pcs_all = codes[codes[system_col] == PCS].assign(_n=lambda d: d[code_col].map(normalize)).groupby(stay_col)["_n"].apply(list).to_dict()
 
     out = []
@@ -251,6 +298,8 @@ def apache2(
         stay = rec[stay_col]
         status = operative_status(rec[status_col])
         aps, age = rec[aps_col], rec[age_col]
+        if pd.notna(aps) and not 0 <= float(aps) <= MAX_APS:
+            raise ValueError(f"stay {stay}: aps {aps!r} is outside 0-{MAX_APS}")
 
         # chronic health
         if chronic_col in rec and pd.notna(rec[chronic_col]) and str(rec[chronic_col]).strip() != "":
@@ -278,7 +327,8 @@ def apache2(
             source = "input"
         else:
             setting, k, source = picker.pick(status, cats_by_stay.get(stay, []), principal.get(stay, ""),
-                                             dx_all.get(stay, []), pcs_all.get(stay, []))
+                                             dx_all.get(stay, []), pcs_all.get(stay, []),
+                                             secondary.get(stay, ()))
             if k is None and unmapped_system:
                 setting = "postoperative" if status != NONOPERATIVE else "nonoperative"
                 k, source = unmapped_system, f"unmapped_system ({source})"

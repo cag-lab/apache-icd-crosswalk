@@ -1,0 +1,6 @@
+icd_prefix,cause_priority,description
+J96.0,Infection|Aspiration/poisoning/toxic|Pulmonary embolus|Pulmonary edema (noncardiogenic)|Postrespiratory arrest|Neoplasm|COPD|Asthma/allergy,Acute respiratory failure
+J96.2,Infection|Aspiration/poisoning/toxic|Pulmonary embolus|Pulmonary edema (noncardiogenic)|Postrespiratory arrest|Neoplasm|COPD|Asthma/allergy,Acute and chronic respiratory failure
+J96.9,Infection|Aspiration/poisoning/toxic|Pulmonary embolus|Pulmonary edema (noncardiogenic)|Postrespiratory arrest|Neoplasm|COPD|Asthma/allergy,"Respiratory failure, unspecified"
+R57.8,Sepsis|Hemorrhagic shock/hypovolemia|GI bleeding|Cardiogenic shock|Postcardiac arrest|Dissecting thoracic/abdominal aneurysm|Coronary artery disease|Congestive heart failure|Rhythm disturbance,Other shock
+R57.9,Sepsis|Hemorrhagic shock/hypovolemia|GI bleeding|Cardiogenic shock|Postcardiac arrest|Dissecting thoracic/abdominal aneurysm|Coronary artery disease|Congestive heart failure|Rhythm disturbance,"Shock, unspecified"

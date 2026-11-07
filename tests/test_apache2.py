@@ -182,3 +182,62 @@ def test_covid_flags():
     f = flag_stays(codes((1, "U07.1", CM, True), (2, "A41.89", CM, True), (2, "U07.1", CM, False)), level="category")
     assert f.loc[1, "COVID-19 (not an APACHE option; counts as respiratory infection)"]
     assert f.loc[2, "Sepsis, pulmonary"] and not f.loc[2, "Sepsis, unknown"]
+
+
+# ------------------------------------------------- organ failure, shock, APS range
+def test_respiratory_failure_principal_uses_cause():
+    # Knaus weights respiratory failure by its cause; J96.x coded first
+    # shouldn't collapse every cause into the generic "Respiratory" weight.
+    df = codes(
+        (1, "J96.01", CM, True), (1, "J18.9", CM, False),                         # from pneumonia
+        (2, "J96.02", CM, True), (2, "J44.1", CM, False),                         # from COPD
+        (3, "J96.01", CM, True), (3, "J44.9", CM, False), (3, "J18.9", CM, False),  # COPD + pneumonia -> infection
+        (4, "J96.01", CM, True), (4, "I26.99", CM, False),                        # from PE
+        (5, "J96.01", CM, True), (5, "C34.90", CM, False),                        # from lung cancer
+        (6, "J96.01", CM, True),                                                  # no cause coded
+    )
+    s = stays(*[(i, 20, 60, "nonoperative") for i in range(1, 7)])
+    r = by_stay(apache2(s, df))
+    assert r.at[1, "knaus_category"] == "Infection" and r.at[1, "dx_weight"] == 0.0
+    assert r.at[2, "knaus_category"] == "COPD"
+    assert r.at[3, "knaus_category"] == "Infection"
+    assert r.at[4, "knaus_category"] == "Pulmonary embolus"
+    assert r.at[5, "knaus_category"] == "Neoplasm"
+    assert r.at[6, "knaus_category"] == "Respiratory"
+    assert r.at[1, "predicted_mortality"] == pytest.approx(mort(23, 0.0))
+
+
+def test_respiratory_failure_postop_unchanged():
+    df = codes((1, "J96.01", CM, True), (1, "J18.9", CM, False))
+    r = by_stay(apache2(stays((1, 20, 60, "elective")), df))
+    assert r.at[1, "knaus_category"] == "Respiratory insufficiency after surgery"
+
+
+def test_shock_principal_diagnoses():
+    df = codes(
+        (1, "R57.1", CM, True),                                   # hypovolemic shock
+        (2, "R57.9", CM, True), (2, "A41.9", CM, False),          # shock + sepsis
+        (3, "R57.9", CM, True), (3, "K92.2", CM, False),          # shock + GI bleed
+        (4, "R57.1", CM, True),                                   # post-op
+        (5, "R57.9", CM, True),                                   # no cause coded
+    )
+    s = stays((1, 20, 60, "nonoperative"), (2, 20, 60, "nonoperative"), (3, 20, 60, "nonoperative"),
+              (4, 20, 60, "emergency"), (5, 20, 60, "nonoperative"))
+    r = by_stay(apache2(s, df))
+    assert r.at[1, "knaus_category"] == "Hemorrhagic shock/hypovolemia" and r.at[1, "dx_weight"] == 0.493
+    assert r.at[2, "knaus_category"] == "Sepsis"
+    assert r.at[3, "knaus_category"] == "GI bleeding"
+    assert r.at[4, "knaus_category"] == "Hemorrhagic shock" and r.at[4, "dx_weight"] == -0.682
+    assert r.at[5, "knaus_category"] == "Cardiovascular"
+
+
+@pytest.mark.parametrize("aps", [-1, 61])
+def test_aps_out_of_range(aps):
+    with pytest.raises(ValueError, match="outside 0-60"):
+        apache2(stays((1, aps, 60, "nonoperative")), codes((1, "I50.9", CM, True)))
+
+
+def test_aps_bounds_accepted():
+    r = apache2(stays((1, 0, 60, "nonoperative"), (2, 60, 60, "nonoperative")),
+                codes((1, "I50.9", CM, True), (2, "I50.9", CM, True)))
+    assert list(r["apache2_score"]) == [3.0, 63.0]

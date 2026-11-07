@@ -1,8 +1,10 @@
-icd_prefix,system,description
-I6,Neurologic,Cerebrovascular diseases
-I,Cardiovascular,Circulatory system
-J,Respiratory,Respiratory system
-G,Neurologic,Nervous system
-K,Gastrointestinal,Digestive system
-E,Metabolic/renal,"Endocrine, nutritional and metabolic"
-N,Metabolic/renal,Genitourinary system
+icd_prefix,system,description,postoperative_system
+R57.1,Hemorrhagic shock/hypovolemia,Hypovolemic shock (no APACHE category; Knaus names it directly),Hemorrhagic shock
+R57,Cardiovascular,Shock not elsewhere classified,
+I6,Neurologic,Cerebrovascular diseases,
+I,Cardiovascular,Circulatory system,
+J,Respiratory,Respiratory system,
+G,Neurologic,Nervous system,
+K,Gastrointestinal,Digestive system,
+E,Metabolic/renal,"Endocrine, nutritional and metabolic",
+N,Metabolic/renal,Genitourinary system,
