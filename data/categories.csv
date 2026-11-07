@@ -61,8 +61,8 @@ Subdural hematoma,"Hematoma, subdural",any,,,FALSE,,,FALSE,"Includes traumatic s
 Neuro infection,Meningitis,any,,,FALSE,,,FALSE,
 Neuro infection,"Abscess, neurologic",any,,,FALSE,,,FALSE,
 Neuro infection,Encephalitis,any,,,FALSE,,,FALSE,
-Coma,Nontraumatic coma due to anoxia/ischemia,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma or hepatic coma/encephalopathy, per your definition."
-Coma,Coma/change in level of consciousness,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma or hepatic coma/encephalopathy. The Glasgow coma scale codes (R40.21-R40.24) are left out: they record a score, mostly on trauma stays, not a diagnosis."
+Coma,Nontraumatic coma due to anoxia/ischemia,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641|T36|T37|T38|T39|T40|T41|T42|T43|T44|T45|T46|T47|T48|T49|T50|T51|T52|T53|T54|T55|T56|T57|T58|T59|T60|T61|T62|T63|T64|T65,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma, hepatic coma/encephalopathy or poisoning/overdose (T36-T65), per your definition."
+Coma,Coma/change in level of consciousness,any,,S06|I46|I97.12|K72.01|K72.11|K72.91|K70.41|K71.11|K76.82|E08.01|E08.11|E08.641|E09.01|E09.11|E09.641|E10.11|E10.641|E11.01|E11.11|E11.641|E13.01|E13.11|E13.641|T36|T37|T38|T39|T40|T41|T42|T43|T44|T45|T46|T47|T48|T49|T50|T51|T52|T53|T54|T55|T56|T57|T58|T59|T60|T61|T62|T63|T64|T65,FALSE,,,FALSE,"Excluded if the stay has a code for cardiac arrest, head injury, diabetic coma, hepatic coma/encephalopathy or poisoning/overdose (T36-T65): coma from an overdose is expected and shouldn't override the Drug overdose category. The Glasgow coma scale codes (R40.21-R40.24) are left out: they record a score, mostly on trauma stays, not a diagnosis."
 Seizures,Seizures (primary-no structural brain disease),any,,I60|I61|I62|I63|C70|C71|C79.3|D32|D33|D43|S06|G06|G91|Q28.2,FALSE,,,FALSE,"Excluded if the stay has a structural brain diagnosis: stroke or intracranial hemorrhage, brain tumor or metastasis, head injury, brain abscess, hydrocephalus or cerebral AVM."
 Neuro (medical),"Hematoma, epidural",any,,,FALSE,,,FALSE,
 Neuro (medical),Guillain-Barre syndrome,any,,,FALSE,,,FALSE,
@@ -115,7 +115,7 @@ GI infection,"Sepsis, GI",with_required_dx,K65.0|K65.1|K65.2|K65.3|K65.8|K65.9|K
 GI,"Encephalopathy, hepatic",any,,,FALSE,,,FALSE,
 GI,"Hepatic failure, acute",any,,,FALSE,,,FALSE,
 GI,Hepato-renal syndrome,any,,,FALSE,,,FALSE,
-GI,Cholangitis,any,,,FALSE,,,FALSE,"Acute cholangitis: K83.09 or bile-duct stone with cholangitis (K80.3x). Primary sclerosing cholangitis (K83.01) is a chronic disease and is left out; an acute episode on PSC should also carry K83.09."
+GI,Cholangitis,any,,,FALSE,,,FALSE,"Acute cholangitis: K83.09 or bile-duct stone with cholangitis (K80.3x). Primary sclerosing cholangitis (K83.01) is a chronic disease and is left out; an acute episode on PSC should also carry K83.09. Plain K83.0 (billable until FY2018) is kept for older data and may include some PSC patients."
 GI,Peritonitis,any,,,FALSE,,,FALSE,
 GI,GI abscess/cyst,any,,,FALSE,,,FALSE,
 GI,GI vascular insufficiency,any,,,FALSE,,,FALSE,

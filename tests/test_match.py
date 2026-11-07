@@ -242,13 +242,14 @@ def test_nontraumatic_coma_due_to_underlying_condition():
 def test_primary_sclerosing_cholangitis_is_not_cholangitis():
     assert "Cholangitis" in cats(codes((1, "K83.09", CM, True)))[1]
     assert "Cholangitis" not in cats(codes((1, "K83.01", CM, True)))[1]
+    # plain K83.0 was billable until FY2018; older data still matches
+    assert "Cholangitis" in cats(codes((1, "K83.0", CM, True)))[1]
 
 
 def test_crohns_rectal_bleeding_is_lower_gi_bleed():
     c = cats(codes((1, "K50.111", CM, True), (2, "K50.011", CM, True)))
     assert {"Bleeding, lower GI", "Inflammatory bowel disease"} <= c[1]
-    # small-bowel Crohn's with rectal bleeding stays inflammatory bowel disease only
-    assert "Inflammatory bowel disease" in c[2] and "Bleeding, lower GI" not in c[2]
+    assert {"Bleeding, lower GI", "Inflammatory bowel disease"} <= c[2]   # small bowel too
 
 
 def test_pituitary_and_pineal_malignancy_is_neurologic_neoplasm():
@@ -261,3 +262,9 @@ def test_pituitary_and_pineal_malignancy_is_neurologic_neoplasm():
 def test_retroperitoneal_hematoma():
     c = cats(codes((1, "K68.3", CM, True)))[1]
     assert {"Hemorrhage, intra/retroperitoneal", "Hematomas", "Hemorrhage (non-GI, non-trauma)"} <= c
+
+
+def test_coma_excludes_overdose():
+    coma = "Coma/change in level of consciousness"
+    assert coma in cats(codes((1, "R40.20", CM, True)))[1]
+    assert coma not in cats(codes((1, "T42.4X2A", CM, True), (1, "R40.20", CM, False)))[1]

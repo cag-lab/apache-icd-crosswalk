@@ -7,6 +7,7 @@ The order files are the fixed-width "order" files CMS publishes with each
 release (code in columns 7-13, billable flag in column 15). The check fails if:
 
 * an Exact code isn't a billable code in the release (it would never match billed data),
+  unless its description starts with "Legacy:" (billable in an older release),
 * a Prefix, Range endpoint or rule prefix matches no billable code,
 * a last_char_in filter leaves nothing to match.
 
@@ -81,7 +82,10 @@ def check(cm: Release, pcs: Release | None) -> list[str]:
                     errors.append(f"{where}: {c} is not in the release")
                     continue
                 if c not in rel.billable_set:
-                    errors.append(f"{where}: Exact {c} is a header, not a billable code")
+                    # rows marked "Legacy:" are codes that were billable in an
+                    # older release (kept so older data still matches)
+                    if not r.get("description", "").startswith("Legacy:"):
+                        errors.append(f"{where}: Exact {c} is a header, not a billable code")
                     continue
                 matched = [c]
             else:

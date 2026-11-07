@@ -29,7 +29,8 @@ def test_flags_header_used_as_exact_and_dead_prefix(tmp_path, monkeypatch):
     (data / "code_map.csv").write_text(header +
         "G,C,A00,ICD-10-CM,Exact,,,FALSE,FALSE,header not billable\n"
         "G,C,B99,ICD-10-CM,Prefix,,,FALSE,FALSE,no such code\n"
-        "G,C,A000,ICD-10-CM,Exact,,,FALSE,FALSE,fine\n")
+        "G,C,A000,ICD-10-CM,Exact,,,FALSE,FALSE,fine\n"
+        "G,C,A00,ICD-10-CM,Exact,,,FALSE,FALSE,Legacy: billable in an older release\n")
     (data / "chronic_health_codes.csv").write_text(header)
     cat_header = "group,category,rule,required_dx_prefixes,exclude_dx_prefixes,requires_surgery,surgery_pcs_prefixes,trauma_pattern,catch_all,notes\n"
     for name in ("categories.csv", "chronic_health_categories.csv"):
