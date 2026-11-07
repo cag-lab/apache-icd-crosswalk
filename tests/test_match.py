@@ -207,3 +207,51 @@ def test_principal_categories_use_principal_only():
     c2 = set(pc.loc[pc.stay_id == 2, "category"])
     assert "Infarction, acute myocardial (MI)" in c1 and not any("ARDS" in c for c in c1)
     assert "Sepsis, pulmonary" in c2
+
+
+def test_open_fracture_initial_encounter_counts():
+    # 7th character B/C = initial encounter for an open fracture
+    c = cats(codes(
+        (1, "S06.5X0A", CM, True), (1, "S72.001B", CM, False),       # head + open hip fracture
+        (2, "S06.5X0A", CM, True), (2, "S82.101C", CM, False),       # head + open tibia fracture (IIIA-C)
+        (3, "S06.5X0A", CM, True), (3, "S72.001E", CM, False),       # subsequent encounter -> ignored
+    ))
+    assert "Head/pelvis trauma" in c[1]
+    assert "Head/extremity trauma" in c[2]
+    assert "Head only trauma" in c[3]
+
+
+def test_laterality_digit_is_not_an_encounter_character():
+    from apache_ii.match import _non_initial_encounter
+    assert not _non_initial_encounter("T868421", CM)   # corneal transplant infection, right eye
+    assert not _non_initial_encounter("S72001B", CM)
+    assert _non_initial_encounter("S72001S", CM)
+
+
+def test_postprocedural_hemorrhage_vs_hematoma():
+    c = cats(codes((1, "I97.620", CM, True), (2, "I97.631", CM, True), (3, "I97.622", CM, True), (4, "L76.34", CM, True)))
+    assert "Hemorrhage (non-GI, non-trauma)" in c[1] and "Hematomas" not in c[1]
+    assert "Hematomas" in c[2]
+    assert "Hematomas" not in c[3] and "Hematomas" not in c[4]   # seromas
+
+
+def test_nontraumatic_coma_due_to_underlying_condition():
+    assert "Coma/change in level of consciousness" in cats(codes((1, "R40.2A", CM, True)))[1]
+
+
+def test_primary_sclerosing_cholangitis_is_optional():
+    assert "Cholangitis" in cats(codes((1, "K83.09", CM, True)))[1]
+    assert "Cholangitis" in cats(codes((1, "K83.01", CM, True)))[1]
+    assert "Cholangitis" not in cats(codes((1, "K83.01", CM, True)), include_optional=False)[1]
+
+
+def test_crohns_rectal_bleeding_is_lower_gi_bleed():
+    c = cats(codes((1, "K50.111", CM, True)))[1]
+    assert {"Bleeding, lower GI", "Inflammatory bowel disease"} <= c
+
+
+def test_pituitary_and_pineal_malignancy_is_neurologic_neoplasm():
+    c = cats(codes((1, "C75.1", CM, True), (2, "D44.5", CM, True)))
+    assert "Neoplasm, neurologic" in c[1]
+    assert "Cancer, other site (not an APACHE option; counts toward the flag)" not in c[1]
+    assert "Neoplasm, neurologic" in c[2]

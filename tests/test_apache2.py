@@ -31,6 +31,26 @@ def test_age_points(age, pts):
     assert age_points(age) == pts
 
 
+@pytest.mark.parametrize("age,pts", [(44.5, 0), (44.99, 0), (54.9, 2), (64.5, 3), (74.5, 5)])
+def test_fractional_age_rounds_down(age, pts):
+    assert age_points(age) == pts
+
+
+def test_postop_procedure_rule_fixes():
+    df = codes(
+        (1, "M19.011", CM, True), (1, "0RGJ04Z", PCS, False),        # shoulder fusion: not spinal surgery
+        (2, "M48.061", CM, True), (2, "0SG0070", PCS, False),        # lumbar fusion: spinal surgery
+        (3, "C38.3", CM, True), (3, "0WBC0ZZ", PCS, False),          # mediastinal tumor excision
+        (4, "C66.1", CM, True), (4, "0TT60ZZ", PCS, False),          # ureterectomy for ureter cancer
+    )
+    s = stays(*[(i, 10, 60, "elective") for i in range(1, 5)])
+    r = by_stay(apache2(s, df))["knaus_category"]
+    assert r[1] != "Laminectomy and other spinal cord surgery"
+    assert r[2] == "Laminectomy and other spinal cord surgery"
+    assert r[3] == "Thoracic surgery for neoplasm"
+    assert r[4] == "Renal surgery for neoplasm"
+
+
 def test_chronic_health_points():
     assert chronic_health_points(True, "nonoperative") == 5
     assert chronic_health_points(True, "emergency") == 5

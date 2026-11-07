@@ -48,7 +48,12 @@ def operative_status(value) -> str:
 
 
 def age_points(age: float) -> int:
-    """<=44: 0, 45-54: 2, 55-64: 3, 65-74: 5, >=75: 6."""
+    """<=44: 0, 45-54: 2, 55-64: 3, 65-74: 5, >=75: 6.
+
+    Age is in completed years, so a fractional age is rounded down
+    (44.5 -> 44 -> 0 points).
+    """
+    age = math.floor(age)
     if age <= 44:
         return 0
     if age <= 54:
