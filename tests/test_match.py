@@ -255,3 +255,8 @@ def test_pituitary_and_pineal_malignancy_is_neurologic_neoplasm():
     assert "Neoplasm, neurologic" in c[1]
     assert "Cancer, other site (not an APACHE option; counts toward the flag)" not in c[1]
     assert "Neoplasm, neurologic" in c[2]
+
+
+def test_retroperitoneal_hematoma():
+    c = cats(codes((1, "K68.3", CM, True)))[1]
+    assert {"Hemorrhage, intra/retroperitoneal", "Hematomas", "Hemorrhage (non-GI, non-trauma)"} <= c

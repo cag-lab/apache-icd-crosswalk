@@ -13,7 +13,7 @@ Cardiovascular,"Contusion, myocardial (include r/o)",any,,,FALSE,,,FALSE,Deliber
 Cardiovascular,"Hypertension-pulmonary, primary/idiopathic",any,,,FALSE,,,FALSE,Exclude secondary forms (I27.2x).
 Cardiovascular,"Thrombus, arterial",any,,,FALSE,,,FALSE,
 Cardiovascular,"Thrombosis, vascular (deep vein)",any,,,FALSE,,,FALSE,Chronic DVT codes are common secondary diagnoses; restrict to principal diagnosis.
-Cardiovascular,"Hemorrhage (non-GI, non-trauma)",any,,,FALSE,,,FALSE,"Exclude GI bleeding (K92.x etc.) and trauma (S-codes). K66.1 is also listed under Hematomas and 'Hemorrhage, intra/retroperitoneal'."
+Cardiovascular,"Hemorrhage (non-GI, non-trauma)",any,,,FALSE,,,FALSE,"Exclude GI bleeding (K92.x etc.) and trauma (S-codes). K66.1 (hemoperitoneum) and K68.3 (retroperitoneal hematoma/hemorrhage) are also listed under Hematomas and 'Hemorrhage, intra/retroperitoneal'."
 Cardiovascular,Hematomas,any,,,FALSE,,,FALSE,Exclude trauma (S-codes).
 Cardiovascular,"Chest pain, atypical (noncardiac chest pain)",any,,,FALSE,,,FALSE,"R07.1 and R07.81 moved to 'Chest pain, respiratory'; M94.0 is under 'Chest pain, musculoskeletal'."
 Cardiovascular,"Chest pain, unknown origin",any,,,FALSE,,,FALSE,
@@ -108,7 +108,7 @@ GI bleeding,"Bleeding, GI from esophageal varices/portal hypertension",any,,,FAL
 GI bleeding,"Bleeding, upper GI",any,,,FALSE,,,FALSE,
 GI bleeding,"Bleeding, lower GI",any,,,FALSE,,,FALSE,
 GI bleeding,"Bleeding, GI-location unknown",any,,,FALSE,,,FALSE,K92.1 (melena) is placed here because ICD-10-CM also indexes hematochezia to it. Move it to upper GI if you prefer.
-GI bleeding,"Hemorrhage, intra/retroperitoneal",any,,,FALSE,,,FALSE,K66.1 is also in the cardiovascular 'Hemorrhage' and 'Hematomas' categories.
+GI bleeding,"Hemorrhage, intra/retroperitoneal",any,,,FALSE,,,FALSE,K66.1 = intraperitoneal (hemoperitoneum); K68.3 = retroperitoneal (the ICD-10-CM index sends both retroperitoneal hemorrhage and hematoma there). Both are also in the cardiovascular 'Hemorrhage' and 'Hematomas' categories.
 Pancreatitis,"Pancreatitis, surgery for",any,,,TRUE,0F|0D|0W,,FALSE,"Requires an open or laparoscopic operation on the hepatobiliary system/pancreas, GI tract or abdominal cavity."
 Pancreatitis,Pancreatitis,any,,,FALSE,,,FALSE,
 GI infection,"Sepsis, GI",with_required_dx,K65.0|K65.1|K65.2|K65.3|K65.8|K65.9|K35|K57.0|K57.2|K57.4|K57.8|K57.12|K57.13|K57.32|K57.33|K57.52|K57.53|K57.92|K57.93|K75.0|K81.0|K81.2|K80.0|K80.1|K80.3|K80.4|K80.6|K83.09|K63.0|K63.1|K61|K68.1|K22.3|K25.1|K25.2|K25.5|K25.6|K26.1|K26.2|K26.5|K26.6|K27.1|K27.2|K27.5|K27.6|K28.1|K28.2|K28.5|K28.6|K85.02|K85.12|K85.22|K85.32|K85.82|K85.92|A00|A01|A02.0|A03|A04|A05|A06.0|A06.1|A06.2|A07|A08|A09,,FALSE,,,FALSE,"A sepsis code plus a GI infection code (peritonitis, intra-abdominal abscess, appendicitis, diverticulitis, cholecystitis, cholangitis, perforation, infected pancreatic necrosis, infectious enteritis incl. C. difficile) on the same stay. For GI infection without sepsis, use the GI group."

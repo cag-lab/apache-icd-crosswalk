@@ -53,6 +53,8 @@ def age_points(age: float) -> int:
     Age is in completed years, so a fractional age is rounded down
     (44.5 -> 44 -> 0 points).
     """
+    if age is None or math.isnan(age):
+        raise ValueError("age is missing")
     age = math.floor(age)
     if age <= 44:
         return 0

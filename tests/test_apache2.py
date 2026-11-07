@@ -36,6 +36,11 @@ def test_fractional_age_rounds_down(age, pts):
     assert age_points(age) == pts
 
 
+def test_missing_age_raises():
+    with pytest.raises(ValueError, match="age is missing"):
+        age_points(float("nan"))
+
+
 def test_postop_procedure_rule_fixes():
     df = codes(
         (1, "M19.011", CM, True), (1, "0RGJ04Z", PCS, False),        # shoulder fusion: not spinal surgery
@@ -47,7 +52,8 @@ def test_postop_procedure_rule_fixes():
     )
     s = stays(*[(i, 10, 60, "elective") for i in range(1, 7)])
     r = by_stay(apache2(s, df))["knaus_category"]
-    assert r[1] != "Laminectomy and other spinal cord surgery"
+    src = by_stay(apache2(s, df))["knaus_source"]
+    assert r[1] != "Laminectomy and other spinal cord surgery" and not src[1].startswith("procedure:")
     assert r[2] == "Laminectomy and other spinal cord surgery"
     assert r[3] == "Thoracic surgery for neoplasm"
     assert r[4] == "Renal surgery for neoplasm"
