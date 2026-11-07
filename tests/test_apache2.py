@@ -42,13 +42,17 @@ def test_postop_procedure_rule_fixes():
         (2, "M48.061", CM, True), (2, "0SG0070", PCS, False),        # lumbar fusion: spinal surgery
         (3, "C38.3", CM, True), (3, "0WBC0ZZ", PCS, False),          # mediastinal tumor excision
         (4, "C66.1", CM, True), (4, "0TT60ZZ", PCS, False),          # ureterectomy for ureter cancer
+        (5, "D35.2", CM, True), (5, "0GB00ZZ", PCS, False),          # pituitary adenoma resection
+        (6, "C37", CM, True), (6, "07TM0ZZ", PCS, False),            # thymectomy for thymic cancer
     )
-    s = stays(*[(i, 10, 60, "elective") for i in range(1, 5)])
+    s = stays(*[(i, 10, 60, "elective") for i in range(1, 7)])
     r = by_stay(apache2(s, df))["knaus_category"]
     assert r[1] != "Laminectomy and other spinal cord surgery"
     assert r[2] == "Laminectomy and other spinal cord surgery"
     assert r[3] == "Thoracic surgery for neoplasm"
     assert r[4] == "Renal surgery for neoplasm"
+    assert r[5] == "Craniotomy for neoplasm"
+    assert r[6] == "Thoracic surgery for neoplasm"
 
 
 def test_chronic_health_points():
