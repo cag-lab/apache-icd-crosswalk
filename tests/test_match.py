@@ -239,15 +239,16 @@ def test_nontraumatic_coma_due_to_underlying_condition():
     assert "Coma/change in level of consciousness" in cats(codes((1, "R40.2A", CM, True)))[1]
 
 
-def test_primary_sclerosing_cholangitis_is_optional():
+def test_primary_sclerosing_cholangitis_is_not_cholangitis():
     assert "Cholangitis" in cats(codes((1, "K83.09", CM, True)))[1]
-    assert "Cholangitis" in cats(codes((1, "K83.01", CM, True)))[1]
-    assert "Cholangitis" not in cats(codes((1, "K83.01", CM, True)), include_optional=False)[1]
+    assert "Cholangitis" not in cats(codes((1, "K83.01", CM, True)))[1]
 
 
 def test_crohns_rectal_bleeding_is_lower_gi_bleed():
-    c = cats(codes((1, "K50.111", CM, True)))[1]
-    assert {"Bleeding, lower GI", "Inflammatory bowel disease"} <= c
+    c = cats(codes((1, "K50.111", CM, True), (2, "K50.011", CM, True)))
+    assert {"Bleeding, lower GI", "Inflammatory bowel disease"} <= c[1]
+    # small-bowel Crohn's with rectal bleeding stays inflammatory bowel disease only
+    assert "Inflammatory bowel disease" in c[2] and "Bleeding, lower GI" not in c[2]
 
 
 def test_pituitary_and_pineal_malignancy_is_neurologic_neoplasm():

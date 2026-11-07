@@ -47,18 +47,20 @@ def test_postop_procedure_rule_fixes():
         (2, "M48.061", CM, True), (2, "0SG0070", PCS, False),        # lumbar fusion: spinal surgery
         (3, "C38.3", CM, True), (3, "0WBC0ZZ", PCS, False),          # mediastinal tumor excision
         (4, "C66.1", CM, True), (4, "0TT60ZZ", PCS, False),          # ureterectomy for ureter cancer
-        (5, "D35.2", CM, True), (5, "0GB00ZZ", PCS, False),          # pituitary adenoma resection
+        (5, "D35.2", CM, True), (5, "0GB00ZZ", PCS, False),          # pituitary resection: not a craniotomy
         (6, "C37", CM, True), (6, "07TM0ZZ", PCS, False),            # thymectomy for thymic cancer
+        (7, "C75.3", CM, True), (7, "0GT10ZZ", PCS, False),          # pineal resection (craniotomy)
     )
-    s = stays(*[(i, 10, 60, "elective") for i in range(1, 7)])
+    s = stays(*[(i, 10, 60, "elective") for i in range(1, 8)])
     r = by_stay(apache2(s, df))["knaus_category"]
     src = by_stay(apache2(s, df))["knaus_source"]
     assert r[1] != "Laminectomy and other spinal cord surgery" and not src[1].startswith("procedure:")
     assert r[2] == "Laminectomy and other spinal cord surgery"
     assert r[3] == "Thoracic surgery for neoplasm"
     assert r[4] == "Renal surgery for neoplasm"
-    assert r[5] == "Craniotomy for neoplasm"
+    assert r[5] == "Neurologic"
     assert r[6] == "Thoracic surgery for neoplasm"
+    assert r[7] == "Craniotomy for neoplasm"
 
 
 def test_chronic_health_points():

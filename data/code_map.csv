@@ -552,7 +552,6 @@ GI bleeding,"Bleeding-lower GI, surgery for",K51.411,ICD-10-CM,Exact,,,FALSE,FAL
 GI bleeding,"Bleeding-lower GI, surgery for",K51.511,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K51.811,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K51.911,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
-GI bleeding,"Bleeding-lower GI, surgery for",K50.011,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of small intestine with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K50.111,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of large intestine with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K50.811,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of both small and large intestine with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K50.911,ICD-10-CM,Exact,,,FALSE,FALSE,"Crohn's disease, unspecified, with rectal bleeding"
@@ -616,7 +615,6 @@ GI bleeding,"Bleeding, lower GI",K51.411,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerativ
 GI bleeding,"Bleeding, lower GI",K51.511,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K51.811,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K51.911,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
-GI bleeding,"Bleeding, lower GI",K50.011,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of small intestine with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K50.111,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of large intestine with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K50.811,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of both small and large intestine with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K50.911,ICD-10-CM,Exact,,,FALSE,FALSE,"Crohn's disease, unspecified, with rectal bleeding"
@@ -656,7 +654,6 @@ GI,"Hepatic failure, acute",K91.82,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural 
 GI,"Hepatic failure, acute",K72.90,ICD-10-CM,Exact,,,TRUE,FALSE,"Hepatic failure, unspecified, without coma (optional)"
 GI,Hepato-renal syndrome,K76.7,ICD-10-CM,Exact,,,FALSE,FALSE,Hepatorenal syndrome
 GI,Cholangitis,K83.09,ICD-10-CM,Exact,,,FALSE,FALSE,Other cholangitis
-GI,Cholangitis,K83.01,ICD-10-CM,Exact,,,TRUE,FALSE,Primary sclerosing cholangitis (optional: chronic disease)
 GI,Cholangitis,K80.3,ICD-10-CM,Prefix,,,FALSE,FALSE,Calculus of bile duct with cholangitis
 GI,Peritonitis,K65.0,ICD-10-CM,Exact,,,FALSE,FALSE,Generalized (acute) peritonitis
 GI,Peritonitis,K65.2,ICD-10-CM,Exact,,,FALSE,FALSE,Spontaneous bacterial peritonitis

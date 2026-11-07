@@ -115,7 +115,7 @@ GI infection,"Sepsis, GI",with_required_dx,K65.0|K65.1|K65.2|K65.3|K65.8|K65.9|K
 GI,"Encephalopathy, hepatic",any,,,FALSE,,,FALSE,
 GI,"Hepatic failure, acute",any,,,FALSE,,,FALSE,
 GI,Hepato-renal syndrome,any,,,FALSE,,,FALSE,
-GI,Cholangitis,any,,,FALSE,,,FALSE,
+GI,Cholangitis,any,,,FALSE,,,FALSE,"Acute cholangitis: K83.09 or bile-duct stone with cholangitis (K80.3x). Primary sclerosing cholangitis (K83.01) is a chronic disease and is left out; an acute episode on PSC should also carry K83.09."
 GI,Peritonitis,any,,,FALSE,,,FALSE,
 GI,GI abscess/cyst,any,,,FALSE,,,FALSE,
 GI,GI vascular insufficiency,any,,,FALSE,,,FALSE,
