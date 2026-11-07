@@ -316,7 +316,7 @@ python scripts/check_codes.py --cm icd10cm-order-April-1-2026.txt --pcs icd10pcs
 
 It fails when an `Exact` code isn't billable, or a prefix, range or rule
 matches no billable code. Last run: 0 problems against the April 1, 2026
-ICD-10-CM and FY2026 ICD-10-PCS order files.
+ICD-10-CM and April 1, 2026 ICD-10-PCS order files.
 
 ## Background and related work
 
