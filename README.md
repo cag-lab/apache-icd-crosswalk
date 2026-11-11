@@ -377,3 +377,18 @@ ICD-10-CM and April 1, 2026 ICD-10-PCS order files.
 The Acute Physiology Score itself (the 12 physiologic variables) isn't derived
 here; it needs vital signs and labs. Everything else in the APACHE II score and
 mortality equation is.
+
+## Citation
+
+Main contributions by Cathy Gao-Howard, JC Rojas, and Claude.
+
+If you use this repository in your research, please cite it as:
+
+```bibtex
+@software{gao_howard_apache_icd_crosswalk,
+  author = {Gao, Catherine A. and Rojas, Juan C.},
+  title = {{Apache ICD Crosswalk}},
+  year = {2026},
+  url = {https://github.com/cag-lab/apache-icd-crosswalk},
+  note = {GitHub repository}
+}
