@@ -1,5 +1,6 @@
 category,code_prefixes,nonoperative_knaus,postoperative_knaus,basis,notes
 "Cardiovascular / vascular medical, other",I6,Neurologic,Neurologic,system,Cerebrovascular diseases (I60-I69) not claimed by a more specific category.
+"Respiratory - medical, other",J44.81,Respiratory,Respiratory insufficiency after surgery,system,"Bronchiolitis obliterans (syndrome) is not COPD; checked before the J44 COPD row."
 "Respiratory - medical, other",J41|J42|J43|J44,COPD,Respiratory,specific,"COPD, emphysema and chronic bronchitis."
 "Respiratory - medical, other",J95.1|J95.2|J95.3|J95.82,Respiratory,Respiratory insufficiency after surgery,specific,Postprocedural respiratory failure / pulmonary insufficiency.
 Complications of previous open heart surgery,,Cardiovascular,Admission due to chronic cardiovascular disease,assumed,

@@ -1,0 +1,6 @@
+icd_prefix,failure,description
+J96.0,respiratory,Acute respiratory failure
+J96.2,respiratory,Acute and chronic respiratory failure
+"J96.9",respiratory,"Respiratory failure, unspecified (chronic failure has its own code, J96.1, which does not trigger)"
+R57.8,shock,Other shock
+R57.9,shock,"Shock, unspecified"
