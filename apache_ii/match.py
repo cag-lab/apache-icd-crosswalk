@@ -111,9 +111,19 @@ def _is_poisoning(code_n: str) -> bool:
     return len(code_n) >= 3 and "T36" <= code_n[:3] <= "T65"
 
 
+# 7th characters that mark a subsequent encounter or sequela. Initial
+# encounters are A, plus B and C for open fractures (e.g. S72.001B). Some
+# 7-character T codes (T86.84xx, corneal transplant) end in a laterality digit,
+# not an encounter character, and are left alone.
+NON_INITIAL_7TH = frozenset("DEFGHJKMNPQRS")
+
+
 def _non_initial_encounter(code_n: str, system: str) -> bool:
-    """S/T chapter codes carry an encounter character (A/D/S) in position 7."""
-    return system == CM and code_n[:1] in ("S", "T") and len(code_n) == 7 and code_n[6] != "A"
+    """S/T chapter codes carry an encounter character in position 7."""
+    return (
+        system == CM and code_n[:1] in ("S", "T") and len(code_n) == 7
+        and code_n[6] in NON_INITIAL_7TH
+    )
 
 
 def is_surgical(code_n: str, exclusions: tuple[str, ...] = ()) -> bool:

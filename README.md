@@ -134,8 +134,13 @@ A stay counts as having surgery when it has an ICD-10-PCS code that:
 - starts with one of the category's `surgery_pcs_prefixes` (e.g. `0D` GI tract, `00` nervous system; blank = any), and
 - doesn't start with a prefix in `surgery_exclusions.csv` (tracheostomy, chest tube, paracentesis, gastrostomy, ports).
 
-This leaves out endoscopic hemostasis, endovascular coiling and TIPS. If you
-have operating-room data, it's a better source for "had surgery".
+This leaves out endoscopic hemostasis, endovascular coiling and TIPS. It also
+leaves out endoscopic endonasal skull-base surgery when it is coded with the
+via-natural-opening approach (5th character `8`), so those operations don't
+reach "Craniotomy for neoplasm" or the "surgery for" categories. Pituitary
+surgery coded with the open approach does count, and ICD-10-PCS doesn't
+separate transsphenoidal from open pituitary surgery. If you have
+operating-room data, it's a better source for "had surgery".
 
 ### Trauma
 
@@ -143,7 +148,7 @@ have operating-room data, it's a better source for "had surgery".
 neck), face, chest, abdomen, pelvis/hip, spinal (spine and cord) and extremity.
 When prefixes overlap, the longest one wins (`S22` → chest, `S22.0` → spinal).
 Superficial injuries (S00, S10, S20, …) aren't mapped, and only initial-encounter
-codes (7th character `A`) count. For each stay:
+codes count (7th character `A`, or `B`/`C` for open fractures). For each stay:
 
 - 1 region → `<region> only` (pelvis only = `Pelvis/hip trauma`; head only is its own group, `Head trauma`)
 - 2 regions → the `<A>/<B> trauma` category for that pair
@@ -167,8 +172,9 @@ character: usually the 6th (`T39.012A`), sometimes the 5th (`T58.01XA`).
 | 5 | adverse effect (therapeutic use) | `Toxicity, drug` only |
 | 6 | underdosing | none |
 
-S and T codes end in A (initial), D (subsequent) or S (sequela). For ICU
-admissions, use only `A` codes.
+S and T codes end in A (initial), D (subsequent) or S (sequela); fractures also
+use B/C (initial, open fracture) and E–R (subsequent: healing, nonunion,
+malunion). For ICU admissions, use only initial-encounter codes (A, B, C).
 
 ### Known limits
 
@@ -195,7 +201,7 @@ predicted hospital mortality = 1 / (1 + e^-logit)
 
 | Piece | How it's derived |
 |---|---|
-| Age points | ≤44: 0 · 45–54: 2 · 55–64: 3 · 65–74: 5 · ≥75: 6 |
+| Age points | ≤44: 0 · 45–54: 2 · 55–64: 3 · 65–74: 5 · ≥75: 6 (age in completed years; fractional ages are rounded down) |
 | Chronic health points | 5 if a chronic health condition is coded and the patient is non-operative or emergency post-op; 2 if elective post-op; else 0. Conditions come from `chronic_health_codes.csv`, or pass your own `chronic_health` column |
 | Diagnostic category weight | From the principal diagnosis (and, post-op, the procedures); see below. Or pass your own `knaus_category` column |
 | Emergency surgery term | +0.603 when `operative_status = emergency` |
@@ -305,6 +311,17 @@ that started during the stay don't count.
 pip install pytest
 pytest
 ```
+
+To re-check every code in `data/` against a CMS release (the fixed-width
+"order" files that ship with each ICD-10-CM / ICD-10-PCS release):
+
+```bash
+python scripts/check_codes.py --cm icd10cm-order-April-1-2026.txt --pcs icd10pcs_order_2026.txt
+```
+
+It fails when an `Exact` code isn't billable, or a prefix, range or rule
+matches no billable code. Last run: 0 problems against the April 1, 2026
+ICD-10-CM and April 1, 2026 ICD-10-PCS order files.
 
 ## Background and related work
 

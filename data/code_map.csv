@@ -69,12 +69,17 @@ Cardiovascular,"Thrombosis, vascular (deep vein)",I82.9,ICD-10-CM,Prefix,,,FALSE
 Cardiovascular,"Thrombosis, vascular (deep vein)",I80.1,ICD-10-CM,Prefix,,,FALSE,FALSE,Phlebitis and thrombophlebitis of femoral vein
 Cardiovascular,"Thrombosis, vascular (deep vein)",I80.2,ICD-10-CM,Prefix,,,FALSE,FALSE,Phlebitis and thrombophlebitis of other deep vessels of lower extremities
 Cardiovascular,"Hemorrhage (non-GI, non-trauma)",R58,ICD-10-CM,Exact,,,FALSE,FALSE,"Hemorrhage, not elsewhere classified"
-Cardiovascular,"Hemorrhage (non-GI, non-trauma)",K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum (incl. retroperitoneal hemorrhage)
+Cardiovascular,"Hemorrhage (non-GI, non-trauma)",K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum
+Cardiovascular,"Hemorrhage (non-GI, non-trauma)",K68.3,ICD-10-CM,Exact,,,FALSE,FALSE,Retroperitoneal hematoma (nontraumatic retroperitoneal hemorrhage or hematoma; index -> K68.3)
 Cardiovascular,"Hemorrhage (non-GI, non-trauma)",I97.61,ICD-10-CM,Prefix,,,FALSE,FALSE,Postprocedural hemorrhage of circulatory system organ
+Cardiovascular,"Hemorrhage (non-GI, non-trauma)",I97.620,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural hemorrhage of circulatory system organ following other procedure
 Cardiovascular,Hematomas,M79.81,ICD-10-CM,Exact,,,FALSE,FALSE,Nontraumatic hematoma of soft tissue
-Cardiovascular,Hematomas,K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum (retroperitoneal hematoma)
-Cardiovascular,Hematomas,I97.62,ICD-10-CM,Prefix,,,FALSE,FALSE,Postprocedural hematoma/seroma of circulatory system organ
-Cardiovascular,Hematomas,L76.3,ICD-10-CM,Prefix,,,FALSE,FALSE,Postprocedural hematoma/seroma of skin and subcutaneous tissue
+Cardiovascular,Hematomas,K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum
+Cardiovascular,Hematomas,K68.3,ICD-10-CM,Exact,,,FALSE,FALSE,Retroperitoneal hematoma (nontraumatic retroperitoneal hemorrhage or hematoma; index -> K68.3)
+Cardiovascular,Hematomas,I97.621,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural hematoma of circulatory system organ following other procedure
+Cardiovascular,Hematomas,I97.63,ICD-10-CM,Prefix,,,FALSE,FALSE,Postprocedural hematoma of circulatory system organ following a circulatory system procedure
+Cardiovascular,Hematomas,L76.31,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural hematoma of skin and subcutaneous tissue following a dermatologic procedure
+Cardiovascular,Hematomas,L76.32,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural hematoma of skin and subcutaneous tissue following other procedure
 Cardiovascular,"Chest pain, atypical (noncardiac chest pain)",R07.89,ICD-10-CM,Exact,,,FALSE,FALSE,Other chest pain (atypical chest pain indexed here)
 Cardiovascular,"Chest pain, atypical (noncardiac chest pain)",R07.82,ICD-10-CM,Exact,,,FALSE,FALSE,Intercostal pain
 Cardiovascular,"Chest pain, unknown origin",R07.9,ICD-10-CM,Exact,,,FALSE,FALSE,"Chest pain, unspecified"
@@ -306,6 +311,7 @@ Neuro infection,Encephalitis,A92.31,ICD-10-CM,Exact,,,FALSE,FALSE,West Nile viru
 Neuro infection,Encephalitis,B58.2,ICD-10-CM,Exact,,,FALSE,FALSE,Toxoplasma meningoencephalitis
 Coma,Nontraumatic coma due to anoxia/ischemia,G93.1,ICD-10-CM,Exact,,,FALSE,FALSE,"Anoxic brain damage, NEC"
 Coma,Coma/change in level of consciousness,R40.20,ICD-10-CM,Exact,,,FALSE,FALSE,Unspecified coma
+Coma,Coma/change in level of consciousness,R40.2A,ICD-10-CM,Exact,,,FALSE,FALSE,Nontraumatic coma due to underlying condition
 Coma,Coma/change in level of consciousness,R40.0,ICD-10-CM,Exact,,,FALSE,FALSE,Somnolence
 Coma,Coma/change in level of consciousness,R40.1,ICD-10-CM,Exact,,,FALSE,FALSE,Stupor
 Coma,Coma/change in level of consciousness,R40.3,ICD-10-CM,Exact,,,FALSE,FALSE,Persistent vegetative state
@@ -546,6 +552,10 @@ GI bleeding,"Bleeding-lower GI, surgery for",K51.411,ICD-10-CM,Exact,,,FALSE,FAL
 GI bleeding,"Bleeding-lower GI, surgery for",K51.511,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K51.811,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding-lower GI, surgery for",K51.911,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
+GI bleeding,"Bleeding-lower GI, surgery for",K50.011,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of small intestine with rectal bleeding
+GI bleeding,"Bleeding-lower GI, surgery for",K50.111,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of large intestine with rectal bleeding
+GI bleeding,"Bleeding-lower GI, surgery for",K50.811,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of both small and large intestine with rectal bleeding
+GI bleeding,"Bleeding-lower GI, surgery for",K50.911,ICD-10-CM,Exact,,,FALSE,FALSE,"Crohn's disease, unspecified, with rectal bleeding"
 GI bleeding,"Bleeding-other GI, surgery for",K92.2,ICD-10-CM,Exact,,,FALSE,FALSE,"Gastrointestinal hemorrhage, unspecified"
 GI bleeding,"Bleeding-other GI, surgery for",K92.1,ICD-10-CM,Exact,,,FALSE,FALSE,"Melena (hematochezia is also indexed here, so location is uncertain)"
 GI bleeding,"Bleeding-other GI, surgery for",K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum
@@ -606,9 +616,14 @@ GI bleeding,"Bleeding, lower GI",K51.411,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerativ
 GI bleeding,"Bleeding, lower GI",K51.511,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K51.811,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
 GI bleeding,"Bleeding, lower GI",K51.911,ICD-10-CM,Exact,,,FALSE,FALSE,Ulcerative colitis with rectal bleeding
+GI bleeding,"Bleeding, lower GI",K50.011,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of small intestine with rectal bleeding
+GI bleeding,"Bleeding, lower GI",K50.111,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of large intestine with rectal bleeding
+GI bleeding,"Bleeding, lower GI",K50.811,ICD-10-CM,Exact,,,FALSE,FALSE,Crohn's disease of both small and large intestine with rectal bleeding
+GI bleeding,"Bleeding, lower GI",K50.911,ICD-10-CM,Exact,,,FALSE,FALSE,"Crohn's disease, unspecified, with rectal bleeding"
 GI bleeding,"Bleeding, GI-location unknown",K92.2,ICD-10-CM,Exact,,,FALSE,FALSE,"Gastrointestinal hemorrhage, unspecified"
 GI bleeding,"Bleeding, GI-location unknown",K92.1,ICD-10-CM,Exact,,,FALSE,FALSE,"Melena (hematochezia is also indexed here, so location is uncertain)"
-GI bleeding,"Hemorrhage, intra/retroperitoneal",K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum (incl. retroperitoneal hemorrhage)
+GI bleeding,"Hemorrhage, intra/retroperitoneal",K66.1,ICD-10-CM,Exact,,,FALSE,FALSE,Hemoperitoneum (intraperitoneal)
+GI bleeding,"Hemorrhage, intra/retroperitoneal",K68.3,ICD-10-CM,Exact,,,FALSE,FALSE,Retroperitoneal hematoma (nontraumatic retroperitoneal hemorrhage or hematoma; index -> K68.3)
 Pancreatitis,"Pancreatitis, surgery for",K85,ICD-10-CM,Prefix,,,FALSE,FALSE,Acute pancreatitis
 Pancreatitis,Pancreatitis,K85,ICD-10-CM,Prefix,,,FALSE,FALSE,Acute pancreatitis
 Pancreatitis,Pancreatitis,K86.0,ICD-10-CM,Exact,,,TRUE,FALSE,Alcohol-induced chronic pancreatitis (optional)
@@ -640,7 +655,8 @@ GI,"Hepatic failure, acute",K71.1,ICD-10-CM,Prefix,,,FALSE,FALSE,Toxic liver dis
 GI,"Hepatic failure, acute",K91.82,ICD-10-CM,Exact,,,FALSE,FALSE,Postprocedural hepatic failure
 GI,"Hepatic failure, acute",K72.90,ICD-10-CM,Exact,,,TRUE,FALSE,"Hepatic failure, unspecified, without coma (optional)"
 GI,Hepato-renal syndrome,K76.7,ICD-10-CM,Exact,,,FALSE,FALSE,Hepatorenal syndrome
-GI,Cholangitis,K83.0,ICD-10-CM,Prefix,,,FALSE,FALSE,Cholangitis
+GI,Cholangitis,K83.09,ICD-10-CM,Exact,,,FALSE,FALSE,Other cholangitis
+GI,Cholangitis,K83.0,ICD-10-CM,Exact,,,FALSE,FALSE,Legacy: Cholangitis (billable FY2016-FY2018; split into K83.01/K83.09 in FY2019). May include PSC in older data.
 GI,Cholangitis,K80.3,ICD-10-CM,Prefix,,,FALSE,FALSE,Calculus of bile duct with cholangitis
 GI,Peritonitis,K65.0,ICD-10-CM,Exact,,,FALSE,FALSE,Generalized (acute) peritonitis
 GI,Peritonitis,K65.2,ICD-10-CM,Exact,,,FALSE,FALSE,Spontaneous bacterial peritonitis
@@ -962,6 +978,12 @@ Cancer,"Neoplasm, neurologic",D43,ICD-10-CM,Prefix,,,FALSE,FALSE,Neoplasm of unc
 Cancer,"Neoplasm, neurologic",D35.2,ICD-10-CM,Exact,,,FALSE,FALSE,Benign neoplasm of pituitary gland
 Cancer,"Neoplasm, neurologic",D35.3,ICD-10-CM,Exact,,,FALSE,FALSE,Benign neoplasm of craniopharyngeal duct
 Cancer,"Neoplasm, neurologic",D35.4,ICD-10-CM,Exact,,,FALSE,FALSE,Benign neoplasm of pineal gland
+Cancer,"Neoplasm, neurologic",C75.1,ICD-10-CM,Exact,,,FALSE,FALSE,Malignant neoplasm of pituitary gland
+Cancer,"Neoplasm, neurologic",C75.2,ICD-10-CM,Exact,,,FALSE,FALSE,Malignant neoplasm of craniopharyngeal duct
+Cancer,"Neoplasm, neurologic",C75.3,ICD-10-CM,Exact,,,FALSE,FALSE,Malignant neoplasm of pineal gland
+Cancer,"Neoplasm, neurologic",D44.3,ICD-10-CM,Exact,,,FALSE,FALSE,Neoplasm of uncertain behavior of pituitary gland
+Cancer,"Neoplasm, neurologic",D44.4,ICD-10-CM,Exact,,,FALSE,FALSE,Neoplasm of uncertain behavior of craniopharyngeal duct
+Cancer,"Neoplasm, neurologic",D44.5,ICD-10-CM,Exact,,,FALSE,FALSE,Neoplasm of uncertain behavior of pineal gland
 Cancer,"Cancer, other site (not an APACHE option; counts toward the flag)",C00-C96,ICD-10-CM,Range,,,FALSE,FALSE,"Malignant neoplasms not assigned to a more specific category (e.g., breast, prostate, metastases)"
 Cancer,"Cancer, other site (not an APACHE option; counts toward the flag)",C91-C95,ICD-10-CM,Range,,,FALSE,TRUE,Leukemias (under the leukemia categories)
 Musculoskeletal,Rhabdomyolysis,M62.82,ICD-10-CM,Exact,,,FALSE,FALSE,Rhabdomyolysis
